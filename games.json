@@ -6,7 +6,34 @@
     "years_active": "2006–2013",
     "db": "data/wow-tcg.db",
     "cover_color": "#1a3a6e",
-    "notes": "The official TCG for Blizzard's World of Warcraft MMO. Notable for its Loot cards, which granted in-game WoW items including the iconic Spectral Tiger mount."
+    "hero_image": "",
+    "notes": "The official TCG for Blizzard's World of Warcraft MMO.",
+    "overview": "The World of Warcraft Trading Card Game brought the iconic MMORPG to the tabletop, letting players build decks around heroes, allies, and abilities drawn directly from the game's lore. Published by Upper Deck Entertainment from 2006 until 2013, the game spanned over 30 expansions and became famous for its rare Loot cards — physical cards containing codes for exclusive in-game items, including the highly sought-after Spectral Tiger mount and the Feast of Winter Veil cosmetics. After Upper Deck lost the Blizzard license in 2010, Cryptozoic Entertainment continued the line until its discontinuation in 2013.",
+    "players": "2",
+    "play_time": "20–45 min",
+    "out_of_print": true,
+    "designers": ["Brian Kibler", "Mike Hummel", "Ben Drago"],
+    "how_to_play_video": "",
+    "community_links": [
+      { "label": "r/wowtcg — Reddit Community", "url": "https://www.reddit.com/r/wowtcg/" },
+      { "label": "BoardGameGeek Entry", "url": "https://boardgamegeek.com/boardgame/19643/world-of-warcraft-the-trading-card-game" }
+    ],
+    "rulebook_links": [
+      { "label": "Core Rulebook (PDF)", "url": "" },
+      { "label": "Quick-Start Rules", "url": "" }
+    ],
+    "find_cards": [
+      { "label": "eBay Listings", "url": "https://www.ebay.com/sch/i.html?_nkw=world+of+warcraft+tcg" },
+      { "label": "TCGPlayer", "url": "https://www.tcgplayer.com/search/world-of-warcraft/product" }
+    ],
+    "errata_links": [
+      { "label": "Comprehensive Rules Archive", "url": "" }
+    ],
+    "related_games": [
+      "World of Warcraft Miniatures Game",
+      "World of Warcraft Board Game",
+      "Hearthstone"
+    ]
   },
   {
     "id": "dune-ccg",
@@ -15,6 +42,32 @@
     "years_active": "1997–1999",
     "db": "data/dune-ccg.db",
     "cover_color": "#6b4410",
-    "notes": "Based on Frank Herbert's Dune novels. Six factions — Atreides, Harkonnen, Corrino, Fremen, Bene Gesserit, and Spacing Guild — compete for control of Arrakis and its spice."
+    "hero_image": "",
+    "notes": "Based on Frank Herbert's Dune novels.",
+    "overview": "The Dune Collectible Card Game, published by Last Unicorn Games in 1997, adapted Frank Herbert's landmark science fiction universe into a strategic card game of political intrigue, resource control, and faction warfare. Players choose one of six great powers — House Atreides, House Harkonnen, the Imperial House Corrino, the Fremen of the deep desert, the Bene Gesserit sisterhood, or the enigmatic Spacing Guild — each with asymmetric mechanics reflecting their role in the novels. Victory requires controlling the spice Melange, the most valuable substance in the universe. The game received two sets before Last Unicorn Games was acquired by Wizards of the Coast in 1999, ending the line.",
+    "players": "2–6",
+    "play_time": "60–120 min",
+    "out_of_print": true,
+    "designers": ["Christian Moore", "Owen Seyler", "Ross Isaacs"],
+    "how_to_play_video": "",
+    "community_links": [
+      { "label": "BoardGameGeek Entry", "url": "https://boardgamegeek.com/boardgame/37442/dune-the-collectible-card-game" },
+      { "label": "Dune Fan Community", "url": "https://www.dunenovels.com" }
+    ],
+    "rulebook_links": [
+      { "label": "Premiere Rulebook (PDF)", "url": "" },
+      { "label": "Eye of the Storm Rules Insert", "url": "" }
+    ],
+    "find_cards": [
+      { "label": "eBay Listings", "url": "https://www.ebay.com/sch/i.html?_nkw=dune+ccg+card+game" }
+    ],
+    "errata_links": [
+      { "label": "Official Errata Document", "url": "" }
+    ],
+    "related_games": [
+      "Dune (Avalon Hill Board Game)",
+      "Dune: A Game of Conquest and Diplomacy",
+      "CHOAM — A Dune Boardgame Expansion"
+    ]
   }
 ]
