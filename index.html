@@ -240,10 +240,9 @@ header {
   margin-bottom: 20px;
 }
 .game-tile-stats {
-  display: flex;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   margin-bottom: 18px;
-  padding: 14px 0;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
@@ -251,6 +250,11 @@ header {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  padding: 14px 0;
+  text-align: center;
+}
+.game-tile-stat + .game-tile-stat {
+  border-left: 1px solid var(--border);
 }
 .game-tile-stat-val {
   font-family: 'Cormorant Garamond', serif;
@@ -325,7 +329,146 @@ header {
   margin-top: 10px;
 }
 
-.set-list {
+/* ── Game info section ─────────────────────────── */
+.game-info {
+  margin-bottom: 52px;
+}
+
+/* YouTube embed */
+.game-video-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  aspect-ratio: 16 / 9;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  margin-bottom: 36px;
+  overflow: hidden;
+}
+.game-video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Quick facts strip */
+.game-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border: 1px solid var(--border);
+  margin-bottom: 36px;
+  background: var(--surface);
+}
+.game-fact {
+  padding: 14px 24px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.game-fact:last-child { border-right: none; }
+.game-fact-label {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.game-fact-val {
+  font-size: 13px;
+  color: var(--text);
+}
+.game-fact-val.out-of-print { color: var(--text-dim); }
+.game-fact-val.in-print { color: #6abf69; }
+
+/* Overview text */
+.game-overview {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--text-mid);
+  max-width: 860px;
+  margin-bottom: 36px;
+}
+
+/* Info panels grid */
+.game-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2px;
+  margin-bottom: 2px;
+}
+.game-info-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 22px 24px;
+}
+.game-info-panel-title {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.info-link-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.info-link-list a {
+  color: var(--text-mid);
+  text-decoration: none;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.15s;
+}
+.info-link-list a::before {
+  content: '→';
+  color: var(--gold-dim);
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.info-link-list a:hover { color: var(--gold); }
+.designer-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.designer-tag {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--text-mid);
+  letter-spacing: 0.03em;
+}
+.related-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.related-tag {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+}
+.info-empty {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-style: italic;
+}
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 2px;
@@ -774,7 +917,6 @@ function renderHome() {
   setBreadcrumb([]);
   document.getElementById('app').innerHTML = `
     <div class="page">
-      <div class="section-title">Card Games</div>
       <div class="game-grid" id="game-grid"></div>
     </div>`;
   const grid = document.getElementById('game-grid');
@@ -851,6 +993,19 @@ async function openGame(game, tileEl) {
   }
 }
 
+function getYouTubeId(url) {
+  if (!url) return null;
+  const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+function renderLinkList(links) {
+  if (!links?.length) return `<span class="info-empty">None listed</span>`;
+  return `<ul class="info-link-list">${links.map(l =>
+    `<li><a href="${l.url}" target="_blank" rel="noopener">${l.label}</a></li>`
+  ).join('')}</ul>`;
+}
+
 function renderGame(game, db) {
   const sets = q(db, `
     SELECT s.*, (SELECT COUNT(*) FROM cards WHERE set_id = s.id) as card_count
@@ -863,7 +1018,70 @@ function renderGame(game, db) {
 
   const totalCards = sets.reduce((a, s) => a + (s.card_count || 0), 0);
 
-  let setsHtml = sets.map(s => `
+  // ── Video ──────────────────────────────────────
+  const ytId = getYouTubeId(game.how_to_play_video);
+  const videoHtml = ytId ? `
+    <div class="game-video-wrap">
+      <iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+      </iframe>
+    </div>` : '';
+
+  // ── Quick facts ────────────────────────────────
+  const facts = [];
+  if (game.players)        facts.push({ label: 'Players',    val: game.players });
+  if (game.play_time)      facts.push({ label: 'Play Time',  val: game.play_time });
+  if (game.years_active)   facts.push({ label: 'Years Active', val: game.years_active });
+  if (game.publisher)      facts.push({ label: 'Publisher',  val: game.publisher });
+  if (game.out_of_print != null) facts.push({
+    label: 'Status',
+    val: game.out_of_print
+      ? `<span class="out-of-print">Out of Print</span>`
+      : `<span class="in-print">In Print</span>`
+  });
+  const factsHtml = facts.length ? `
+    <div class="game-facts">
+      ${facts.map(f => `
+        <div class="game-fact">
+          <div class="game-fact-label">${f.label}</div>
+          <div class="game-fact-val">${f.val}</div>
+        </div>`).join('')}
+    </div>` : '';
+
+  // ── Overview ───────────────────────────────────
+  const overviewHtml = game.overview
+    ? `<p class="game-overview">${game.overview}</p>` : '';
+
+  // ── Designers ──────────────────────────────────
+  const designersHtml = game.designers?.length
+    ? `<div class="designer-list">${game.designers.map(d => `<span class="designer-tag">${d}</span>`).join('')}</div>`
+    : `<span class="info-empty">None listed</span>`;
+
+  // ── Related games ──────────────────────────────
+  const relatedHtml = game.related_games?.length
+    ? `<div class="related-list">${game.related_games.map(r => `<span class="related-tag">${r}</span>`).join('')}</div>`
+    : `<span class="info-empty">None listed</span>`;
+
+  // ── Info panels ────────────────────────────────
+  const panels = [
+    { title: 'Designers',           body: designersHtml },
+    { title: 'Community',           body: renderLinkList(game.community_links) },
+    { title: 'Rulebooks & Guides',  body: renderLinkList(game.rulebook_links) },
+    { title: 'Where to Find Cards', body: renderLinkList(game.find_cards) },
+    { title: 'Errata & FAQ',        body: renderLinkList(game.errata_links) },
+    { title: 'Related Games',       body: relatedHtml },
+  ];
+
+  const panelsHtml = `<div class="game-info-grid">
+    ${panels.map(p => `
+      <div class="game-info-panel">
+        <div class="game-info-panel-title">${p.title}</div>
+        ${p.body}
+      </div>`).join('')}
+  </div>`;
+
+  // ── Sets ───────────────────────────────────────
+  const setsHtml = sets.map(s => `
     <div class="set-tile" onclick="openSet(${s.id})">
       ${s.code ? `<div class="set-tile-code">${s.code}</div>` : ''}
       <div class="set-tile-name">${s.name}</div>
@@ -877,11 +1095,14 @@ function renderGame(game, db) {
       <div class="game-hero">
         <h1>${game.name}</h1>
         <div class="game-hero-meta">
-          ${game.publisher ? `<span><strong>Publisher</strong> ${game.publisher}</span>` : ''}
-          ${game.years_active ? `<span><strong>Years</strong> ${game.years_active}</span>` : ''}
           <span><strong>${sets.length}</strong> sets · <strong>${totalCards}</strong> cards</span>
         </div>
-        ${game.notes ? `<p class="game-hero-notes">${game.notes}</p>` : ''}
+      </div>
+      <div class="game-info">
+        ${videoHtml}
+        ${factsHtml}
+        ${overviewHtml}
+        ${panelsHtml}
       </div>
       <div class="section-title">Sets &amp; Expansions</div>
       <div class="set-list">${setsHtml || '<p style="color:var(--text-dim)">No sets found.</p>'}</div>
