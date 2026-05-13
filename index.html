@@ -102,11 +102,6 @@ header {
   align-items: center;
   gap: 16px;
 }
-#card-count {
-  font-size: 10px;
-  color: var(--text-dim);
-  letter-spacing: 0.08em;
-}
 
 /* ── Page container ────────────────────────────── */
 .page {
@@ -143,61 +138,147 @@ header {
 /* ── Home: game grid ───────────────────────────── */
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 2px;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 16px;
 }
 .game-tile {
   position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
-  padding: 32px 28px 28px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
-.game-tile::before {
+.game-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  border-color: var(--border2);
+}
+.game-tile:hover .game-tile-cta { color: var(--gold); }
+.game-tile:hover .game-tile-cta-arrow { transform: translateX(4px); }
+
+/* Hero image area */
+.game-tile-hero {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  position: relative;
+  overflow: hidden;
+  background: var(--game-color, #1a1a1a);
+  flex-shrink: 0;
+}
+.game-tile-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.game-tile:hover .game-tile-hero img { transform: scale(1.03); }
+.game-tile-hero-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--game-color, #1a1a1a) 0%, color-mix(in srgb, var(--game-color, #1a1a1a) 60%, #0c0b09) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.game-tile-hero-fallback span {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.07);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  user-select: none;
+  text-align: center;
+  padding: 0 20px;
+  line-height: 1.1;
+}
+/* Accent line at bottom of hero */
+.game-tile-hero::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
   background: var(--game-color, var(--gold-dim));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s ease;
+  opacity: 0.8;
 }
-.game-tile:hover { background: var(--surface2); border-color: var(--border2); }
-.game-tile:hover::before { transform: scaleX(1); }
-.game-tile:hover .game-tile-arrow { opacity: 1; transform: translateX(0); }
 
+/* Content area */
+.game-tile-body {
+  padding: 28px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
 .game-tile-name {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
+  font-size: 30px;
   font-weight: 400;
+  line-height: 1.15;
   margin-bottom: 8px;
-  line-height: 1.2;
+  color: var(--text);
 }
 .game-tile-meta {
   font-size: 10px;
   color: var(--text-dim);
-  letter-spacing: 0.06em;
-  margin-bottom: 4px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
 }
 .game-tile-notes {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: 14px;
-  color: var(--text-dim);
-  margin-top: 12px;
-  line-height: 1.5;
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.65;
+  flex: 1;
+  margin-bottom: 20px;
 }
-.game-tile-arrow {
-  position: absolute;
-  bottom: 20px; right: 24px;
-  font-size: 18px;
+.game-tile-stats {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 18px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.game-tile-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.game-tile-stat-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1;
+}
+.game-tile-stat-label {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.game-tile-cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 4px;
+  transition: color 0.2s;
+}
+.game-tile-cta-arrow {
+  transition: transform 0.2s ease;
   color: var(--gold);
-  opacity: 0;
-  transform: translateX(-6px);
-  transition: all 0.2s;
 }
 
 /* Loading indicator */
@@ -594,21 +675,7 @@ header {
   margin-bottom: 8px;
 }
 
-/* ── Scan progress bar ─────────────────────────── */
-.scan-bar-wrap {
-  margin-top: 6px;
-  height: 3px;
-  background: var(--border);
-  border-radius: 2px;
-  overflow: hidden;
-  max-width: 160px;
-}
-.scan-bar {
-  height: 100%;
-  background: var(--gold);
-  border-radius: 2px;
-  transition: width 0.4s ease;
-}
+
 
 /* ── Scrollbar ─────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; background: var(--bg); }
@@ -621,9 +688,7 @@ header {
 <header>
   <div class="logo" id="logo">TCG <em>Archive</em></div>
   <nav class="breadcrumb" id="breadcrumb"></nav>
-  <div class="header-right">
-    <span id="card-count"></span>
-  </div>
+  <div class="header-right"></div>
 </header>
 
 <div id="app"></div>
@@ -707,7 +772,6 @@ function renderHome() {
   state.currentSet = null;
   state.db = null;
   setBreadcrumb([]);
-  document.getElementById('card-count').textContent = '';
   document.getElementById('app').innerHTML = `
     <div class="page">
       <div class="section-title">Card Games</div>
@@ -722,13 +786,50 @@ function renderHome() {
     const tile = document.createElement('div');
     tile.className = 'game-tile';
     tile.style.setProperty('--game-color', game.cover_color || '#c8963c');
+
+    const heroInner = game.hero_image
+      ? `<img src="${game.hero_image}" alt="${game.name}" onerror="this.parentElement.innerHTML='<div class=\\"game-tile-hero-fallback\\"><span>${game.name}</span></div>'">`
+      : `<div class="game-tile-hero-fallback"><span>${game.name}</span></div>`;
+
+    const metaParts = [game.publisher, game.years_active].filter(Boolean);
+
     tile.innerHTML = `
-      <div class="game-tile-name">${game.name}</div>
-      <div class="game-tile-meta">${[game.publisher, game.years_active].filter(Boolean).join(' · ')}</div>
-      ${game.notes ? `<div class="game-tile-notes">${game.notes}</div>` : ''}
-      <div class="game-tile-arrow">→</div>`;
+      <div class="game-tile-hero">${heroInner}</div>
+      <div class="game-tile-body">
+        <div class="game-tile-name">${game.name}</div>
+        ${metaParts.length ? `<div class="game-tile-meta">${metaParts.join(' · ')}</div>` : ''}
+        ${game.notes ? `<div class="game-tile-notes">${game.notes}</div>` : ''}
+        <div class="game-tile-stats" id="stats-${game.id}">
+          <div class="game-tile-stat">
+            <div class="game-tile-stat-val">—</div>
+            <div class="game-tile-stat-label">Sets</div>
+          </div>
+          <div class="game-tile-stat">
+            <div class="game-tile-stat-val">—</div>
+            <div class="game-tile-stat-label">Cards</div>
+          </div>
+        </div>
+        <div class="game-tile-cta">Browse Archive <span class="game-tile-cta-arrow">→</span></div>
+      </div>`;
+
     tile.addEventListener('click', () => openGame(game, tile));
     grid.appendChild(tile);
+
+    // Load stats from DB in background
+    loadGameDb(game).then(db => {
+      const row = q(db, `SELECT COUNT(DISTINCT s.id) as set_count, COUNT(c.id) as card_count
+        FROM sets s LEFT JOIN cards c ON c.set_id = s.id`)[0];
+      const el = document.getElementById(`stats-${game.id}`);
+      if (el) el.innerHTML = `
+        <div class="game-tile-stat">
+          <div class="game-tile-stat-val">${row?.set_count ?? '—'}</div>
+          <div class="game-tile-stat-label">Sets</div>
+        </div>
+        <div class="game-tile-stat">
+          <div class="game-tile-stat-val">${row?.card_count ?? '—'}</div>
+          <div class="game-tile-stat-label">Cards</div>
+        </div>`;
+    }).catch(() => {});
   });
 }
 
@@ -752,8 +853,7 @@ async function openGame(game, tileEl) {
 
 function renderGame(game, db) {
   const sets = q(db, `
-    SELECT s.*, (SELECT COUNT(*) FROM cards WHERE set_id = s.id) as card_count,
-    (SELECT COUNT(*) FROM cards WHERE set_id = s.id AND image_url IS NOT NULL AND image_url != '') as scan_count
+    SELECT s.*, (SELECT COUNT(*) FROM cards WHERE set_id = s.id) as card_count
     FROM sets s ORDER BY release_date, name`);
 
   setBreadcrumb([
@@ -762,22 +862,15 @@ function renderGame(game, db) {
   ]);
 
   const totalCards = sets.reduce((a, s) => a + (s.card_count || 0), 0);
-  const totalScans = sets.reduce((a, s) => a + (s.scan_count || 0), 0);
-  document.getElementById('card-count').textContent =
-    `${totalScans} / ${totalCards} scanned`;
 
-  let setsHtml = sets.map(s => {
-    const pct = s.card_count ? Math.round((s.scan_count / s.card_count) * 100) : 0;
-    return `
+  let setsHtml = sets.map(s => `
     <div class="set-tile" onclick="openSet(${s.id})">
       ${s.code ? `<div class="set-tile-code">${s.code}</div>` : ''}
       <div class="set-tile-name">${s.name}</div>
       ${s.release_date ? `<div class="set-tile-date">${s.release_date}</div>` : ''}
       <div class="set-tile-count">${s.card_count} cards</div>
-      <div class="scan-bar-wrap"><div class="scan-bar" style="width:${pct}%"></div></div>
       <span class="set-tile-arrow">→</span>
-    </div>`;
-  }).join('');
+    </div>`).join('');
 
   document.getElementById('app').innerHTML = `
     <div class="page">
@@ -815,10 +908,6 @@ function renderSet(set, db, filter = '', rarityFilter = '') {
     { label: state.currentGame.name, onClick: `renderGame(state.currentGame, state.db)` },
     { label: set.name }
   ]);
-
-  const scanned = allCards.filter(c => c.image_url).length;
-  document.getElementById('card-count').textContent =
-    `${scanned} / ${allCards.length} scanned`;
 
   const rarityOpts = ['<option value="">All rarities</option>']
     .concat(rarities.map(r => `<option value="${r}">${r}</option>`)).join('');
