@@ -44,7 +44,6 @@
   },
   {
     "id": "wow-tcg",
-    "show_sets": false,
     "name": "World of Warcraft TCG",
     "publisher": "Upper Deck and Cryptozoic Entertainment",
     "years_active": "2006-2010",
@@ -79,7 +78,7 @@
       "processed_by": "Zarthbenn",
       "start_year": "2017",
       "end_year": "2024",
-      "additional_notes": "For additional scans in a separate project check https://wowtcgtracker.com/.",
+      "additional_notes": "For additional scans in a separate project check https://wowtcgtracker.com/. </br></br>Below card data from https://github.com/tcgdata/tcgdata-wow",
 
       "downloads": [
         { "label": "Basic Set Scans [Complete]", "url": "https://drive.google.com/drive/folders/0B3PgzLuAh5T6d2hid194ZnA1NE0?resourcekey=0-7MVjXbHMSPmEhR4nXdIjuQ&usp=sharing" },
