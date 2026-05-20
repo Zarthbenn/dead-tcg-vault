@@ -9,16 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:        #0c0b09;
-  --surface:   #161410;
-  --surface2:  #1e1b16;
-  --border:    #2e2a22;
-  --border2:   #3d382e;
+  --bg:        #0a0908;
+  --surface:   #141210;
+  --surface2:  #252118;
+  --border:    #332e26;
+  --border2:   #4a4236;
   --gold:      #c8963c;
-  --gold-dim:  #8a6628;
-  --text:      #e8e3d8;
-  --text-dim:  #7a7060;
-  --text-mid:  #b0a890;
+  --gold-dim:  #9a7232;
+  --text:      #ede8dc;
+  --text-dim:  #6e6456;
+  --text-mid:  #c4b89a;
+  --label:     #d4c4a0;
   --card-ratio: 5 / 7;
 }
 
@@ -96,14 +97,7 @@ header {
 }
 .breadcrumb .crumb:hover { color: var(--gold); }
 .breadcrumb .sep { color: var(--border2); margin: 0 2px; }
-.breadcrumb .crumb.current { color: var(--text-dim); cursor: default; pointer-events: none; }
-
-.header-right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+.breadcrumb .crumb.current { color: var(--text-mid); cursor: default; pointer-events: none; }
 
 /* ── Page container ────────────────────────────── */
 .page {
@@ -114,20 +108,6 @@ header {
 }
 .game-page {
   position: relative;
-}
-.game-page::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  height: 110px;
-  pointer-events: none;
-  z-index: 0;
-  background: linear-gradient(to bottom,
-    color-mix(in srgb, var(--game-color, transparent) 22%, transparent) 0%,
-    transparent 100%);
 }
 .game-page > * { position: relative; z-index: 1; }
 @keyframes fadeIn {
@@ -163,13 +143,22 @@ footer {
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
+  gap: 12px;
 }
-.footer-made {
-  font-size: 11px;
+.footer-about-btn {
+  background: none;
+  border: 1px solid var(--border);
   color: var(--text-dim);
+  font-family: 'Onest', sans-serif;
+  font-size: 11px;
   letter-spacing: 0.06em;
+  padding: 0 14px;
+  height: 32px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
 }
-.footer-made strong { color: var(--text-mid); font-weight: 400; }
+.footer-about-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
 .footer-socials {
   display: flex;
   align-items: center;
@@ -197,6 +186,80 @@ footer {
   color: var(--text-dim);
 }
 .footer-github-label { white-space: nowrap; }
+
+/* ── About modal ───────────────────────────────── */
+.about-modal-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.about-modal-bg.open { display: flex; }
+.about-modal {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  max-width: 620px;
+  width: 100%;
+  padding: 40px;
+  position: relative;
+  animation: modalIn 0.22s ease;
+}
+.about-modal-close {
+  position: absolute;
+  top: 16px; right: 20px;
+  background: none; border: none;
+  color: var(--text-dim); font-size: 20px; cursor: pointer;
+  transition: color 0.15s; line-height: 1;
+}
+.about-modal-close:hover { color: var(--text); }
+.about-eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+.about-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.about-body {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+.about-stats {
+  display: flex;
+  gap: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.about-stat { display: flex; flex-direction: column; gap: 3px; }
+.about-stat-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  color: var(--text);
+  line-height: 1;
+}
+.about-stat-label {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
 
 /* ── Home: game grid ───────────────────────────── */
 .game-grid {
@@ -236,10 +299,10 @@ footer {
   height: 100%;
   object-fit: cover;
   display: block;
-  transform: scale(1.08);
+  transform: scale(1.1);
   transition: transform 0.4s ease;
 }
-.game-tile:hover .game-tile-hero img { transform: scale(1.04); }
+.game-tile:hover .game-tile-hero img { transform: scale(1.03); }
 
 /* Logo overlay — home tile: scales with tile width */
 .game-tile-logo {
@@ -255,11 +318,10 @@ footer {
   max-width: 180px;
   height: auto;
   object-fit: contain;
-  transform: scale(1);
   transition: transform 0.4s ease;
   filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
 }
-.game-tile:hover .game-tile-logo img { transform: scale(1.06); }
+.game-tile:hover .game-tile-logo img { transform: scale(1.1); }
 .game-tile-hero-fallback {
   width: 100%;
   height: 100%;
@@ -426,7 +488,7 @@ footer {
 }
 .scan-card-back {
   border-right: 1px solid var(--border);
-  padding: 32px 32px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -523,7 +585,7 @@ footer {
   font-size: 9px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-dim);
+  color: var(--gold-dim);
   margin-bottom: 8px;
 }
 .scan-names {
@@ -632,26 +694,19 @@ footer {
   overflow: hidden;
   border: 1px solid var(--border);
   background: var(--surface);
-  flex-shrink: 0;
   min-height: 120px;
 }
 .overview-card-slide {
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  inset: -50%;
   opacity: 0;
   transition: opacity 1s ease;
+  background-size: 175px auto;
+  background-repeat: repeat;
+  background-position: center;
+  transform: rotate(15deg);
 }
 .overview-card-slide.active { opacity: 1; }
-.overview-card-slide img {
-  height: 130%;
-  width: auto;
-  transform: rotate(15deg);
-  object-fit: cover;
-  flex-shrink: 0;
-}
 
 /* Info + scan grid — unified 3-column layout */
 .game-info-panels {
@@ -1116,14 +1171,15 @@ footer {
   width: 7px; height: 7px;
   border-radius: 50%;
   border: 1px solid rgba(0,0,0,0.4);
+  background: #111111;
 }
 .r-Common    { background: #6e6e6e; }
 .r-Uncommon  { background: #5a8fa8; }
 .r-Rare      { background: #c8963c; }
+.r-Epic      { background: #7b3fa0; }
 .r-Legendary, .r-Mythic { background: #b05a20; }
 .r-Promo     { background: #9b30ff; }
 .r-Fixed     { background: #ffffff; }
-.rarity-dot  { background: #111111; } /* default for unrecognised rarities */
 
 /* ── Card detail modal ─────────────────────────── */
 .modal-bg {
@@ -1210,6 +1266,9 @@ footer {
   font-weight: 400;
   line-height: 1.15;
   margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .modal-typeline {
   font-size: 13px;
@@ -1303,8 +1362,9 @@ footer {
   .game-fact { padding: 12px 16px; }
   .game-fact-val { font-size: 14px; }
 
-  /* Overview image — hide on mobile, text full width */
+  /* Overview — full width on mobile, hide card panel */
   .game-overview-block { grid-template-columns: 1fr; }
+  .overview-card-panel { display: none; }
   .game-overview { font-size: 17px; }
 
   /* Info panels — single column */
@@ -1380,7 +1440,6 @@ footer {
 <header>
   <div class="logo" id="logo">Zarthbenn's <em>TCG Vault</em></div>
   <nav class="breadcrumb" id="breadcrumb"></nav>
-  <div class="header-right"></div>
 </header>
 
 <div id="app"></div>
@@ -1395,7 +1454,7 @@ footer {
 </div>
 
 <footer>
-  <span class="footer-made">Made by <strong>Zarthbenn</strong> in 2026</span>
+  <button class="footer-about-btn" id="footer-about-btn">About</button>
   <div class="footer-socials">
     <a href="https://github.com/Zarthbenn/zarthbenn-tcgvault" class="footer-social footer-github" title="View on GitHub" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
@@ -1412,6 +1471,30 @@ footer {
     </a>
   </div>
 </footer>
+
+<!-- About modal -->
+<div class="about-modal-bg" id="about-modal-bg">
+  <div class="about-modal">
+    <button class="about-modal-close" id="about-modal-close">✕</button>
+    <div class="about-eyebrow">Zarthbenn's TCG Vault</div>
+    <div class="about-heading">My archive for<br>out-of-print card games</div>
+    <div class="about-body" id="about-body">Through working on the various rules videos on my youtube channel I have collected a wide set of resources, links and card scans. This site aims to store all that information and more for anyone to view and use.</div>
+    <div class="about-stats">
+      <div class="about-stat">
+        <div class="about-stat-val" id="about-games">—</div>
+        <div class="about-stat-label">Games</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-val" id="about-sets">—</div>
+        <div class="about-stat-label">Sets</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-val" id="about-cards">—</div>
+        <div class="about-stat-label">Cards</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.min.js"></script>
 <script>
@@ -1536,6 +1619,21 @@ function renderHome() {
         if (row.card_count) parts.push(`${row.card_count} cards`);
         el.textContent = parts.join(' · ');
       }
+      // Recompute aggregate totals for about modal
+      let totalSets = 0, totalCards = 0;
+      state.games.forEach(g => {
+        const d = state.loadedDbs[g.db];
+        if (!d) return;
+        const r = q(d, `SELECT COUNT(DISTINCT s.id) as sc, COUNT(c.id) as cc
+          FROM sets s LEFT JOIN cards c ON c.set_id = s.id`)[0];
+        if (r) { totalSets += r.sc || 0; totalCards += r.cc || 0; }
+      });
+      const gEl = document.getElementById('about-games');
+      const sEl = document.getElementById('about-sets');
+      const cEl = document.getElementById('about-cards');
+      if (gEl) gEl.textContent = state.games.length;
+      if (sEl && totalSets)  sEl.textContent = totalSets.toLocaleString();
+      if (cEl && totalCards) cEl.textContent = totalCards.toLocaleString();
     }).catch(() => {});
   });
 }
@@ -1624,9 +1722,8 @@ function renderGame(game, db) {
     const panelHtml = cardImgs.length ? `
       <div class="overview-card-panel" id="overview-panel">
         ${cardImgs.map((r, i) => `
-        <div class="overview-card-slide${i === 0 ? ' active' : ''}">
-          <img src="${r.image_url}" alt="" loading="lazy">
-        </div>`).join('')}
+        <div class="overview-card-slide${i === 0 ? ' active' : ''}"
+             style="background-image: url('${r.image_url}')"></div>`).join('')}
       </div>` : '';
     overviewHtml = `
       <div class="game-overview-block">
@@ -1797,7 +1894,7 @@ function renderSet(set, db) {
     <div class="page">
       <div class="set-controls">
         <input class="search-input" id="card-search"
-          placeholder="Search name, artist, rules text…" autocomplete="off">
+          placeholder="Search name, rules, artist, type:, rarity:, faction:, cost: ..." autocomplete="off">
         <select class="filter-select" id="type-filter">${opts(types,   'All types')}</select>
         <select class="filter-select" id="rarity-filter">${opts(rarities,'All rarities')}</select>
         <select class="filter-select" id="artist-filter">${opts(artists, 'All artists')}</select>
@@ -1815,18 +1912,67 @@ function renderSet(set, db) {
     </div>`;
 
   function applyFilters() {
-    const search = document.getElementById('card-search')?.value?.toLowerCase()  || '';
+    const raw    = document.getElementById('card-search')?.value?.trim() || '';
     const type   = document.getElementById('type-filter')?.value   || '';
     const rarity = document.getElementById('rarity-filter')?.value || '';
     const artist = document.getElementById('artist-filter')?.value || '';
 
     let filtered = allCards;
-    if (search) filtered = filtered.filter(c =>
-      c.name?.toLowerCase().includes(search)       ||
-      c.artist?.toLowerCase().includes(search)     ||
-      c.rules_text?.toLowerCase().includes(search) ||
-      c.flavor_text?.toLowerCase().includes(search)
-    );
+
+    if (raw) {
+      // Split into tokens — quoted phrases kept together
+      const tokens = [];
+      let cur = '', inQuote = false;
+      for (const ch of raw) {
+        if (ch === '"') { inQuote = !inQuote; }
+        else if (ch === ' ' && !inQuote) { if (cur) tokens.push(cur.toLowerCase()); cur = ''; }
+        else cur += ch;
+      }
+      if (cur) tokens.push(cur.toLowerCase());
+
+      // Field prefix map
+      const fieldMap = {
+        'name':   c => c.name        || '',
+        'artist': c => c.artist      || '',
+        'type':   c => c.card_type   || '',
+        'rarity': c => c.rarity      || '',
+        'rules':  c => c.rules_text  || '',
+        'rule':   c => c.rules_text  || '',
+        'num':    c => c.collector_number || '',
+        'attr':   c => { try { return JSON.stringify(JSON.parse(c.extra_data)); } catch(e) { return ''; } },
+      };
+
+      // Build extra_data string once per card
+      const getExtra = c => { try { const o = JSON.parse(c.extra_data); return Object.entries(o).map(([k,v]) => `${k} ${v}`).join(' ').toLowerCase(); } catch(e) { return ''; } };
+
+      // All tokens must match (AND)
+      filtered = filtered.filter(c => {
+        const extra = getExtra(c);
+        return tokens.every(tok => {
+          const colonIdx = tok.indexOf(':');
+          if (colonIdx > 0) {
+            const field = tok.slice(0, colonIdx);
+            const val   = tok.slice(colonIdx + 1);
+            const fn    = fieldMap[field];
+            if (fn) return fn(c).toLowerCase().includes(val);
+            // Unknown prefix — try it as an extra_data key
+            try {
+              const obj = JSON.parse(c.extra_data);
+              if (field in obj) return String(obj[field]).toLowerCase().includes(val);
+              // Key not found on this card — no match
+              return false;
+            } catch(e) { return false; }
+          }
+          // No prefix — search all fields
+          return (c.name        || '').toLowerCase().includes(tok) ||
+                 (c.artist      || '').toLowerCase().includes(tok) ||
+                 (c.rules_text  || '').toLowerCase().includes(tok) ||
+                 (c.flavor_text || '').toLowerCase().includes(tok) ||
+                 extra.includes(tok);
+        });
+      });
+    }
+
     if (type)   filtered = filtered.filter(c => c.card_type === type);
     if (rarity) filtered = filtered.filter(c => c.rarity    === rarity);
     if (artist) filtered = filtered.filter(c => c.artist    === artist);
@@ -1967,7 +2113,7 @@ function buildCardTile(c) {
          <div class="ph-type">${c.card_type || ''}</div>
        </div>
        <div class="no-scan-badge">NO SCAN</div>
-       ${rClass ? `<div class="rarity-dot ${rClass}"></div>` : ''}`;
+       ${rClass ? `<div class="rarity-dot ${rClass}" style="top:6px;left:6px;right:auto"></div>` : ''}`;
 
   // Rarity dot only shown on cards without a scan
   return `<div class="card-tile" onclick="showCard(${c.id})">${inner}</div>`;
@@ -1994,12 +2140,16 @@ function showCard(cardId) {
     } catch(e) {}
   }
 
+  const rClass = c.rarity ? `r-${c.rarity}` : '';
+
   document.getElementById('modal-info').innerHTML = `
     <div class="modal-num">${[
       c.collector_number ? `# ${c.collector_number}` : '',
       state.currentSet?.name || ''
     ].filter(Boolean).join(' · ')}</div>
-    <div class="modal-name">${c.name}</div>
+    <div class="modal-name">
+      ${rClass ? `<span class="rarity-dot ${rClass}" style="position:relative;top:auto;right:auto;width:10px;height:10px;flex-shrink:0"></span>` : ''}${c.name}
+    </div>
     <div class="modal-typeline">
       ${[c.card_type, c.rarity].filter(Boolean).join(' · ')}
     </div>
@@ -2014,8 +2164,16 @@ function showCard(cardId) {
 
 document.getElementById('modal-close').addEventListener('click', closeModal);
 document.getElementById('modal-bg').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeAbout(); } });
 function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+
+// ── About modal ───────────────────────────────────────────
+document.getElementById('footer-about-btn').addEventListener('click', () => {
+  document.getElementById('about-modal-bg').classList.add('open');
+});
+document.getElementById('about-modal-close').addEventListener('click', closeAbout);
+document.getElementById('about-modal-bg').addEventListener('click', e => { if (e.target === e.currentTarget) closeAbout(); });
+function closeAbout() { document.getElementById('about-modal-bg').classList.remove('open'); }
 
 // ── Logo → home ───────────────────────────────────────────
 document.getElementById('logo').addEventListener('click', renderHome);
