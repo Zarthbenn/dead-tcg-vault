@@ -2,10 +2,10 @@
   {
     "id": "dune-ccg",
     "name": "Dune CCG",
-    "publisher": "Horizon Games",
+    "publisher": "Last Unicorn Games",
     "years_active": "1997-1998",
     "db": "data/dune-ccg.db",
-    "cover_color": "#B8860B",
+    "cover_color": "#db9a59",
     "hero_image": "imgs/dune-hero.jpg",
     "logo_image": "imgs/dune-logo.png",
     "card_back_image": "https://drive.google.com/thumbnail?id=1i3cx2op02eBbvC4-87AGC35Syi4lGjbK&sz=w350",
@@ -136,6 +136,7 @@
     "how_to_play_videos": [
       { "label": "How to Play [Derfington]", "url": "https://pandoraprimerecon.com/" }
     ],
+    "show_video_section": false,
      "rulebook_links": [
       { "label": "Rulebook", "url": "https://drive.google.com/file/d/18XWoRh2IWz6bvveUXxbEOo-_RQZ8mHDc/view?usp=sharing" }
     ],
@@ -158,5 +159,197 @@
         { "label": "Card Scans Archive [Full]", "url": "https://drive.google.com/drive/folders/1PEPoPnbOxK1LtgTw-pHPWwvKhQFG01P5?usp=sharing" }
       ]
     }
+  },
+  {
+    "id": "lotr-ccg",
+    "name": "Lord of the Rings TCG",
+    "publisher": "Decipher Inc.",
+    "years_active": "2001-2007",
+    "show_sets": false,
+    "cover_color": "#EFBF04",
+    "hero_image": "imgs/lotr-hero.jpg",
+    "logo_image": "imgs/lotr-logo.png",
+    "card_back_image": "https://drive.google.com/thumbnail?id=1f4khr7cA-f_sBUDFj-k9unYv-qVQEDwk&sz=w350",
+    "overview": "The Lord of the Rings Trading Card Game was released in 2001 by Decipher, Inc. It is based on Peter Jackson's The Lord of the Rings film trilogy and the J. R. R. Tolkien novel on which the films were based. Decipher's license to The Lord of the Rings expired on July 30, 2007, after which all official promotion and distribution of the game stopped.</br></br>Players use custom decks split evenly between \"Free Peoples\" and \"Shadow\" cards, alternating roles depending on whose turn it is. As the active Free Peoples player, your objective is to guide your Fellowship across nine sites to destroy the One Ring, using companion characters to defend your Ring-bearer from harm. Simultaneously, your opponents act as the Shadow players, deploying monster minions to attack your Fellowship, inflict wounds, or add \"burdens\" that slowly corrupt your Ring-bearer's resistance. The game is driven by a unique risk-and-reward resource system called the \"twilight pool,\" where the cost of every card the Free Peoples player plays is added to a shared pool that the Shadow players then spend to fund their attacks. Ultimately, you win the game by being the first to safely navigate your Fellowship to the ninth site, being the last surviving player, or successfully killing or corrupting your opponents' Ring-bearers.</br></br>The game featured stills taken from the films. In 2004 Weta Workshop produced artwork depicting characters and items from the novel absent from the films for use on cards. The game also had an online version that maintained identical gameplay as well as a market economy, its servers closed in June 2010.",
+    "designers": ["Mike Reynolds", "Chuck Kallenbach II", "Tom Lischke", "Joe Alread"],
+    "how_to_play_videos": [
+      { "label": "How to Play [Zarthbenn]", "url": "https://youtu.be/sBUS8yt4G_8" }
+    ],
+     "rulebook_links": [
+      { "label": "Rulebooks", "url": "https://wiki.lotrtcgpc.net/wiki/rulebooks" }
+    ],
+    "where_to_play_links": [
+      { "label": "GEMP [Online Client]", "url": "https://play.lotrtcgpc.net/" }
+    ],
+    "community_links": [
+      { "label": "Players Council [Continuing Committee]", "url": "https://lotrtcgpc.net/index.html" },
+      { "label": "BGG Page", "url": "https://boardgamegeek.com/boardgame/2603/the-lord-of-the-rings-trading-card-game" },
+      { "label": "Community Discord", "url": "https://lotrtcgpc.net/discord" }
+    ],
+    "scan_project": {
+      "scanned_by": ["Ketura"],
+      "processed_by": "Ketura",
+      "start_year": "2020",
+      "end_year": "",
+      "additional_notes": "Card images available as card remakes, maintained by Ketura.",
+
+      "downloads": [
+        { "label": "Card Image Archive [Full]", "url": "https://files.lotrtcgpc.net/card_images/" }
+      ]
+    },
+    "sets_count": 19,
+    "cards_count": 3143,
+    "preview_cards": [
+      { "url": "https://drive.google.com/thumbnail?id=1bGfUqvIozoexvnQzz4asqDlddWHD44p3&sz=w350", "name": "Gandalf" },
+      { "url": "https://drive.google.com/thumbnail?id=1WTXIHFKHOsy6d4swTq8cwp81gDjN8-xj&sz=w350", "name": "Legolas" },
+      { "url": "https://drive.google.com/thumbnail?id=1fNwP1fF0HEg4G2cz6waLZZaNAGmhDGou&sz=w350", "name": "Frodo" },
+      { "url": "https://drive.google.com/thumbnail?id=1XOZjAZaFl1WtU5HCf7WSxfRmb-ALqjhn&sz=w350", "name": "Sauron" },
+      { "url": "https://drive.google.com/thumbnail?id=16_AZbf46UBM2uhHZoQmR7IRCosdkXENl&sz=w350", "name": "The One Ring" },
+      { "url": "https://drive.google.com/thumbnail?id=1Nhvks5uxjUr-8__K1iKkjUc22ZelU_wK&sz=w350", "name": "Arwen" }
+    ]
+  },
+  {
+    "id": "hp-tcg",
+    "name": "Harry Potter TCG",
+    "publisher": "Wizards of the Coast",
+    "years_active": "2001-2002",
+    "show_sets": false,
+    "cover_color": "#0e1a40",
+    "hero_image": "imgs/hp-hero.jpg",
+    "logo_image": "imgs/hp-logo.png",
+    "card_back_image": "https://drive.google.com/thumbnail?id=1tVUhBabZ2SP-9UGV0IMysfC2UXjJ9fWQ&sz=w350",
+    "overview": "The Harry Potter Trading Card Game is a collectible card game based in the world of the Harry Potter novels. Created by Wizards of the Coast in August 2001 the game released four expansion sets, with the final expansion released in 2002, after which Wizards of the Coast discontinued the game.</br></br>Players construct a deck to lead a specific starting Witch or Wizard Character through a head-to-head magical duel. The core gameplay revolves around a fixed 2 actions each turn where you can play Lesson cards to generate Power, cast single-use Spells, play Creatures, and utilize Items, Locations, or Adventures. Cards were separated into five distinct classes or colors: Charms, Potions, Transfiguration, Magical Creatures and Quidditch. Every point of damage dealt discards a card from your opponent's deck, to win the game, you must force your opponent to run out of cards.</br></br>The game featured original artwork and at one point in 2001 was considered the best selling game in the US.",
+    "designers": ["Paul Peterson", "Skaff Elias", "Mike Elliott"],
+    "how_to_play_videos": [
+      { "label": "How to Play [Zarthbenn]", "url": "https://www.youtube.com/watch?v=m6yPNGBDUbc" },
+      { "label": "How to Build a Deck [HPTCG Revival]", "url": "https://www.youtube.com/watch?v=jFm4GWsdDMw" }
+    ],
+     "rulebook_links": [
+      { "label": "Rulebooks", "url": "https://docs.google.com/document/d/14nlmMGUaKFaDvQxvix9bCwHozmtxih9B8CM10mK88Ac/edit?tab=t.0" }
+    ],
+    "where_to_play_links": [
+      { "label": "Untap [Online Client]", "url": "https://untap.in/" }
+    ],
+    "community_links": [
+      { "label": "HPTCG Revival [Continuing Committee]", "url": "https://harrypottertcg.com/" },
+      { "label": "BGG Page", "url": "https://boardgamegeek.com/boardgame/3495/harry-potter-trading-card-game" },
+      { "label": "Community Discord", "url": "https://discord.gg/EKJSXBC" }
+    ],
+    "scan_project": {
+      "scanned_by": ["HPTCG Revival"],
+      "processed_by": "HPTCG Revival",
+      "start_year": "2021",
+      "end_year": "2026",
+      "additional_notes": "Scans available through card remakes, maintained by HPTCG Revival.",
+
+      "downloads": [
+        { "label": "Card Scans Archive [Incomplete]", "url": "https://harrypottertcg.com/ResourcesPage.html" }
+      ]
+    },
+    "sets_count": 5,
+    "cards_count": 496,
+    "preview_cards": [
+      { "url": "https://drive.google.com/thumbnail?id=1Ay4nX8aKzABUWxhj7TCfx-UbHysLlfkd&sz=w350", "name": "Draco Malfoy" },
+      { "url": "https://drive.google.com/thumbnail?id=13FKzHZMnc3Vcak8Fbl3DXsFanoLAh6PI&sz=w350", "name": "Charms" },
+      { "url": "https://drive.google.com/thumbnail?id=1NRxanK-uhTp88t8u0wcLDFHKUCe2ug1e&sz=w350", "name": "Boa Constrictor" },
+      { "url": "https://drive.google.com/thumbnail?id=1ICaliSwFAM8UGF4D1nLlSHpeRfoqHMmS&sz=w350", "name": "Freeze" },
+      { "url": "https://drive.google.com/thumbnail?id=1i-JrSzcFI3ZhhopDA-Orj7pDfo_NCvYP&sz=w350", "name": "Hermione" },
+      { "url": "https://drive.google.com/thumbnail?id=1ZupbFzXnNJ7Q7rtqneVKNNGWD4IPO14-&sz=w350", "name": "Homework" }
+    ]
+  },
+  {
+    "id": "aoe-ecg",
+    "name": "Age of Empires ECG",
+    "publisher": "Journeyman Press",
+    "years_active": "1999-2001",
+    "show_sets": false,
+    "cover_color": "#4F7942",
+    "hero_image": "imgs/aoe-hero.jpg",
+    "logo_image": "imgs/aoe-logo.png",
+    "card_back_image": "https://drive.google.com/thumbnail?id=16JQ77Kfaa2OLd7RKSQl1iQpHrRTZ69jq&sz=w350",
+    "overview": "Age of Empires: Expandable Card Game is a trading card game by Journeyman Press. Originally released in 2000, the game was based on the Ensemble Studios computer game, Age of Empires II: The Age of Kings. Due to the bankruptcy of Journeyman Press in 2001, only the base set and the first expansion were published.</br></br>Players construct a custom, era-divided deck to lead a specific faction through four historical Ages, from the Dark Age to the Imperial Age. The core gameplay revolves around managing a multi-phase turn where you allocate Villagers to collect resources, construct Building cards, research Technologies, and deploy military Unit cards. You use these forces to maneuver across the board and attack your opponent's village while upgrading your own civilization's capabilities. To win the game, you must complete one of several distinct victory conditions: achieve military conquest by destroying your opponent's Town Centers or Villagers, secure a religious victory by collecting and protecting five Relics in a Monastery, or reach the final age to build and defend a Wonder for six turns.</br></br>The game featured original artwork. All cards were almost one to one recreations of their video game counterparts.",
+    "designers": ["Marcus D’Amelio", "Ted Triebull", "David May"],
+    "how_to_play_videos": [
+      { "label": "How to Play [Zarthbenn]", "url": "https://youtu.be/oxW-76J-t64" }
+    ],
+     "rulebook_links": [
+      { "label": "Rulebooks", "url": "https://drive.google.com/drive/folders/0B2yzWZbrdFNDYWMwOGs2cVBDM0E?resourcekey=0-4oSOF7NtxHA6BsFCboIoLA" }
+    ],
+    "where_to_play_links": [
+      { "label": "Tabletop Simulator [Mod]", "url": "https://steamcommunity.com/sharedfiles/filedetails/?id=3287964438&searchtext=age+of+empires" }
+    ],
+    "community_links": [
+      { "label": "BGG Page", "url": "https://boardgamegeek.com/boardgame/3127/age-of-empires-expandable-card-game" },
+      { "label": "Community Discord", "url": "https://discord.com/invite/Fwzmqm6NJC" }
+    ],
+    "scan_project": {
+      "scanned_by": ["Spectreman17"],
+      "processed_by": "Spectreman17",
+      "start_year": "2019",
+      "end_year": "",
+      "additional_notes": "",
+
+      "downloads": [
+        { "label": "Card Scans Archive [Full]", "url": "https://drive.google.com/drive/folders/0B2yzWZbrdFNDYWMwOGs2cVBDM0E?resourcekey=0-4oSOF7NtxHA6BsFCboIoLA" }
+      ]
+    },
+    "sets_count": 2,
+    "cards_count": 572,
+    "preview_cards": [
+      { "url": "https://drive.google.com/thumbnail?id=1TWNljqqvsbs3acnuvTrxOLut-btlJuZH&sz=w350", "name": "Archer" },
+      { "url": "https://drive.google.com/thumbnail?id=1o9a8JumNmU5EHNlSz_9nlSgdBFFVEKia&sz=w350", "name": "Man at Arms" },
+      { "url": "https://drive.google.com/thumbnail?id=17PyiCKalqyhy2YlhFo7xl99ey9YQAV_K&sz=w350", "name": "Notre Dame" },
+      { "url": "https://drive.google.com/thumbnail?id=1lq9Yv_Q2qWdB73bbyVnTsTQ30-n2nsPo&sz=w350", "name": "Chain Mail Armor" },
+      { "url": "https://drive.google.com/thumbnail?id=1BmKIY30qLqP3DC_BBiXLp7okjs0RiVgD&sz=w350", "name": "Berries" },
+      { "url": "https://drive.google.com/thumbnail?id=1B18_78RsHn2I2f89p27rLZA6jDizaqnW&sz=w350", "name": "Farm" }
+    ]
+  },
+  {
+    "id": "sw-ccg",
+    "name": "Star Wars CCG",
+    "publisher": "Decipher Inc.",
+    "years_active": "1999-2001",
+    "show_sets": false,
+    "cover_color": "#BEA042",
+    "hero_image": "imgs/sw-hero.jpg",
+    "logo_image": "imgs/sw-logo.png",
+    "card_back_image": "https://drive.google.com/thumbnail?id=18coRbOfqk2uQTIPAoookQcpoWyxkQzXO&sz=w350",
+    "overview": "The Star Wars: Customizable Card Game is a customizable card game based on the Star Wars fictional universe. It was created by Decipher, Inc. From its release in December 1995 the game released 11 expansion sets until its discontinuation in December 2001. </br></br>Players construct a custom Light or Dark side deck to lead iconic characters and vehicles through the galaxy. The core gameplay revolves around managing a unique resource system where your deck itself acts as your \"Life Force,\" cycling cards from your deck to deploy Location cards, Characters, Vehicles and more. You use these forces to control contested locations, battle opposing characters, and resolve events like Jedi duels or pod races. The game utilizes a \"Destiny draw\" mechanic that relies on printed card values rather than dice to resolve chance outcomes. To win the game, you must deplete your opponent's Life Force.</br></br>The game features stills taken from the films. Since 2002, the game has been maintained by the Star Wars CCG Players Committee who have released custom cards and run sanctioned events.",
+    "designers": ["Tom Braunlich", "Rollie Tesh", "Warren Holland", "Jerry Darcy"],
+    "how_to_play_videos": [
+      { "label": "How to Play [Zarthbenn]", "url": "https://youtu.be/IrfXjIMG9Mk" }
+    ],
+     "rulebook_links": [
+      { "label": "Rulebooks", "url": "https://www.starwarsccg.org/rules/" }
+    ],
+    "where_to_play_links": [
+      { "label": "GEMP [Online Client]", "url": "https://www.starwarsccg.org/online-play/#gemp" }
+    ],
+    "community_links": [
+      { "label": "Card Database", "url": "https://scomp.starwarsccg.org/" },
+      { "label": "Players Committee [Continuing Committee]", "url": "https://www.starwarsccg.org/" },
+      { "label": "Community Discord", "url": "https://discord.gg/UXqvQ2AEyP" }
+    ],
+    "scan_project": {
+      "scanned_by": ["strangewayes"],
+      "processed_by": "strangewayes",
+      "start_year": "2017",
+      "end_year": "",
+      "additional_notes": "",
+
+      "downloads": [
+        { "label": "Card Scans Archive [Full]", "url": "https://drive.google.com/drive/folders/12i00KRLriVraozX2i8MVLKHm4HJnQPB0?usp=sharing" }
+      ]
+    },
+    "sets_count": 11,
+    "cards_count": 3077,
+    "preview_cards": [
+      { "url": "https://drive.google.com/thumbnail?id=1Vr6WSadcRxezM-UMcGo0TU4MERt4hJMM&sz=w350", "name": "Daughter of Skywalker" },
+      { "url": "https://drive.google.com/thumbnail?id=1ycK6KXkpwTzUN6Kotp7XdGDx5SJppQTT&sz=w350", "name": "Darth Vader" },
+      { "url": "https://drive.google.com/thumbnail?id=1j0b6BUgG3sJpVyl2oQv-Mib6Lee-RhcE&sz=w350", "name": "Commander Luke Skywalker" },
+      { "url": "https://drive.google.com/thumbnail?id=1cDHjI57SKfgh9wArIAio3Xg5EmtQNx8M&sz=w350", "name": "Tatooine" },
+      { "url": "https://drive.google.com/thumbnail?id=1ZVmk8zjaPW86lyXVi8uRkyVe_POns_Mk&sz=w350", "name": "Conquest" },
+      { "url": "https://drive.google.com/thumbnail?id=1I7jpPDqplZVILYVtBCctP3srAWd_I0kI&sz=w350", "name": "Tantive IV" }
+    ]
   }
 ]
