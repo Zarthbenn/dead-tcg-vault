@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zarthbenn's TCG Vault</title>
+<meta name="description" content="An archive of out-of-print trading card games with link hubs and card databases.">
+<meta property="og:title" content="Zarthbenn's TCG Vault">
+<meta property="og:description" content="An archive of out-of-print trading card games with link hubs and card databases.">
+<meta property="og:type" content="website">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
@@ -19,7 +23,6 @@
   --text:      #ede8dc;
   --text-dim:  #6e6456;
   --text-mid:  #c4b89a;
-  --label:     #d4c4a0;
   --card-ratio: 5 / 7;
 }
 
@@ -106,10 +109,8 @@ header {
   margin: 0 auto;
   animation: fadeIn 0.3s ease;
 }
-.game-page {
-  position: relative;
-}
-.game-page > * { position: relative; z-index: 1; }
+.game-page { position: relative; }
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -217,48 +218,22 @@ footer {
   transition: color 0.15s; line-height: 1;
 }
 .about-modal-close:hover { color: var(--text); }
-.about-eyebrow {
-  font-size: 9px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 10px;
-}
-.about-heading {
+.about-logo-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 30px;
-  font-weight: 400;
-  font-style: italic;
+  font-size: 36px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
   color: var(--text);
-  line-height: 1.15;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
   border-bottom: 1px solid var(--border);
 }
+.about-logo-title em { font-style: normal; color: var(--gold); }
 .about-body {
   font-size: 14px;
   color: var(--text-mid);
   line-height: 1.8;
-  margin-bottom: 24px;
-}
-.about-stats {
-  display: flex;
-  gap: 28px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
-}
-.about-stat { display: flex; flex-direction: column; gap: 3px; }
-.about-stat-val {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
-  color: var(--text);
-  line-height: 1;
-}
-.about-stat-label {
-  font-size: 9px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-dim);
 }
 
 /* ── Home: game grid ───────────────────────────── */
@@ -345,59 +320,93 @@ footer {
 
 /* Content area */
 .game-tile-body {
-  padding: 18px 28px 24px;
+  padding: 16px 22px 16px;
   display: flex;
   flex-direction: column;
-  flex: 1;
-}
-.game-tile-meta {
-  font-size: 10px;
-  color: var(--text-dim);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
 }
 .game-tile-name {
   font-family: 'Cormorant Garamond', serif;
   font-size: 30px;
   font-weight: 400;
-  line-height: 1.15;
-  margin-bottom: 8px;
+  line-height: 1.2;
   color: var(--text);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 10px;
+  margin-bottom: 9px;
 }
 .game-tile-name-arrow {
-  font-size: 26px;
+  font-size: 20px;
   color: var(--gold);
   opacity: 0;
   transform: translateX(-6px);
   transition: opacity 0.2s ease, transform 0.2s ease;
   flex-shrink: 0;
-  line-height: 1;
+  margin-top: 3px;
 }
-.game-tile:hover .game-tile-name-arrow {
-  opacity: 1;
-  transform: translateX(0);
-}
-.game-tile-notes {
-  font-family: 'Onest', sans-serif;
-  font-size: 14px;
-  color: var(--text-mid);
-  line-height: 1.7;
-  flex: 1;
-  margin-bottom: 16px;
-}
-.game-tile-card-count {
-  font-size: 10px;
-  color: var(--text-dim);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding-top: 12px;
+/* Divider */
+.game-tile-divider {
+  border: none;
   border-top: 1px solid var(--border);
+  margin: 0 0 10px;
+}
+/* Row 1: year · publisher */
+.game-tile-row1 {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.game-tile-meta-text {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.game-tile-meta-sep {
+  font-size: 11px;
+  color: var(--border2);
+  flex-shrink: 0;
+  padding: 0 7px;
+}
+/* Row 2: sets/cards left, db tag right */
+.game-tile-row2 {
+  display: flex;
+  align-items: center;
+  min-height: 18px;
+}
+.game-tile-count-chips {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.game-tile-count-text {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.game-tile-count-sep {
+  font-size: 9px;
+  color: var(--border2);
+  flex-shrink: 0;
+  padding: 0 6px;
+}
+.game-tile-db-tag {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  padding: 2px 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 /* Loading indicator */
@@ -641,12 +650,14 @@ footer {
   display: flex;
   flex-wrap: wrap;
   border: 1px solid var(--border);
-  margin-bottom: 0;
+  margin-bottom: -1px;
+  overflow: hidden;
   background: var(--surface);
 }
 .game-fact {
   padding: 16px 28px;
   border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -718,7 +729,7 @@ footer {
 .game-info-panel {
   background: var(--surface);
   border: 1px solid var(--border);
-  padding: 28px 28px;
+  padding: 28px;
   min-width: 0;
 }
 .game-info-panel-title {
@@ -890,13 +901,6 @@ footer {
 }
 
 /* ── Set view: search + card grid ─────────────── */
-.set-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
 .search-input {
   flex: 1;
   min-width: 180px;
@@ -931,12 +935,290 @@ footer {
   background-position: right 10px center;
 }
 .filter-select:focus { border-color: var(--gold-dim); }
+.attr-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 0 4px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  margin-bottom: 20px;   /* spacing below attr filters before cards */
+}
+.attr-filter-label {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  align-self: center;
+  flex-shrink: 0;
+}
+/* ── Game database launch button ───────────────── */
+.game-db-launch {
+  margin-bottom: 28px;
+}
+/* ── Shared game launch buttons (DB + Museum) ─── */
+.launch-btn {
+  width: 100%;
+  padding: 20px 28px;
+  background:
+    linear-gradient(160deg, rgba(200,150,60,0.07), rgba(200,150,60,0.02) 55%),
+    var(--surface);
+  border: 1px solid var(--gold-dim);
+  outline: 1px solid rgba(200,150,60,0.15);
+  outline-offset: 3px;
+  color: var(--text);
+  font-family: 'Onest', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: background 0.15s, outline-color 0.2s;
+}
+.launch-btn:hover { background: var(--surface2); outline-color: rgba(200,150,60,0.4); }
+.launch-btn-left { display: flex; flex-direction: column; gap: 4px; }
+.launch-btn-title { font-size: 28px; font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+.launch-game-name { color: var(--gold); }
+.launch-btn-stats {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'Onest', sans-serif;
+}
+.launch-btn .launch-arrow {
+  font-size: 18px;
+  color: var(--gold);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+.launch-btn:hover .launch-arrow { opacity: 1; transform: translateX(0); }
+
+/* ── Set filter bar (game-wide DB view) ────────── */
+.game-db-set-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 4px;
+  max-height: 192px;
+  overflow-y: auto;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border2) transparent;
+}
+.game-db-set-bar::-webkit-scrollbar { width: 4px; }
+.game-db-set-bar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+.game-db-set-bar .set-filter-all {
+  grid-column: 1 / -1;
+  font-family: 'Onest', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.set-filter-btn {
+  font-family: 'Onest', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.set-filter-btn:hover { border-color: var(--border2); color: var(--text); }
+.set-filter-btn.active {
+  border-color: var(--gold-dim);
+  background: var(--surface2);
+  color: var(--text);
+}
+.set-filter-check {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--border2);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: var(--gold);
+}
+.set-filter-btn.active .set-filter-check { border-color: var(--gold-dim); }
+.set-filter-btn.active .set-filter-check::after { content: '✓'; }
+.set-filter-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Card database filter controls ─────────────── */
+@keyframes rainbow-flow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.btn-random {
+  background: linear-gradient(90deg,
+    #ff6b6b, #ffb347, #ffd700, #6bff9e, #00cfff, #7b5fff, #ff6bff, #ff6b6b);
+  background-size: 300% 100%;
+  animation: rainbow-flow 5s linear infinite;
+  border: none;
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,0.45), inset 0 0 0 3px rgba(255,255,255,0.2);
+  color: rgba(0,0,0,0.75);
+  font-family: 'Onest', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0 18px;
+  height: 38px;
+  cursor: pointer;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: animation-duration 0.3s;
+}
+.btn-random:hover { animation-duration: 1s; }
+
+.db-controls { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+
+.db-search-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.db-search-main {
+  flex: 1;
+  height: 38px;
+  font-size: 14px;
+}
+
+.db-filter-section { display: flex; align-items: flex-start; gap: 10px; }
+.db-filter-section-label {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding-top: 6px;
+  flex-shrink: 0;
+  width: 44px;
+}
+
+.filter-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+.filter-pill {
+  font-family: 'Onest', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  padding: 4px 11px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.filter-pill:hover { border-color: var(--border2); color: var(--text-mid); }
+.filter-pill.active {
+  border-color: var(--gold-dim);
+  background: var(--surface2);
+  color: var(--text);
+}
+.rarity-pip {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.3);
+}
+
+.db-advanced-toggle {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'Onest', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+  align-self: flex-start;
+}
+.db-advanced-toggle:hover { color: var(--text); }
+.db-adv-icon { display: inline-block; transition: transform 0.2s; font-size: 8px; }
+.db-advanced-toggle.open .db-adv-icon { transform: rotate(90deg); }
+
+.db-advanced-panel {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0 0;
+  border-top: 1px solid var(--border);
+}
+.db-advanced-panel.open { display: flex; }
+/* No double border or extra margin inside the panel */
+.db-advanced-panel .attr-filter-row {
+  border-top: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+.db-adv-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.db-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+  margin-top: 2px;
+}
+.db-count {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+.db-right-controls { display: flex; align-items: center; gap: 12px; }
+/* Download image button */
+.modal-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  padding: 5px 12px;
+  transition: border-color 0.15s, color 0.15s;
+  width: 100%;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.modal-download:hover { border-color: var(--gold-dim); color: var(--gold); }
 
 .size-control {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-left: auto;
   flex-shrink: 0;
   padding: 0 4px;
 }
@@ -1055,9 +1337,9 @@ footer {
 }
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 154px));
+  /* max 1fr: columns stretch so the grid is always edge-to-edge */
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 6px;
-  justify-content: start;
 }
 
 .card-tile {
@@ -1327,6 +1609,521 @@ footer {
   color: var(--text-mid);
   margin-bottom: 8px;
 }
+/* ── Card Preview section — mini museum frames ── */
+.card-preview-grid {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 36px;
+}
+.card-preview-item {
+  flex: 1;
+  min-width: 0;
+  aspect-ratio: 5 / 7;
+  padding: 6px;
+  background: linear-gradient(135deg, #221c12 0%, #17140c 40%, #1f1a10 60%, #141106 100%);
+  border: 1px solid #2a2318;
+  box-shadow: 0 0 0 1px #100e08, inset 0 0 0 1px #322a1c;
+  cursor: default;
+  transition: border-color 0.2s, transform 0.15s, opacity 0.2s;
+  position: relative;
+  opacity: 0.82;
+}
+.card-preview-item[data-preview-url] { cursor: pointer; }
+.card-preview-item::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 0.5px solid #2a2318;
+  pointer-events: none;
+  z-index: 2;
+}
+.card-preview-item:hover { border-color: var(--gold-dim); transform: translateY(-3px); opacity: 1; }
+.card-preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.card-preview-item.card-back-center {
+  border-color: rgba(200, 150, 60, 0.25);
+  box-shadow: 0 0 0 1px #100e08, inset 0 0 0 1px #322a1c;
+}
+.card-preview-item.card-back-center:hover { transform: none; border-color: var(--gold-dim); }
+
+/* Card lightbox */
+.card-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 600;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.card-lightbox.open { display: flex; }
+.card-lightbox img {
+  max-height: 86vh;
+  max-width: 80vw;
+  object-fit: contain;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  pointer-events: none;
+}
+
+/* ── DB / Set page back button ─────────────────── */
+.db-back-bar {
+  position: fixed;
+  top: 56px; /* just below the site header */
+  left: 0;
+  z-index: 50;
+  padding: 10px 16px;
+  background: linear-gradient(to right, rgba(10,9,8,0.85), transparent);
+  pointer-events: none; /* only the button itself is interactive */
+}
+.db-back-btn {
+  pointer-events: auto;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'Onest', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 4px;
+  transition: color 0.15s;
+}
+.db-back-btn:hover { color: var(--gold); }
+
+/* ── Card Museum launch button ─────────────────── */
+.museum-launch { margin: -8px 0 36px; }
+
+/* ── Card Museum page ──────────────────────────── */
+.museum-page {
+  min-height: calc(100vh - 56px);
+  min-height: calc(100dvh - 56px);
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 12%, rgba(200,150,60,0.05), transparent 65%),
+    linear-gradient(#0d0c0a, #0a0908 70%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 24px 48px;
+  position: relative;
+  animation: fadeIn 0.35s ease;
+}
+.museum-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  z-index: 5;
+}
+.museum-back {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'Onest', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+  padding: 6px 4px;
+}
+.museum-back:hover { color: var(--gold); }
+.museum-top-right { display: flex; align-items: center; gap: 18px; }
+.museum-pos {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.museum-shuffle {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: 'Onest', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 6px 12px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.museum-shuffle:hover { color: var(--gold); border-color: var(--gold-dim); }
+.museum-stage {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+}
+/* Dip to black on left/right so the eye isn't drawn to the edges */
+.museum-stage::before,
+.museum-stage::after {
+  content: '';
+  position: fixed;
+  top: 0; bottom: 0;
+  width: min(18vw, 160px);
+  pointer-events: none;
+  z-index: 4;
+}
+.museum-stage::before {
+  left: 0;
+  background: linear-gradient(to right, #0a0908 0%, transparent 100%);
+}
+.museum-stage::after {
+  right: 0;
+  background: linear-gradient(to left, #0a0908 0%, transparent 100%);
+}
+.museum-nav {
+  background: none;
+  border: none;
+  color: var(--border2);
+  font-size: 34px;
+  cursor: pointer;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  flex-shrink: 0;
+  line-height: 1;
+  font-family: 'Cormorant Garamond', serif;
+}
+.museum-nav:hover { color: var(--gold); }
+.museum-exhibit { position: relative; }
+/* Spotlight cone above the frame */
+.museum-exhibit::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -140px;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 160px;
+  background: radial-gradient(ellipse 55% 90% at 50% 100%, rgba(220,180,110,0.07), transparent 70%);
+  pointer-events: none;
+}
+.museum-frame {
+  padding: 18px;
+  background: linear-gradient(135deg, #2e2618 0%, #1e1a10 40%, #2a2214 60%, #1a1608 100%);
+  border: 1px solid #3a3020;
+  box-shadow:
+    0 0 0 1px #14120a,
+    inset 0 0 0 1px #4a4030,
+    inset 0 0 12px rgba(0,0,0,0.6),
+    0 14px 32px -22px rgba(0,0,0,0.75);
+  position: relative;
+}
+.museum-frame::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 0.5px solid #3a3020;
+  pointer-events: none;
+  z-index: 2;
+}
+/* ── Rarity tier ornaments ─────────────────────── */
+/* Hidden by default; each tier class reveals its set.
+   common = baseline frame (also the fallback for unknown rarities) */
+.museum-frame .orn {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  z-index: 3;
+}
+/* Beaded gilt edge — uncommon and above */
+.museum-frame .bead-ring {
+  inset: 8px;
+  border: 3px dotted #7e6428;
+}
+.tier-uncommon .bead-ring,
+.tier-rare .bead-ring,
+.tier-legendary .bead-ring { opacity: 1; }
+/* Inner gilt line — rare and above */
+.museum-frame .gilt-ring {
+  inset: 13px;
+  border: 1px solid rgba(200, 150, 60, 0.5);
+}
+.tier-rare .gilt-ring,
+.tier-legendary .gilt-ring { opacity: 1; }
+/* Corner rosettes — epic / legendary */
+.museum-frame .ros {
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #4a3c20, #2a2210);
+  border: 1px solid #6a5530;
+  transform: rotate(45deg);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.6), 0 0 6px rgba(200,150,60,0.15);
+}
+.museum-frame .ros::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid #8a6d2e;
+}
+.museum-frame .ros-tl { top: -12px; left: -12px; }
+.museum-frame .ros-tr { top: -12px; right: -12px; }
+.museum-frame .ros-bl { bottom: -12px; left: -12px; }
+.museum-frame .ros-br { bottom: -12px; right: -12px; }
+.tier-legendary .ros { opacity: 1; }
+/* Crest flourishes on top/bottom rails — epic / legendary */
+.museum-frame .crest {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 46px;
+  height: 13px;
+}
+.museum-frame .crest::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #6a5530;
+  transform: translateY(-50%);
+}
+.museum-frame .crest::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: linear-gradient(135deg, #8a6d2e, #4a3810);
+  border: 1px solid #3e2f10;
+  z-index: 1;
+}
+.museum-frame .crest-top { top: -7px; }
+.museum-frame .crest-bottom { bottom: -7px; }
+.tier-rare .crest,
+.tier-legendary .crest { opacity: 1; }
+/* Faint gold aura on the whole frame — epic / legendary */
+.museum-frame.tier-legendary {
+  box-shadow:
+    0 0 0 1px #14120a,
+    inset 0 0 0 1px #4a4030,
+    inset 0 0 12px rgba(0,0,0,0.6),
+    0 14px 32px -22px rgba(0,0,0,0.75),
+    0 0 30px rgba(200,150,60,0.10);
+}
+.museum-card {
+  /* As large as the viewport allows, but never upscaled past the scan's real size */
+  width: min(600px, 80vw, calc((100vh - 330px) * 5 / 7), var(--nat-w, 9999px));
+  aspect-ratio: var(--card-ratio);
+  background: linear-gradient(135deg, #2e2618 0%, #1e1a10 40%, #2a2214 60%, #1a1608 100%);
+  position: relative;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+.museum-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  display: block;
+}
+.museum-card img.loaded { opacity: 1; }
+/* Stage-level wait ring — shown when the frame is dipped and the image is slow */
+.museum-wait {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s 0.4s; /* only appears on genuinely slow loads */
+  pointer-events: none;
+  z-index: 6;
+}
+.museum-wait.on { opacity: 1; }
+.museum-card-missing {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--text-dim);
+  font-size: 14px;
+  text-align: center;
+  padding: 16px;
+}
+/* Placard beneath the frame — fixed height, never shifts the frame */
+.museum-placard {
+  margin-top: 30px;
+  text-align: center;
+  height: 72px;          /* fixed — enough for name + set + artist */
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.2s ease;
+}
+/* Frame fades through black between cards */
+.museum-frame-wrap {
+  position: relative;
+}
+/* Dip overlay lives on exhibit so it covers frame border AND card */
+.museum-exhibit {
+  position: relative;
+  transition: opacity 0.45s ease;
+}
+.museum-exhibit.dipping { opacity: 0; }
+.museum-card-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px;
+  font-weight: 400;
+  color: var(--text-mid);
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+}
+.museum-card-set {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 5px;
+}
+.museum-artist {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: #6e6047;
+  letter-spacing: 0.04em;
+  margin-top: 6px;
+}
+.museum-hint {
+  position: absolute;
+  bottom: 16px;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #2e2a22;
+  pointer-events: none;
+}
+
+/* ── How to Play embed section ─────────────────── */
+.video-section-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 36px;
+}
+.video-embed-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.video-embed-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ── Sort select ───────────────────────────────── */
+.sort-select { max-width: 190px; }
+
+/* ── Stats panel ───────────────────────────────── */
+.db-stats-toggle {
+  background: var(--surface);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-family: 'Onest', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.db-stats-toggle:hover { background: var(--surface2); }
+.db-stats-toggle.open { background: var(--surface2); color: var(--text); }
+.db-stats-panel {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  margin-bottom: 16px;
+}
+.db-stats-panel.open { display: grid; }
+.db-stats-col-title {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.db-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-mid);
+  padding: 3px 0;
+}
+.db-stat-bar-wrap { flex: 1; height: 4px; background: var(--surface2); min-width: 40px; }
+.db-stat-bar { height: 100%; background: var(--gold-dim); }
+.db-stat-count { color: var(--text-dim); font-size: 11px; flex-shrink: 0; min-width: 44px; text-align: right; }
+.db-stat-name { min-width: 90px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── Modal prev/next navigation ────────────────── */
+.modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(20,18,16,0.85);
+  border: 1px solid var(--border2);
+  color: var(--text-mid);
+  font-size: 22px;
+  width: 40px;
+  height: 56px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  line-height: 1;
+}
+.modal-nav:hover { color: var(--gold); border-color: var(--gold-dim); }
+.modal-nav:disabled { opacity: 0.2; cursor: default; }
+.modal-nav-prev { left: -56px; }
+.modal-nav-next { right: -56px; }
+/* Arrows sit outside the modal, so modal must not clip; info panel scrolls instead */
+.modal { overflow: visible; }
+.modal-info { overflow-y: auto; max-height: calc(90vh - 80px); padding-right: 4px; }
+
 /* ── Scrollbar ─────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
@@ -1349,7 +2146,8 @@ footer {
   /* Home game grid — single column */
   .game-grid { grid-template-columns: 1fr; gap: 12px; }
   .game-tile-name { font-size: 22px; }
-  .game-tile-body { padding: 20px 18px 18px; }
+  .game-tile-body { padding: 12px 16px 12px; }
+  .game-tile-row1 { flex-wrap: wrap; }
 
   /* Game hero banner */
   .game-page-hero { height: 180px; }
@@ -1422,6 +2220,40 @@ footer {
   /* Section title */
   .section-title { font-size: 26px; }
 
+  /* Card preview on mobile — tighter mini frames */
+  .card-preview-grid { gap: 8px; }
+  .card-preview-item { padding: 4px; }
+
+  /* Museum on mobile */
+  .museum-page {
+    min-height: calc(100vh - 50px);
+    min-height: calc(100dvh - 50px);
+    padding: 64px 12px 40px;
+  }
+  .museum-stage { gap: 4px; }
+  .museum-stage::before,
+  .museum-stage::after { width: 9vw; } /* keep nav arrows out of the edge fade */
+  .museum-nav { width: 40px; height: 40px; font-size: 28px; }
+  .museum-card { width: min(86vw, calc((100vh - 300px) * 5 / 7), var(--nat-w, 9999px)); }
+  .museum-frame { padding: 12px; }
+  .museum-hint { display: none; }
+  .launch-btn { padding: 14px 16px; }
+  .launch-btn-title { font-size: 20px; }
+
+  /* Fixed back button sits below the shorter mobile header */
+  .db-back-bar { top: 50px; padding: 8px 12px; }
+
+  /* Modal nav on mobile — inside edges */
+  .modal-nav-prev { left: 4px; }
+  .modal-nav-next { right: 4px; }
+
+  /* DB filter controls on mobile */
+  .db-search-row { flex-wrap: wrap; }
+  .db-search-main { min-width: 0; flex: 1 1 200px; }
+  .btn-random { flex: 0 0 auto; }
+  .db-bottom-row { flex-wrap: wrap; gap: 8px; }
+  .db-right-controls { flex-wrap: wrap; gap: 8px; }
+
   /* Footer */
   footer {
     flex-direction: column;
@@ -1433,6 +2265,20 @@ footer {
   .footer-github-label { display: none; }
   .footer-github { width: 32px; padding: 0; }
 }
+
+/* ══════════════════════════════════════════════════
+   SMALL MOBILE — trim card preview edges
+══════════════════════════════════════════════════ */
+/* Too narrow for 7 frames: drop the outermost pair (5 remain) */
+@media (max-width: 560px) {
+  .card-preview-grid .card-preview-item:first-child,
+  .card-preview-grid .card-preview-item:last-child { display: none; }
+}
+/* Very narrow: drop the next pair too (3 remain) */
+@media (max-width: 400px) {
+  .card-preview-grid .card-preview-item:nth-child(2),
+  .card-preview-grid .card-preview-item:nth-last-child(2) { display: none; }
+}
 </style>
 </head>
 <body>
@@ -1442,6 +2288,23 @@ footer {
   <nav class="breadcrumb" id="breadcrumb"></nav>
 </header>
 
+<noscript>
+  <div style="font-family:sans-serif;max-width:700px;margin:60px auto;padding:0 24px;color:#ede8dc;background:#0a0908">
+    <h1 style="font-size:32px;font-weight:300;letter-spacing:0.1em;margin-bottom:8px">Zarthbenn's TCG Vault</h1>
+    <p style="color:#9a7232;margin-bottom:24px">An archive of out-of-print trading card games with link hubs and card databases.</p>
+    <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:16px">
+      <li><strong>Dune CCG</strong> (Last Unicorn Games, 1997–1998) — Command an Imperial House through a web of politics and desert warfare to master the flow of spice.</li>
+      <li><strong>World of Warcraft TCG</strong> (Upper Deck Entertainment, 2006–2013) — Lead legendary champions through epic quests to claim powerful loot and secure your faction's dominance.</li>
+      <li><strong>Quest for the Grail CCG</strong> (Horizon Games &amp; Stone Ring Games, 1995) — Build an Arthurian kingdom and lead legendary knights through trials of valor.</li>
+      <li><strong>Warhammer 40,000 CCG</strong> (Sabertooth Games, 2001–2003) — Command a powerful army through brutal sector assaults to conquer battlegrounds.</li>
+      <li><strong>Harry Potter TCG</strong> (Wizards of the Coast, 2001–2002) — Cast spells and play magical creatures to duel your opponent.</li>
+      <li><strong>Age of Empires ECG</strong> (Journeyman Press, 1999–2001) — Manage your resources to lead your civilization to victory.</li>
+      <li><strong>Star Wars CCG</strong> (Decipher Inc., 1999–2001) — Control the flow of the force to play iconic characters and vehicles from across the galaxy.</li>
+      <li><strong>Lord of the Rings TCG</strong> (Decipher Inc., 2001–2007) — Lead your fellowship on a journey to destroy the one ring.</li>
+    </ul>
+    <p style="margin-top:24px;color:#6e6456;font-size:13px">JavaScript is required to use the full card database and archive features.</p>
+  </div>
+</noscript>
 <div id="app"></div>
 
 <!-- Card modal -->
@@ -1453,6 +2316,11 @@ footer {
   </div>
 </div>
 
+<!-- Card preview lightbox -->
+<div class="card-lightbox" id="card-lightbox">
+  <img id="card-lightbox-img" src="" alt="">
+</div>
+
 <footer>
   <button class="footer-about-btn" id="footer-about-btn">About</button>
   <div class="footer-socials">
@@ -1460,14 +2328,14 @@ footer {
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
       <span class="footer-github-label">View on GitHub</span>
     </a>
+    <a href="https://ko-fi.com/zarthbenn" class="footer-social" title="Support on Ko-fi" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z"/></svg>
+    </a>
     <a href="https://www.youtube.com/@Zarthbenn" class="footer-social" title="YouTube" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
     </a>
-    <a href="https://x.com/Zarthbenn" class="footer-social" title="Twitter / X" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
-    </a>
-    <a href="https://bsky.app/profile/zarthbenn.bsky.social" class="footer-social" title="Bluesky" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.299-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"/></svg>
+    <a href="https://nikitadubinin.com/" class="footer-social" title="Video Portfolio" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
     </a>
   </div>
 </footer>
@@ -1476,23 +2344,8 @@ footer {
 <div class="about-modal-bg" id="about-modal-bg">
   <div class="about-modal">
     <button class="about-modal-close" id="about-modal-close">✕</button>
-    <div class="about-eyebrow">Zarthbenn's TCG Vault</div>
-    <div class="about-heading">My archive for<br>out-of-print card games</div>
-    <div class="about-body" id="about-body">Through working on the various rules videos on my youtube channel I have collected a wide set of resources, links and card scans. This site aims to store all that information and more for anyone to view and use.</div>
-    <div class="about-stats">
-      <div class="about-stat">
-        <div class="about-stat-val" id="about-games">—</div>
-        <div class="about-stat-label">Games</div>
-      </div>
-      <div class="about-stat">
-        <div class="about-stat-val" id="about-sets">—</div>
-        <div class="about-stat-label">Sets</div>
-      </div>
-      <div class="about-stat">
-        <div class="about-stat-val" id="about-cards">—</div>
-        <div class="about-stat-label">Cards</div>
-      </div>
-    </div>
+    <div class="about-logo-title">Zarthbenn's <em>TCG Vault</em></div>
+    <div class="about-body" id="about-body">Through working on rules videos on my channel I collected a wide set of resources, links and card scans. This site aims to store all that information and more for anyone to freely view and use.</div>
   </div>
 </div>
 
@@ -1506,13 +2359,7 @@ const state = {
   currentSet: null,
   loadedDbs: {}
 };
-let gridColWidth = (() => {
-  // Fill edge to edge: page max-width 1400px with 40px padding each side = 1320px usable
-  // Target ~150px per card to fill the row
-  const usable = Math.min(window.innerWidth, 1400) - 80;
-  const cols = Math.floor(usable / 150);
-  return Math.floor(usable / cols) - 6; // subtract gap
-})();
+let gridColWidth = 150;
 
 // ── sql.js init ───────────────────────────────────────────
 const SQL_READY = initSqlJs({
@@ -1525,6 +2372,23 @@ async function boot() {
     const res = await fetch('games.json');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     state.games = await res.json();
+
+    // Deep link: #game=id&sets=...&q=... restores a shared database view
+    const hashState = parseDbHash();
+    if (hashState) {
+      const game = state.games.find(g => g.id === hashState.game);
+      if (game && game.db) {
+        try {
+          document.getElementById('app').innerHTML =
+            `<div class="page"><div class="state-msg"><span class="loading-ring"></span>Loading ${game.name}…</div></div>`;
+          const db = await loadGameDb(game);
+          state.currentGame = game;
+          state.db = db;
+          renderGameDb(game, db, null, hashState);
+          return;
+        } catch(e) { /* fall through to home */ }
+      }
+    }
     renderHome();
   } catch (e) {
     document.getElementById('app').innerHTML = `
@@ -1569,6 +2433,7 @@ function setBreadcrumb(crumbs) {
 
 // ── HOME ──────────────────────────────────────────────────
 function renderHome() {
+  clearDbHash();
   state.currentGame = null;
   state.currentSet = null;
   state.db = null;
@@ -1583,58 +2448,62 @@ function renderHome() {
     grid.innerHTML = `<div class="state-msg"><h3>No games in archive yet</h3><p>Add entries to games.json to get started.</p></div>`;
     return;
   }
-  state.games.forEach(game => {
+  const sortedGames = [...state.games].sort((a, b) => a.name.localeCompare(b.name));
+  sortedGames.forEach(game => {
     const tile = document.createElement('div');
     tile.className = 'game-tile';
     tile.style.setProperty('--game-color', game.cover_color || '#c8963c');
 
     const heroInner = game.hero_image
-      ? `<img src="${game.hero_image}" alt="${game.name}" onerror="tileImgFallback(this,'${game.name.replace(/'/g,"\\'")}'">`
+      ? `<img src="${game.hero_image}" alt="${game.name}" onerror="tileImgFallback(this, '${game.name.replace(/'/g, "\\'")}')">`
       : `<div class="game-tile-hero-fallback"><span>${game.name}</span></div>`;
     const tileLogoHtml = game.logo_image
       ? `<div class="game-tile-logo"><img src="${game.logo_image}" alt="${game.name} logo"></div>`
       : '';
 
-    const metaParts = [game.publisher, game.years_active].filter(Boolean);
+    const hasDb = !!game.db;
 
     tile.innerHTML = `
       <div class="game-tile-hero">${heroInner}${tileLogoHtml}</div>
       <div class="game-tile-body">
-        <div class="game-tile-name">${game.name}<span class="game-tile-name-arrow">→</span></div>
-        <div class="game-tile-meta">${metaParts.join(' · ')}</div>
-        ${game.notes ? `<div class="game-tile-notes">${game.notes}</div>` : ''}
-        <div class="game-tile-card-count" id="count-${game.id}"></div>
+        <div class="game-tile-name">
+          ${game.name}<span class="game-tile-name-arrow">→</span>
+        </div>
+        <hr class="game-tile-divider">
+        <div class="game-tile-row1">
+          ${game.years_active ? `<span class="game-tile-meta-text" style="flex-shrink:0">${game.years_active}</span>` : ''}
+          ${game.years_active && game.publisher ? `<span class="game-tile-meta-sep">·</span>` : ''}
+          ${game.publisher ? `<span class="game-tile-meta-text" style="overflow:hidden;text-overflow:ellipsis;min-width:0">${game.publisher}</span>` : ''}
+        </div>
+        <div class="game-tile-row2">
+          <div class="game-tile-count-chips" id="count-${game.id}"></div>
+          ${hasDb ? `<span class="game-tile-db-tag">Card database</span>` : ''}
+        </div>
       </div>`;
 
     tile.addEventListener('click', () => openGame(game, tile));
     grid.appendChild(tile);
 
-    loadGameDb(game).then(db => {
-      const row = q(db, `SELECT COUNT(DISTINCT s.id) as set_count, COUNT(c.id) as card_count
-        FROM sets s LEFT JOIN cards c ON c.set_id = s.id`)[0];
-      const el = document.getElementById(`count-${game.id}`);
-      if (el && row) {
-        const parts = [];
-        if (row.set_count)  parts.push(`${row.set_count} sets`);
-        if (row.card_count) parts.push(`${row.card_count} cards`);
-        el.textContent = parts.join(' · ');
-      }
-      // Recompute aggregate totals for about modal
-      let totalSets = 0, totalCards = 0;
-      state.games.forEach(g => {
-        const d = state.loadedDbs[g.db];
-        if (!d) return;
-        const r = q(d, `SELECT COUNT(DISTINCT s.id) as sc, COUNT(c.id) as cc
+    // Per-tile set/card counts. Priority:
+    //   1. Manual sets_count / cards_count from games.json (no download — best for many games)
+    //   2. Query the DB (downloads the full .db just for counts — fine for a few games)
+    const renderCount = (el, sets, cards) => {
+      if (!el) return;
+      const parts = [];
+      if (sets)  parts.push(`<span class="game-tile-count-text">${sets} sets</span>`);
+      if (cards) parts.push(`<span class="game-tile-count-text">${cards} cards</span>`);
+      el.innerHTML = parts.join('<span class="game-tile-count-sep">·</span>');
+    };
+    const countEl = () => document.getElementById(`count-${game.id}`);
+    if (game.sets_count || game.cards_count) {
+      renderCount(countEl(), game.sets_count, game.cards_count);
+    } else if (game.db) {
+      loadGameDb(game).then(db => {
+        const row = q(db, `SELECT COUNT(DISTINCT s.id) as set_count, COUNT(c.id) as card_count
           FROM sets s LEFT JOIN cards c ON c.set_id = s.id`)[0];
-        if (r) { totalSets += r.sc || 0; totalCards += r.cc || 0; }
-      });
-      const gEl = document.getElementById('about-games');
-      const sEl = document.getElementById('about-sets');
-      const cEl = document.getElementById('about-cards');
-      if (gEl) gEl.textContent = state.games.length;
-      if (sEl && totalSets)  sEl.textContent = totalSets.toLocaleString();
-      if (cEl && totalCards) cEl.textContent = totalCards.toLocaleString();
-    }).catch(() => {});
+        if (row) renderCount(countEl(), row.set_count, row.card_count);
+      }).catch(() => {});
+    }
   });
 }
 
@@ -1643,6 +2512,15 @@ async function openGame(game, tileEl) {
   if (tileEl) {
     tileEl.style.opacity = '0.6';
     tileEl.innerHTML += `<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"><span class="loading-ring"></span></span>`;
+  }
+  // If show_sets is false and no db is specified, render without DB using manual counts
+  if (game.show_sets === false && !game.db) {
+    state.currentGame = game;
+    state.db = null;
+    state.currentSet = null;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    renderGame(game, null);
+    return;
   }
   try {
     const db = await loadGameDb(game);
@@ -1665,17 +2543,37 @@ function renderLinkList(links) {
   ).join('')}</ul>`;
 }
 
+// ── Daily pick cache ──────────────────────────────────────
+// Random image picks (overview panel, preview row, set tile backgrounds) are
+// cached per game for 24h. Repeat visits then request the SAME URLs, letting the
+// browser's HTTP cache absorb them instead of hitting Google Drive again.
+function dailyPicks(gameId, key, computeFn) {
+  const storeKey = `tcgvault:picks:${gameId}`;
+  let entry = null;
+  try { entry = JSON.parse(localStorage.getItem(storeKey)); } catch(e) {}
+  if (!entry || Date.now() - entry.t > 24 * 3600 * 1000) entry = { t: Date.now() };
+  if (entry[key] === undefined) {
+    entry[key] = computeFn();
+    try { localStorage.setItem(storeKey, JSON.stringify(entry)); } catch(e) {}
+  }
+  return entry[key];
+}
+
 function renderGame(game, db) {
-  const sets = q(db, `
+  clearDbHash();
+  const sets = db ? q(db, `
     SELECT s.*, (SELECT COUNT(*) FROM cards WHERE set_id = s.id) as card_count
-    FROM sets s ORDER BY s.id ASC`);
+    FROM sets s ORDER BY s.id ASC`) : [];
 
   setBreadcrumb([
     { label: 'Archive', onClick: `renderHome` },
     { label: game.name }
   ]);
 
-  const totalCards = sets.reduce((a, s) => a + (s.card_count || 0), 0);
+  const totalCards = db
+    ? sets.reduce((a, s) => a + (s.card_count || 0), 0)
+    : (game.cards_count ?? '—');
+  const setsCount = db ? sets.length : (game.sets_count ?? '—');
 
   const gc = game.cover_color || '#8a6628';
 
@@ -1694,7 +2592,7 @@ function renderGame(game, db) {
   const facts = [];
   if (game.publisher)    facts.push({ label: 'Publisher',    val: game.publisher });
   if (game.years_active) facts.push({ label: 'Years Active', val: game.years_active });
-  facts.push({ label: 'Sets',  val: sets.length });
+  facts.push({ label: 'Sets',  val: setsCount });
   facts.push({ label: 'Cards', val: totalCards });
   const designerChits = game.designers?.length
     ? `<div class="game-fact-designers">
@@ -1715,10 +2613,11 @@ function renderGame(game, db) {
   // ── Overview + cycling card panel ──────────────
   let overviewHtml = '';
   if (game.overview) {
-    const cardImgs = q(db,
+    const cardImgs = db ? dailyPicks(game.id, 'overview', () => q(db,
       `SELECT image_url FROM cards
        WHERE image_url IS NOT NULL AND image_url != ''
-       ORDER BY RANDOM() LIMIT 3`);
+       ORDER BY RANDOM() LIMIT 3`))
+      : (game.preview_cards || []).filter(p => p.url?.trim()).slice(0, 3).map(p => ({ image_url: p.url }));
     const panelHtml = cardImgs.length ? `
       <div class="overview-card-panel" id="overview-panel">
         ${cardImgs.map((r, i) => `
@@ -1803,15 +2702,21 @@ function renderGame(game, db) {
 
   // ── Set tiles ──────────────────────────────────
   const showSets = game.show_sets !== false;
+  const setBgPicks = showSets && db ? dailyPicks(game.id, 'setBg', () => {
+    const m = {};
+    sets.forEach(s => {
+      const r = q(db, `SELECT image_url FROM cards WHERE set_id = ? AND image_url IS NOT NULL AND image_url != ''
+        ORDER BY RANDOM() LIMIT 1`, [s.id]);
+      if (r.length) m[s.id] = r[0].image_url;
+    });
+    return m;
+  }) : {};
   const setsHtml = showSets ? sets.map(s => {
-    const imgRow = q(db,
-      `SELECT image_url FROM cards WHERE set_id = ? AND image_url IS NOT NULL AND image_url != ''
-       ORDER BY RANDOM() LIMIT 1`, [s.id]);
-    const bgImg = imgRow.length
-      ? `<img class="set-tile-bg-img" src="${imgRow[0].image_url}" alt="" loading="lazy">`
+    const bgImg = setBgPicks[s.id]
+      ? `<img class="set-tile-bg-img" src="${setBgPicks[s.id]}" alt="" loading="lazy">`
       : '';
     return `
-    <div class="set-tile" onclick="openSet(${s.id})">
+    <div class="set-tile" onclick="renderGameDb(state.currentGame, state.db, ${s.id})">
       <div class="set-tile-bg">${bgImg}</div>
       <div class="set-tile-body">
         <div class="set-tile-top">
@@ -1828,6 +2733,89 @@ function renderGame(game, db) {
     </div>`;
   }).join('') : '';
 
+  // ── Card Preview ────────────────────────────────
+  // When show_sets is false, manual preview cards can be set in games.json:
+  // "preview_cards": [
+  //   { "url": "https://...", "name": "Card Name" },
+  //   ...
+  // ]
+  const manualPreview = !showSets && game.preview_cards?.length;
+  const previewCards = manualPreview
+    ? game.preview_cards.slice(0, 6).map(p => ({ id: null, name: p.name || '', image_url: p.url, manual: true }))
+    : (db ? dailyPicks(game.id, 'preview', () =>
+        q(db, `SELECT id, name, card_type, rarity, image_url, collector_number FROM cards WHERE image_url IS NOT NULL AND image_url != '' ORDER BY RANDOM() LIMIT 6`)) : []);
+
+  const makePreviewItem = (card) => {
+    const idAttr = card.id ? `data-preview-id="${card.id}"` : '';
+    const urlAttr = card.image_url ? `data-preview-url="${card.image_url}"` : '';
+    const nameAttr = `data-preview-name="${(card.name || '').replace(/"/g,'&quot;')}"`;
+    // Broken/missing images leave an empty, non-clickable frame
+    const inner = card.image_url
+      ? `<img src="${card.image_url}" alt="${card.name || ''}" loading="lazy" onerror="previewImgRetry(this)">`
+      : '';
+    return `<div class="card-preview-item" ${idAttr} ${urlAttr} ${nameAttr}>${inner}</div>`;
+  };
+
+  const cardBackCenter = game.card_back_image
+    ? `<div class="card-preview-item card-back-center" data-preview-url="${game.card_back_image}" data-preview-name="Card Back"><img src="${game.card_back_image}" alt="Card back" loading="lazy" onerror="previewImgRetry(this)"></div>`
+    : '';
+
+  const previewLeft  = previewCards.slice(0, 3);
+  const previewRight = previewCards.slice(3, 6);
+
+  // Museum: every card with an image, viewed one at a time in random order.
+  // Only offered for games with card sets (show_sets not false).
+  const museumCount = (showSets && db)
+    ? (q(db, `SELECT COUNT(*) AS n FROM cards WHERE image_url IS NOT NULL AND image_url != ''`)[0]?.n || 0)
+    : 0;
+
+  const museumBtnHtml = museumCount > 0 ? `
+    <div class="museum-launch">
+      <button class="launch-btn" onclick="renderMuseum(state.currentGame)">
+        <div class="launch-btn-left">
+          <span class="launch-btn-title">View Museum for <span class="launch-game-name">${game.name}</span></span>
+          <span class="launch-btn-stats">${museumCount.toLocaleString()} cards</span>
+        </div>
+        <span class="launch-arrow">→</span>
+      </button>
+    </div>` : '';
+
+  const cardPreviewHtml = (previewCards.length || game.card_back_image) ? `
+    <div class="section-title">Card Preview</div>
+    <div class="card-preview-grid">
+      ${previewLeft.map(makePreviewItem).join('')}
+      ${cardBackCenter}
+      ${previewRight.map(makePreviewItem).join('')}
+    </div>
+    ${museumBtnHtml}` : museumBtnHtml;
+
+  // ── How to Play Video embed ─────────────────────
+  // Show embeds from how_to_play_videos unless show_video_section: false
+  // To disable: add "show_video_section": false to the game in games.json
+  function getYtId(url) {
+    const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([-\w]{11})/);
+    return m ? m[1] : null;
+  }
+  let videoSectionHtml = '';
+  if (game.show_video_section !== false) {
+    const firstVideo = (game.how_to_play_videos || []).find(v => v.url && getYtId(v.url));
+    if (firstVideo) {
+      videoSectionHtml = `
+        <div class="section-title">How To Play Video</div>
+        <div class="video-section-grid">
+          <div class="video-embed-wrap">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/${getYtId(firstVideo.url)}"
+              title="${firstVideo.label || 'How To Play Video'}"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+        </div>`;
+    }
+  }
+
   document.getElementById('app').innerHTML = `
     ${heroHtml}
     <div class="page game-page" style="--game-color: ${gc}">
@@ -1842,22 +2830,311 @@ function renderGame(game, db) {
           ${infoRowHtml}
           ${scanCommunityHtml}
         </div>
+        ${cardPreviewHtml}
+        ${videoSectionHtml}
       </div>
       ${showSets ? `
-      <div class="section-title">Card Sets</div>
+      <div class="section-title">Card Database</div>
+      <div class="game-db-launch">
+        <button class="launch-btn" onclick="renderGameDb(state.currentGame, state.db)">
+          <div class="launch-btn-left">
+            <span class="launch-btn-title">View Card Database for <span class="launch-game-name">${game.name}</span></span>
+            <span class="launch-btn-stats">${setsCount} sets · ${totalCards} cards</span>
+          </div>
+          <span class="launch-arrow">→</span>
+        </button>
+      </div>
       <div class="set-list">${setsHtml || '<p style="color:var(--text-dim)">No sets found.</p>'}</div>` : ''}
     </div>`;
 
-  // Start cycling the overview card panel
+  // Start cycling the overview card panel (clear any cycler from a previous game page)
+  clearInterval(window._overviewCycler);
   const panelSlides = document.querySelectorAll('.overview-card-slide');
   if (panelSlides.length > 1) {
     let cur = 0;
-    setInterval(() => {
+    window._overviewCycler = setInterval(() => {
+      if (!document.body.contains(panelSlides[0])) { clearInterval(window._overviewCycler); return; }
       panelSlides[cur].classList.remove('active');
       cur = (cur + 1) % panelSlides.length;
       panelSlides[cur].classList.add('active');
     }, 3500);
   }
+
+  // Card preview — open lightbox on click (checked at click time: broken images clear the URL)
+  document.querySelectorAll('.card-preview-item[data-preview-url]').forEach(el => {
+    el.addEventListener('click', () => {
+      if (!el.dataset.previewUrl) return;
+      const lb  = document.getElementById('card-lightbox');
+      const img = document.getElementById('card-lightbox-img');
+      img.src = el.dataset.previewUrl;
+      img.alt = el.dataset.previewName || '';
+      lb.classList.add('open');
+    });
+  });
+}
+
+// ── CARD MUSEUM ───────────────────────────────────────────
+// Full-screen gallery: every card with an image, shuffled, one at a time.
+let museumState = null; // { game, cards, idx, loadToken, keyHandler }
+
+// Google Drive thumbnails are stored at sz=w350 for grids; the museum
+// swaps in a full-size render.
+function museumHiRes(url) {
+  if (!url) return url;
+  if (/drive\.google\.com\/thumbnail/.test(url)) {
+    return /sz=w\d+/.test(url)
+      ? url.replace(/sz=w\d+/, 'sz=w2000')
+      : url + (url.includes('?') ? '&' : '?') + 'sz=w2000';
+  }
+  return url;
+}
+
+function shuffleArr(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Map a card's rarity text to a frame tier. Unknown/missing → common (baseline frame).
+function museumFrameTier(rarity) {
+  if (!rarity) return 'common';
+  const r = String(rarity).toLowerCase();
+  if (/legend|epic|mythic|ultra|loot|promo|special/.test(r)) return 'legendary';
+  if (/uncommon/.test(r)) return 'uncommon';
+  if (/rare/.test(r)) return 'rare';
+  return 'common';
+}
+
+function renderMuseum(game) {
+  clearDbHash();
+  const db = (game.db && state.loadedDbs[game.db]) || state.db;
+  let cards;
+  if (db) {
+    cards = q(db, `
+      SELECT c.id, c.name, c.artist, c.rarity, c.image_url, s.name AS set_name
+      FROM cards c LEFT JOIN sets s ON s.id = c.set_id
+      WHERE c.image_url IS NOT NULL AND c.image_url != ''
+      ORDER BY RANDOM()`);
+  } else {
+    cards = shuffleArr((game.preview_cards || [])
+      .filter(p => p.url && p.url.trim() !== '')
+      .map(p => ({ id: null, name: p.name || '', artist: p.artist || '', rarity: p.rarity || '', image_url: p.url, set_name: '' })));
+  }
+  if (!cards.length) return;
+
+  // Clean up a previous session's key handler (e.g. museum exited via breadcrumb)
+  if (museumState?.keyHandler) document.removeEventListener('keydown', museumState.keyHandler, true);
+  museumState = { game, cards, idx: 0, loadToken: 0 };
+  state.currentSet = null;
+
+  setBreadcrumb([
+    { label: 'Archive', onClick: `renderHome` },
+    { label: game.name, onClick: `() => renderGame(state.currentGame, state.db)` },
+    { label: 'Museum' }
+  ]);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
+  document.getElementById('app').innerHTML = `
+    <div class="museum-page" id="museum-page">
+      <div class="museum-top">
+        <button class="museum-back" onclick="exitMuseum()">← ${game.name}</button>
+        <div class="museum-top-right">
+          <button class="museum-shuffle" onclick="museumReshuffle()" title="Reshuffle the gallery">⤮ Shuffle</button>
+          <span class="museum-pos" id="museum-pos"></span>
+        </div>
+      </div>
+
+      <div class="museum-stage">
+        <span class="museum-wait" id="museum-wait"><span class="loading-ring"></span></span>
+        <button class="museum-nav" onclick="museumStep(-1)" aria-label="Previous card">‹</button>
+
+        <div>
+          <div class="museum-exhibit">
+            <div class="museum-frame-wrap" id="museum-frame-wrap">
+              <div class="museum-frame tier-common" id="museum-frame">
+                <span class="orn bead-ring"></span>
+                <span class="orn gilt-ring"></span>
+                <span class="orn ros ros-tl"></span><span class="orn ros ros-tr"></span>
+                <span class="orn ros ros-bl"></span><span class="orn ros ros-br"></span>
+                <span class="orn crest crest-top"></span>
+                <span class="orn crest crest-bottom"></span>
+                <div class="museum-card" id="museum-card" title="Click to enlarge">
+                  <img id="museum-img" src="" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="museum-placard">
+            <div class="museum-card-name" id="museum-name"></div>
+            <div class="museum-card-set" id="museum-set"></div>
+            <div class="museum-artist" id="museum-artist"></div>
+          </div>
+        </div>
+
+        <button class="museum-nav" onclick="museumStep(1)" aria-label="Next card">›</button>
+      </div>
+
+      <div class="museum-hint">← → browse &nbsp;·&nbsp; esc exit &nbsp;·&nbsp; click card to enlarge</div>
+    </div>`;
+
+  // Full-size view in the existing lightbox
+  document.getElementById('museum-card').addEventListener('click', () => {
+    const card = museumState.cards[museumState.idx];
+    const lb  = document.getElementById('card-lightbox');
+    const img = document.getElementById('card-lightbox-img');
+    img.src = museumHiRes(card.image_url);
+    img.alt = card.name || '';
+    lb.classList.add('open');
+  });
+
+  // Keyboard: arrows browse, Escape exits (unless the lightbox is up).
+  // Capture phase so we see Escape before the global handler closes the lightbox.
+  museumState.keyHandler = e => {
+    if (!document.getElementById('museum-page')) {
+      document.removeEventListener('keydown', museumState?.keyHandler, true);
+      museumState = null;
+      return;
+    }
+    if (e.key === 'ArrowLeft')  { museumStep(-1); }
+    if (e.key === 'ArrowRight') { museumStep(1); }
+    if (e.key === 'Escape' && !document.getElementById('card-lightbox').classList.contains('open')) {
+      exitMuseum();
+    }
+  };
+  document.addEventListener('keydown', museumState.keyHandler, true);
+
+  // Swipe navigation on touch devices
+  let touchX = null;
+  const stage = document.querySelector('.museum-stage');
+  stage.addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+  stage.addEventListener('touchend', e => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 48) museumStep(dx < 0 ? 1 : -1);
+    touchX = null;
+  }, { passive: true });
+
+  museumShow(0);
+}
+
+function museumShow(idx) {
+  const ms = museumState;
+  if (!ms) return;
+  const n = ms.cards.length;
+  ms.idx = ((idx % n) + n) % n;
+  const card = ms.cards[ms.idx];
+
+  document.getElementById('museum-pos').textContent =
+    `${(ms.idx + 1).toLocaleString()} / ${n.toLocaleString()}`;
+
+  const holder  = document.getElementById('museum-card');
+  const img     = document.getElementById('museum-img');
+  const exhibit = document.querySelector('.museum-exhibit');
+  const placard = document.querySelector('.museum-placard');
+
+  // Kick off the dip — exhibit (including spotlight) fades to black
+  if (exhibit) exhibit.classList.add('dipping');
+  if (placard) { placard.style.transition = 'opacity 0.45s ease'; placard.style.opacity = '0'; }
+
+  const url   = museumHiRes(card.image_url);
+  const token = ++ms.loadToken;
+
+  // We gate the reveal on BOTH conditions being true:
+  // (a) the 450ms dip has fully completed, AND (b) the image has loaded.
+  // This way cached/preloaded images never swap while the frame is still fading.
+  let dipDone  = false;
+  let imgReady = false;
+  let loadedImg = null;
+  let loadErr   = false;
+
+  function tryReveal() {
+    if (!dipDone || !imgReady) return;   // wait for both gates
+    if (token !== ms.loadToken) return;  // navigation moved on, abort
+    document.getElementById('museum-wait')?.classList.remove('on');
+
+    // Swap content now — the frame is fully black so no visible pop
+    const frameEl = document.getElementById('museum-frame');
+    if (frameEl) frameEl.className = 'museum-frame tier-' + museumFrameTier(card.rarity);
+    holder.querySelectorAll('.museum-card-missing').forEach(el => el.remove());
+    img.classList.remove('loaded');
+
+    if (loadErr) {
+      img.removeAttribute('src');
+      const msg = document.createElement('div');
+      msg.className = 'museum-card-missing';
+      msg.textContent = 'Card image unavailable';
+      holder.appendChild(msg);
+    } else {
+      holder.style.setProperty('--nat-w', loadedImg.naturalWidth + 'px');
+      img.src = url;
+      img.alt = card.name || '';
+    }
+
+    document.getElementById('museum-name').textContent   = card.name || 'Untitled';
+    document.getElementById('museum-set').textContent    = card.set_name || '';
+    document.getElementById('museum-artist').textContent = card.artist ? `Art by ${card.artist}` : '';
+
+    requestAnimationFrame(() => {
+      if (!loadErr) img.classList.add('loaded');
+      if (exhibit) exhibit.classList.remove('dipping');
+      if (placard) placard.style.opacity = '';
+    });
+  }
+
+  // Gate (a): dip duration — if the image is still loading once dark, show the wait ring
+  setTimeout(() => {
+    dipDone = true;
+    if (!imgReady && token === ms.loadToken) document.getElementById('museum-wait')?.classList.add('on');
+    tryReveal();
+  }, 450);
+
+  // Gate (b): image load — retry twice with backoff (Drive rate limits are transient)
+  let attempts = 0;
+  function loadAttempt() {
+    const pre = new Image();
+    pre.onload = () => {
+      if (token !== ms.loadToken) return;
+      loadedImg = pre;
+      imgReady  = true;
+      tryReveal();
+    };
+    pre.onerror = () => {
+      if (token !== ms.loadToken) return;
+      if (attempts < 2) {
+        attempts++;
+        setTimeout(() => { if (token === ms.loadToken) loadAttempt(); }, 1200 * attempts + Math.random() * 600);
+        return;
+      }
+      loadErr  = true;
+      imgReady = true;
+      tryReveal();
+    };
+    pre.src = url;
+  }
+  // Start loading after one frame so the dip CSS transition has begun
+  requestAnimationFrame(loadAttempt);
+
+  // Warm the cache for the next card only (keeps Drive request volume low)
+  const next = ms.cards[(ms.idx + 1) % n];
+  if (next && next !== card) { const p = new Image(); p.src = museumHiRes(next.image_url); }
+}
+
+function museumStep(dir) { if (museumState) museumShow(museumState.idx + dir); }
+
+function museumReshuffle() {
+  if (!museumState) return;
+  shuffleArr(museumState.cards);
+  museumShow(0);
+}
+
+function exitMuseum() {
+  if (museumState?.keyHandler) document.removeEventListener('keydown', museumState.keyHandler, true);
+  const game = museumState?.game || state.currentGame;
+  museumState = null;
+  renderGame(game, state.db);
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 // ── SET VIEW ──────────────────────────────────────────────
@@ -1872,143 +3149,599 @@ function openSet(setId) {
 
 let currentView = 'grid'; // persists across filter changes
 
-function renderSet(set, db) {
-  let allCards = q(db, 'SELECT * FROM cards WHERE set_id = ? ORDER BY CAST(collector_number AS INTEGER), name', [set.id]);
+// ── Shared card filter utility ───────────────────────────────
+function filterCards(cards, raw, types, rarities, artist, attrFilters) {
+  let filtered = cards;
 
-  const unique = (field) => [...new Set(allCards.map(c => c[field]).filter(Boolean))].sort();
-  const rarities = unique('rarity');
-  const types    = unique('card_type');
-  const artists  = unique('artist');
+  if (raw) {
+    // Tokenise — quoted phrases stay together
+    const rawTokens = [];
+    let cur = '', inQuote = false;
+    for (const ch of raw.toLowerCase()) {
+      if (ch === '"') { inQuote = !inQuote; }
+      else if (ch === ' ' && !inQuote) { if (cur) rawTokens.push(cur); cur = ''; }
+      else cur += ch;
+    }
+    if (cur) rawTokens.push(cur);
 
-  setBreadcrumb([
-    { label: 'Archive',  onClick: `renderHome` },
-    { label: state.currentGame.name, onClick: `renderGame(state.currentGame, state.db)` },
-    { label: set.name }
-  ]);
+    // Merge "field:" empty-value prefix tokens with subsequent non-prefix words
+    // So "artist: dan scott" becomes one token "artist:dan scott"
+    const tokens = [];
+    let i = 0;
+    while (i < rawTokens.length) {
+      const tok = rawTokens[i];
+      const ci = tok.indexOf(':');
+      if (ci > 0 && ci === tok.length - 1) {
+        // Prefix with no value ("field:") — greedily consume following words
+        const field = tok.slice(0, ci);
+        let val = '';
+        i++;
+        while (i < rawTokens.length && rawTokens[i].indexOf(':') < 1) {
+          val += (val ? ' ' : '') + rawTokens[i];
+          i++;
+        }
+        tokens.push(val ? field + ':' + val : field + ':');
+      } else {
+        tokens.push(tok);
+        i++;
+      }
+    }
 
-  const opts = (list, placeholder) =>
-    `<option value="">${placeholder}</option>` +
-    list.map(v => `<option value="${v}">${v}</option>`).join('');
+    const fieldMap = {
+      'name':   c => c.name        || '',
+      'artist': c => c.artist      || '',
+      'type':   c => c.card_type   || '',
+      'rarity': c => c.rarity      || '',
+      'rules':  c => c.rules_text  || '',
+      'rule':   c => c.rules_text  || '',
+      'num':    c => c.collector_number || '',
+      'attr':   c => { const o = parseExtra(c); return o ? JSON.stringify(o) : ''; },
+    };
+    const getExtra = c => {
+      if (c._extraStr !== undefined) return c._extraStr;
+      const o = parseExtra(c);
+      c._extraStr = o ? Object.entries(o).map(([k,v]) => `${k} ${v}`).join(' ').toLowerCase() : '';
+      return c._extraStr;
+    };
 
-  document.getElementById('app').innerHTML = `
-    <div class="page">
-      <div class="set-controls">
-        <input class="search-input" id="card-search"
-          placeholder="Search name, rules, artist, type:, rarity:, faction:, cost: ..." autocomplete="off">
-        <select class="filter-select" id="type-filter">${opts(types,   'All types')}</select>
-        <select class="filter-select" id="rarity-filter">${opts(rarities,'All rarities')}</select>
-        <select class="filter-select" id="artist-filter">${opts(artists, 'All artists')}</select>
+    filtered = filtered.filter(c => {
+      const extra = getExtra(c);
+      return tokens.every(tok => {
+        const ci = tok.indexOf(':');
+        if (ci > 0) {
+          const field = tok.slice(0, ci), val = tok.slice(ci + 1);
+          // Numeric comparison operators: >, <, >=, <=, =
+          const opMatch = val.match(/^(>=|<=|>|<|=)(.+)$/);
+          const compare = (fieldVal) => {
+            if (opMatch) {
+              const n = parseFloat(fieldVal), target = parseFloat(opMatch[2]);
+              if (isNaN(n) || isNaN(target)) return false;
+              switch (opMatch[1]) {
+                case '>':  return n >  target;
+                case '<':  return n <  target;
+                case '>=': return n >= target;
+                case '<=': return n <= target;
+                case '=':  return n === target;
+              }
+            }
+            return String(fieldVal).toLowerCase().includes(val);
+          };
+          const fn = fieldMap[field];
+          if (fn) return compare(fn(c));
+          const obj = parseExtra(c); if (obj && field in obj) return compare(obj[field]); return false;
+        }
+        return (c.name || '').toLowerCase().includes(tok) ||
+               (c.artist || '').toLowerCase().includes(tok) ||
+               (c.rules_text || '').toLowerCase().includes(tok) ||
+               (c.flavor_text || '').toLowerCase().includes(tok) ||
+               extra.includes(tok);
+      });
+    });
+  }
+
+  const typeSet   = types   instanceof Set ? types   : (types   ? new Set([types])   : new Set());
+  const raritySet = rarities instanceof Set ? rarities : (rarities ? new Set([rarities]) : new Set());
+  if (typeSet.size)   filtered = filtered.filter(c => typeSet.has(c.card_type));
+  if (raritySet.size) filtered = filtered.filter(c => raritySet.has(c.rarity));
+  if (artist) filtered = filtered.filter(c => c.artist === artist);
+  if (attrFilters && Object.keys(attrFilters).length) {
+    const entries = Object.entries(attrFilters);
+    filtered = filtered.filter(c => {
+      const obj = parseExtra(c);
+      return obj && entries.every(([k,v]) => String(obj[k]) === v);
+    });
+  }
+  return filtered;
+}
+
+// ── Cached extra_data parse (perf: avoids repeated JSON.parse) ──
+function parseExtra(c) {
+  if (c._extra !== undefined) return c._extra;
+  if (!c.extra_data) { c._extra = null; return null; }
+  try { c._extra = JSON.parse(c.extra_data); } catch(e) { c._extra = null; }
+  return c._extra;
+}
+
+// ── Card sorting ──────────────────────────────────────────
+const RARITY_ORDER = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic'];
+function sortCards(cards, sortKey) {
+  if (!sortKey || sortKey === 'default') return cards;
+  const sorted = [...cards];
+  if (sortKey === 'name') {
+    sorted.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+  } else if (sortKey === 'rarity') {
+    sorted.sort((a, b) => {
+      const ia = RARITY_ORDER.indexOf(a.rarity), ib = RARITY_ORDER.indexOf(b.rarity);
+      const va = ia === -1 ? RARITY_ORDER.length : ia;
+      const vb = ib === -1 ? RARITY_ORDER.length : ib;
+      return va - vb || (a.name || '').localeCompare(b.name || '');
+    });
+  } else if (sortKey.startsWith('attr:')) {
+    const key = sortKey.slice(5);
+    const getV = c => { const o = parseExtra(c); if (!o) return Infinity; const n = parseFloat(o[key]); return isNaN(n) ? Infinity : n; };
+    sorted.sort((a, b) => getV(a) - getV(b) || (a.name || '').localeCompare(b.name || ''));
+  }
+  return sorted;
+}
+
+// Detect numeric extra_data keys for sort options
+function getNumericAttrKeys(cards) {
+  const keys = {};
+  for (const c of cards) {
+    const obj = parseExtra(c);
+    if (!obj) continue;
+    for (const [k, v] of Object.entries(obj)) {
+      if (v === null || v === '') continue;
+      if (!(k in keys)) keys[k] = true;
+      if (isNaN(parseFloat(v))) keys[k] = false;
+    }
+  }
+  return Object.entries(keys).filter(([k, isNum]) => isNum).map(([k]) => k);
+}
+
+// ── URL hash sync (shareable links) ───────────────────────
+let _hashTimer = null;
+function writeDbHash(gameId, setIds, q, types, rarities, sortKey, view) {
+  // Throttled: browsers rate-limit history.replaceState (Safari: 100 per 30s)
+  clearTimeout(_hashTimer);
+  _hashTimer = setTimeout(() => {
+    const parts = [`game=${encodeURIComponent(gameId)}`];
+    if (setIds && setIds.size) parts.push(`sets=${[...setIds].join(',')}`);
+    if (q) parts.push(`q=${encodeURIComponent(q)}`);
+    if (types && types.size) parts.push(`types=${[...types].map(encodeURIComponent).join('|')}`);
+    if (rarities && rarities.size) parts.push(`rarities=${[...rarities].map(encodeURIComponent).join('|')}`);
+    if (sortKey && sortKey !== 'default') parts.push(`sort=${encodeURIComponent(sortKey)}`);
+    if (view && view !== 'grid') parts.push(`view=${view}`);
+    history.replaceState(null, '', '#' + parts.join('&'));
+  }, 400);
+}
+function parseDbHash() {
+  if (!location.hash || location.hash.length < 2) return null;
+  const params = {};
+  location.hash.slice(1).split('&').forEach(p => {
+    const [k, v] = p.split('=');
+    if (k && v !== undefined) params[k] = decodeURIComponent(v);
+  });
+  if (!params.game) return null;
+  return {
+    game: params.game,
+    sets: params.sets ? params.sets.split(',').map(Number).filter(n => !isNaN(n)) : [],
+    q: params.q || '',
+    types: params.types ? params.types.split('|') : [],
+    rarities: params.rarities ? params.rarities.split('|') : [],
+    sort: params.sort || 'default',
+    view: params.view || 'grid',
+  };
+}
+function clearDbHash() {
+  // Cancel any pending throttled write so it can't restore a stale hash after navigation
+  clearTimeout(_hashTimer);
+  history.replaceState(null, '', location.pathname + location.search);
+}
+
+// ── Pill filter toggle helper ─────────────────────────────
+function handleFilterPillClick(containerId, dataAttr, clickedBtn) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const isAll = clickedBtn.dataset[dataAttr] === '';
+  if (isAll) {
+    container.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+    clickedBtn.classList.add('active');
+  } else {
+    container.querySelector(`.filter-pill[data-${dataAttr}=""]`)?.classList.remove('active');
+    clickedBtn.classList.toggle('active');
+    if (![...container.querySelectorAll('.filter-pill')].some(b => b.classList.contains('active'))) {
+      container.querySelector(`.filter-pill[data-${dataAttr}=""]`)?.classList.add('active');
+    }
+  }
+}
+
+function getActivePills(containerId, dataAttr) {
+  return new Set([...document.querySelectorAll(`#${containerId} .filter-pill.active`)].map(b => b.dataset[dataAttr]).filter(Boolean));
+}
+
+// ── Helper: build attr filter HTML from a card array ──────────
+function buildAttrFilterHtml(cards) {
+  const attrKeys = {};
+  cards.forEach(c => {
+    const obj = parseExtra(c);
+    if (!obj) return;
+    Object.entries(obj).forEach(([k, v]) => {
+      if (!attrKeys[k]) attrKeys[k] = new Set();
+      if (v !== null && v !== '') attrKeys[k].add(String(v));
+    });
+  });
+  if (!Object.keys(attrKeys).length) return '';
+  return `<div class="attr-filter-row" id="attr-filters">
+    <span class="attr-filter-label">Attributes</span>
+    ${Object.entries(attrKeys).map(([k, vals]) =>
+      `<select class="filter-select attr-filter" data-attr="${k}" title="${k}">
+        <option value="">All ${k}</option>
+        ${[...vals].sort((a, b) => {
+            const na = parseFloat(a), nb = parseFloat(b);
+            return (!isNaN(na) && !isNaN(nb)) ? na - nb : String(a).localeCompare(String(b));
+          }).map(v => `<option value="${v}">${v}</option>`).join('')}
+      </select>`
+    ).join('')}
+  </div>`;
+}
+
+// ── Helper: build standard filter controls HTML ────────────────
+function buildFilterControls(types, rarities, artists, attrHtml, numericAttrKeys) {
+  const RARITY_COLORS = {
+    Common:'#6e6e6e', Uncommon:'#5a8fa8', Rare:'#c8963c',
+    Epic:'#7b3fa0', Legendary:'#b05a20', Mythic:'#b05a20',
+    Promo:'#9b30ff', Fixed:'#ffffff'
+  };
+  const opts = (list, ph) =>
+    `<option value="">${ph}</option>` + list.map(v => `<option value="${v}">${v}</option>`).join('');
+
+  const typePills = types.map(t =>
+    `<button class="filter-pill type-pill" data-type="${t}">${t}</button>`
+  ).join('');
+
+  // Pill order: common → uncommon → rare → epic → legendary, then others alphabetically
+  const PILL_ORDER = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
+  rarities = [...rarities].sort((a, b) => {
+    const ia = PILL_ORDER.indexOf(String(a).toLowerCase());
+    const ib = PILL_ORDER.indexOf(String(b).toLowerCase());
+    if (ia !== -1 && ib !== -1) return ia - ib;
+    if (ia !== -1) return -1;
+    if (ib !== -1) return 1;
+    return String(a).localeCompare(String(b));
+  });
+
+  const rarityPills = rarities.map(r => {
+    const col = RARITY_COLORS[r] || '#111';
+    return `<button class="filter-pill rarity-pill" data-rarity="${r}"><span class="rarity-pip" style="background:${col}"></span>${r}</button>`;
+  }).join('');
+
+  const artistSelect = artists.length
+    ? `<div class="db-adv-row"><span class="db-filter-section-label">Artist</span>
+        <select class="filter-select" id="artist-filter">${opts(artists, 'All artists')}</select></div>`
+    : '';
+
+  return `<div class="db-controls">
+    <div class="db-search-row">
+      <input class="search-input db-search-main" id="card-search"
+        placeholder='Search — plain words, "quoted phrases", field: value (artist: name, rules: text), or numbers (cost:>2, power:=5)' autocomplete="off">
+      <button class="btn-random" id="btn-random">⚄ Random</button>
+    </div>
+    ${types.length ? `<div class="db-filter-section">
+      <span class="db-filter-section-label">Type</span>
+      <div class="filter-pills" id="type-pills">
+        <button class="filter-pill type-pill active" data-type="">All</button>${typePills}
+      </div>
+    </div>` : ''}
+    ${rarities.length ? `<div class="db-filter-section">
+      <span class="db-filter-section-label">Rarity</span>
+      <div class="filter-pills" id="rarity-pills">
+        <button class="filter-pill rarity-pill active" data-rarity="">All</button>${rarityPills}
+      </div>
+    </div>` : ''}
+    <button class="db-advanced-toggle" id="db-advanced-toggle">
+      <span class="db-adv-icon">▶</span>Advanced Filters
+    </button>
+    <div class="db-advanced-panel" id="db-advanced-panel">
+      ${attrHtml || ''}
+      ${artistSelect}
+    </div>
+    <div class="db-bottom-row">
+      <span class="db-count" id="db-count"></span>
+      <div class="db-right-controls">
+        <button class="db-stats-toggle" id="db-stats-toggle">Stats</button>
+        <select class="filter-select sort-select" id="sort-select">
+          <option value="default">Sort: Collector #</option>
+          <option value="name">Sort: Name A–Z</option>
+          <option value="rarity">Sort: Rarity</option>
+          ${(numericAttrKeys || []).map(k => `<option value="attr:${k}">Sort: ${k}</option>`).join('')}
+        </select>
         <div class="size-control">
           <span class="size-control-label">Size</span>
-          <input type="range" class="size-slider" id="grid-size"
-            min="80" max="220" step="5" value="${gridColWidth}">
+          <input type="range" class="size-slider" id="grid-size" min="80" max="220" step="5" value="${gridColWidth}">
         </div>
         <div class="view-toggle">
           <button class="view-toggle-btn ${currentView==='grid'?'active':''}" id="btn-grid" title="Grid view">⊞</button>
           <button class="view-toggle-btn ${currentView==='list'?'active':''}" id="btn-list" title="List view">☰</button>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="db-stats-panel" id="db-stats-panel"></div>`;
+}
+
+// ── Helper: bind standard filter events ───────────────────────
+function bindFilterEvents(applyFn, applySizeFn, setViewFn, getLastFiltered) {
+  // Debounced search — avoids full re-filter on every keystroke
+  let searchTimer = null;
+  document.getElementById('card-search')?.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(applyFn, 160);
+  });
+  document.getElementById('artist-filter')?.addEventListener('change', applyFn);
+  document.querySelectorAll('.attr-filter').forEach(s => s.addEventListener('change', applyFn));
+
+  document.getElementById('type-pills')?.addEventListener('click', e => {
+    const btn = e.target.closest('.type-pill');
+    if (btn) { handleFilterPillClick('type-pills', 'type', btn); applyFn(); }
+  });
+  document.getElementById('rarity-pills')?.addEventListener('click', e => {
+    const btn = e.target.closest('.rarity-pill');
+    if (btn) { handleFilterPillClick('rarity-pills', 'rarity', btn); applyFn(); }
+  });
+
+  document.getElementById('btn-random')?.addEventListener('click', () => {
+    const pool = getLastFiltered();
+    if (!pool.length) return;
+    showCard(pool[Math.floor(Math.random() * pool.length)].id);
+  });
+
+  const advToggle = document.getElementById('db-advanced-toggle');
+  const advPanel  = document.getElementById('db-advanced-panel');
+  advToggle?.addEventListener('click', () => {
+    advPanel?.classList.toggle('open');
+    advToggle.classList.toggle('open');
+  });
+
+  document.getElementById('sort-select')?.addEventListener('change', applyFn);
+  document.getElementById('db-stats-toggle')?.addEventListener('click', () => {
+    document.getElementById('db-stats-panel')?.classList.toggle('open');
+    document.getElementById('db-stats-toggle')?.classList.toggle('open');
+    applyFn(); // refresh stats content
+  });
+  document.getElementById('grid-size')?.addEventListener('input', applySizeFn);
+  document.getElementById('btn-grid')?.addEventListener('click', () => setViewFn('grid'));
+  document.getElementById('btn-list')?.addEventListener('click', () => setViewFn('list'));
+  const sc = document.getElementById('grid-size')?.closest('.size-control');
+  if (currentView === 'list' && sc) sc.style.display = 'none';
+}
+
+// ── Stats panel renderer ──────────────────────────────────
+function renderStatsPanel(cards) {
+  const panel = document.getElementById('db-stats-panel');
+  if (!panel || !panel.classList.contains('open')) return;
+  const count = (field) => {
+    const m = {};
+    cards.forEach(c => { const v = c[field] || '—'; m[v] = (m[v] || 0) + 1; });
+    return Object.entries(m).sort((a, b) => b[1] - a[1]);
+  };
+  const max = arr => Math.max(1, ...arr.map(e => e[1]));
+  const col = (title, entries) => {
+    const m = max(entries);
+    return `<div><div class="db-stats-col-title">${title}</div>
+      ${entries.slice(0, 12).map(([name, n]) => `
+        <div class="db-stat-row">
+          <span class="db-stat-name" title="${name}">${name}</span>
+          <span class="db-stat-bar-wrap"><span class="db-stat-bar" style="width:${(n/m*100).toFixed(1)}%;display:block"></span></span>
+          <span class="db-stat-count">${n.toLocaleString()}</span>
+        </div>`).join('')}
+    </div>`;
+  };
+  panel.innerHTML = col('By Rarity', count('rarity')) + col('By Type', count('card_type'));
+}
+
+function renderSet(set, db) {
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  const allCards = q(db, 'SELECT * FROM cards WHERE set_id = ? ORDER BY CAST(collector_number AS INTEGER), name', [set.id]);
+  const unique = (f) => [...new Set(allCards.map(c => c[f]).filter(Boolean))].sort();
+
+  setBreadcrumb([
+    { label: 'Archive', onClick: 'renderHome' },
+    { label: state.currentGame.name, onClick: 'renderGame(state.currentGame, state.db)' },
+    { label: 'Card Database', onClick: 'renderGameDb(state.currentGame, state.db)' },
+    { label: set.name }
+  ]);
+
+  const attrHtml = buildAttrFilterHtml(allCards);
+  const numericKeys = getNumericAttrKeys(allCards);
+  document.getElementById('app').innerHTML = `
+    <div class="page">
+      <div class="db-back-bar">
+        <button class="db-back-btn" onclick="renderGameDb(state.currentGame, state.db)">← Card Database</button>
+      </div>
+      ${buildFilterControls(unique('card_type'), unique('rarity'), unique('artist'), attrHtml, numericKeys)}
       <div id="card-grid-wrap"></div>
     </div>`;
 
+  let lastFiltered = allCards;
+
   function applyFilters() {
-    const raw    = document.getElementById('card-search')?.value?.trim() || '';
-    const type   = document.getElementById('type-filter')?.value   || '';
-    const rarity = document.getElementById('rarity-filter')?.value || '';
-    const artist = document.getElementById('artist-filter')?.value || '';
-
-    let filtered = allCards;
-
-    if (raw) {
-      // Split into tokens — quoted phrases kept together
-      const tokens = [];
-      let cur = '', inQuote = false;
-      for (const ch of raw) {
-        if (ch === '"') { inQuote = !inQuote; }
-        else if (ch === ' ' && !inQuote) { if (cur) tokens.push(cur.toLowerCase()); cur = ''; }
-        else cur += ch;
-      }
-      if (cur) tokens.push(cur.toLowerCase());
-
-      // Field prefix map
-      const fieldMap = {
-        'name':   c => c.name        || '',
-        'artist': c => c.artist      || '',
-        'type':   c => c.card_type   || '',
-        'rarity': c => c.rarity      || '',
-        'rules':  c => c.rules_text  || '',
-        'rule':   c => c.rules_text  || '',
-        'num':    c => c.collector_number || '',
-        'attr':   c => { try { return JSON.stringify(JSON.parse(c.extra_data)); } catch(e) { return ''; } },
-      };
-
-      // Build extra_data string once per card
-      const getExtra = c => { try { const o = JSON.parse(c.extra_data); return Object.entries(o).map(([k,v]) => `${k} ${v}`).join(' ').toLowerCase(); } catch(e) { return ''; } };
-
-      // All tokens must match (AND)
-      filtered = filtered.filter(c => {
-        const extra = getExtra(c);
-        return tokens.every(tok => {
-          const colonIdx = tok.indexOf(':');
-          if (colonIdx > 0) {
-            const field = tok.slice(0, colonIdx);
-            const val   = tok.slice(colonIdx + 1);
-            const fn    = fieldMap[field];
-            if (fn) return fn(c).toLowerCase().includes(val);
-            // Unknown prefix — try it as an extra_data key
-            try {
-              const obj = JSON.parse(c.extra_data);
-              if (field in obj) return String(obj[field]).toLowerCase().includes(val);
-              // Key not found on this card — no match
-              return false;
-            } catch(e) { return false; }
-          }
-          // No prefix — search all fields
-          return (c.name        || '').toLowerCase().includes(tok) ||
-                 (c.artist      || '').toLowerCase().includes(tok) ||
-                 (c.rules_text  || '').toLowerCase().includes(tok) ||
-                 (c.flavor_text || '').toLowerCase().includes(tok) ||
-                 extra.includes(tok);
-        });
-      });
-    }
-
-    if (type)   filtered = filtered.filter(c => c.card_type === type);
-    if (rarity) filtered = filtered.filter(c => c.rarity    === rarity);
-    if (artist) filtered = filtered.filter(c => c.artist    === artist);
-
-    currentView === 'list' ? renderCardList(filtered) : renderCardGrid(filtered);
+    const attrFilters = {};
+    document.querySelectorAll('.attr-filter').forEach(s => { if (s.value) attrFilters[s.dataset.attr] = s.value; });
+    lastFiltered = sortCards(filterCards(
+      allCards,
+      document.getElementById('card-search')?.value?.trim() || '',
+      getActivePills('type-pills', 'type'),
+      getActivePills('rarity-pills', 'rarity'),
+      document.getElementById('artist-filter')?.value || '',
+      attrFilters
+    ), document.getElementById('sort-select')?.value || 'default');
+    const ce = document.getElementById('db-count');
+    if (ce) ce.textContent = `${lastFiltered.length.toLocaleString()} of ${allCards.length.toLocaleString()} cards`;
+    renderStatsPanel(lastFiltered);
+    currentView === 'list' ? renderCardList(lastFiltered) : renderCardGrid(lastFiltered);
   }
 
   function applySize() {
     gridColWidth = +document.getElementById('grid-size').value;
-    const grid = document.querySelector('.card-grid');
-    if (grid) grid.style.gridTemplateColumns =
-      `repeat(auto-fill, minmax(${gridColWidth}px, ${gridColWidth + 24}px))`;
+    const g = document.querySelector('.card-grid');
+    if (g) g.style.gridTemplateColumns = `repeat(auto-fill, minmax(${gridColWidth}px, 1fr))`;
   }
 
   function setView(v) {
     currentView = v;
     document.getElementById('btn-grid').classList.toggle('active', v === 'grid');
     document.getElementById('btn-list').classList.toggle('active', v === 'list');
-    document.getElementById('grid-size').closest('.size-control').style.display =
-      v === 'list' ? 'none' : '';
+    const sc = document.getElementById('grid-size')?.closest('.size-control');
+    if (sc) sc.style.display = v === 'list' ? 'none' : '';
     applyFilters();
   }
 
-  document.getElementById('card-search')?.addEventListener('input',  applyFilters);
-  document.getElementById('type-filter')?.addEventListener('change',  applyFilters);
-  document.getElementById('rarity-filter')?.addEventListener('change',applyFilters);
-  document.getElementById('artist-filter')?.addEventListener('change',applyFilters);
-  document.getElementById('grid-size')?.addEventListener('input',     applySize);
-  document.getElementById('btn-grid')?.addEventListener('click', () => setView('grid'));
-  document.getElementById('btn-list')?.addEventListener('click', () => setView('list'));
+  bindFilterEvents(applyFilters, applySize, setView, () => lastFiltered);
+  applyFilters();
+}
 
-  // Hide size slider in list mode on initial render
-  if (currentView === 'list') {
-    document.getElementById('grid-size').closest('.size-control').style.display = 'none';
+// ── GAME DATABASE VIEW (all sets combined) ────────────────────
+function renderGameDb(game, db, preSetId = null, restore = null) {
+  if (!db) return;
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  const sets = q(db, 'SELECT * FROM sets ORDER BY id ASC');
+  // Fetch fields needed for grid display AND search (artist/rules/flavor needed for search)
+  const allCards = q(db, `
+    SELECT c.id, c.set_id, c.collector_number, c.name, c.card_type, c.rarity,
+           c.image_url, c.extra_data, c.artist, c.rules_text, c.flavor_text,
+           s.name AS set_name
+    FROM cards c JOIN sets s ON c.set_id = s.id
+    ORDER BY s.id ASC, CAST(c.collector_number AS INTEGER), c.name`);
+
+  state.currentSet = null;
+  setBreadcrumb([
+    { label: 'Archive', onClick: 'renderHome' },
+    { label: game.name, onClick: 'renderGame(state.currentGame, state.db)' },
+    { label: 'Card Database' }
+  ]);
+
+  const preSetIdParsed = preSetId ? parseInt(preSetId) : null;
+  let activeSetIds = restore?.sets?.length
+    ? new Set(restore.sets)
+    : (preSetIdParsed ? new Set([preSetIdParsed]) : new Set());
+  if (restore?.view) currentView = restore.view;
+  let getPool = () => activeSetIds.size
+    ? allCards.filter(c => activeSetIds.has(c.set_id))
+    : allCards;
+
+  const unique = (f, cards) => [...new Set(cards.map(c => c[f]).filter(Boolean))].sort();
+
+  // Set filter bar — multi-select buttons, one per set plus "All Sets"
+  const setBarHtml = `<div class="game-db-set-bar" id="game-db-set-bar">
+    <button class="set-filter-btn set-filter-all${!activeSetIds.size ? ' active' : ''}" data-set-id="">
+      <span class="set-filter-check"></span>
+      <span class="set-filter-name">All Sets — ${allCards.length} cards</span>
+    </button>
+    ${sets.map(s => `<button class="set-filter-btn${activeSetIds.has(s.id) ? ' active' : ''}" data-set-id="${s.id}" title="${s.name}">
+      <span class="set-filter-check"></span>
+      <span class="set-filter-name">${s.name}</span>
+    </button>`).join('')}
+  </div>`;
+
+  const pool = getPool();
+  const attrHtml = buildAttrFilterHtml(allCards);
+  const numericKeys = getNumericAttrKeys(allCards);
+  document.getElementById('app').innerHTML = `
+    <div class="page">
+      <div class="db-back-bar">
+        <button class="db-back-btn" onclick="renderGame(state.currentGame, state.db)">← ${game.name}</button>
+      </div>
+      ${setBarHtml}
+      ${buildFilterControls(unique('card_type', allCards), unique('rarity', allCards), unique('artist', allCards), attrHtml, numericKeys)}
+      <div id="card-grid-wrap"></div>
+    </div>`;
+
+  // Restore state from shared URL (search text, pills, sort)
+  if (restore) {
+    if (restore.q) document.getElementById('card-search').value = restore.q;
+    if (restore.sort && restore.sort !== 'default') {
+      const ss = document.getElementById('sort-select');
+      if (ss && [...ss.options].some(o => o.value === restore.sort)) ss.value = restore.sort;
+    }
+    const activatePills = (containerId, dataAttr, values) => {
+      if (!values.length) return;
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.querySelector(`.filter-pill[data-${dataAttr}=""]`)?.classList.remove('active');
+      values.forEach(v => {
+        container.querySelector(`.filter-pill[data-${dataAttr}="${CSS.escape(v)}"]`)?.classList.add('active');
+      });
+      if (![...container.querySelectorAll('.filter-pill')].some(b => b.classList.contains('active'))) {
+        container.querySelector(`.filter-pill[data-${dataAttr}=""]`)?.classList.add('active');
+      }
+    };
+    activatePills('type-pills', 'type', restore.types || []);
+    activatePills('rarity-pills', 'rarity', restore.rarities || []);
   }
 
+  let lastFiltered = pool;
+
+  function applyFilters() {
+    const p = getPool();
+    const attrFilters = {};
+    document.querySelectorAll('.attr-filter').forEach(s => { if (s.value) attrFilters[s.dataset.attr] = s.value; });
+    const searchQ = document.getElementById('card-search')?.value?.trim() || '';
+    const typesActive = getActivePills('type-pills', 'type');
+    const raritiesActive = getActivePills('rarity-pills', 'rarity');
+    const sortKey = document.getElementById('sort-select')?.value || 'default';
+    lastFiltered = sortCards(filterCards(
+      p, searchQ, typesActive, raritiesActive,
+      document.getElementById('artist-filter')?.value || '',
+      attrFilters
+    ), sortKey);
+    const ce = document.getElementById('db-count');
+    if (ce) ce.textContent = `${lastFiltered.length.toLocaleString()} of ${allCards.length.toLocaleString()} cards`;
+    renderStatsPanel(lastFiltered);
+    writeDbHash(game.id, activeSetIds, searchQ, typesActive, raritiesActive, sortKey, currentView);
+    currentView === 'list' ? renderCardList(lastFiltered) : renderCardGrid(lastFiltered);
+  }
+
+  function applySize() {
+    gridColWidth = +document.getElementById('grid-size').value;
+    const g = document.querySelector('.card-grid');
+    if (g) g.style.gridTemplateColumns = `repeat(auto-fill, minmax(${gridColWidth}px, 1fr))`;
+  }
+
+  function setView(v) {
+    currentView = v;
+    document.getElementById('btn-grid').classList.toggle('active', v === 'grid');
+    document.getElementById('btn-list').classList.toggle('active', v === 'list');
+    const sc = document.getElementById('grid-size')?.closest('.size-control');
+    if (sc) sc.style.display = v === 'list' ? 'none' : '';
+    applyFilters();
+  }
+
+  // Set filter bar — multi-select click handler
+  document.getElementById('game-db-set-bar').addEventListener('click', e => {
+    const btn = e.target.closest('.set-filter-btn');
+    if (!btn) return;
+    const rawId = btn.dataset.setId;
+    if (!rawId) {
+      // "All Sets" — clear selection
+      activeSetIds.clear();
+    } else {
+      const sid = parseInt(rawId);
+      if (activeSetIds.has(sid)) {
+        activeSetIds.delete(sid);
+      } else {
+        activeSetIds.add(sid);
+      }
+    }
+    // Update visuals
+    document.querySelectorAll('.set-filter-btn').forEach(b => {
+      const sid = b.dataset.setId ? parseInt(b.dataset.setId) : null;
+      b.classList.toggle('active', sid ? activeSetIds.has(sid) : activeSetIds.size === 0);
+    });
+    applyFilters();
+  });
+
+  bindFilterEvents(applyFilters, applySize, setView, () => lastFiltered);
   applyFilters();
 }
 
@@ -2031,6 +3764,7 @@ function setupLazyObserver() {
 }
 
 function renderCardGrid(cards) {
+  setModalNavList(cards);
   const wrap = document.getElementById('card-grid-wrap');
   if (!wrap) return;
   if (!cards.length) {
@@ -2038,18 +3772,38 @@ function renderCardGrid(cards) {
     return;
   }
   setupLazyObserver();
+  wrap.innerHTML = '';
   const grid = document.createElement('div');
   grid.className = 'card-grid';
   grid.style.gridTemplateColumns =
-    `repeat(auto-fill, minmax(${gridColWidth}px, ${gridColWidth + 24}px))`;
-  grid.innerHTML = cards.map(buildCardTile).join('');
-  wrap.innerHTML = '';
+    `repeat(auto-fill, minmax(${gridColWidth}px, 1fr))`;
   wrap.appendChild(grid);
-  // Register all lazy images with the observer
-  grid.querySelectorAll('img[data-src]').forEach(img => lazyObserver.observe(img));
+
+  // Render in chunks to keep UI responsive for large sets
+  const CHUNK = 80;
+  let offset = 0;
+  function renderChunk() {
+    const frag = document.createDocumentFragment();
+    const tmp = document.createElement('div');
+    tmp.innerHTML = cards.slice(offset, offset + CHUNK).map(buildCardTile).join('');
+    while (tmp.firstChild) frag.appendChild(tmp.firstChild);
+    grid.appendChild(frag);
+    // Observe newly added lazy images
+    grid.querySelectorAll('img[data-src]:not([data-observed])').forEach(img => {
+      img.dataset.observed = '1';
+      lazyObserver.observe(img);
+    });
+    offset += CHUNK;
+    if (offset < cards.length) {
+      const idle = window.requestIdleCallback || (fn => setTimeout(fn, 16));
+      idle(renderChunk);
+    }
+  }
+  renderChunk();
 }
 
 function renderCardList(cards) {
+  setModalNavList(cards);
   const wrap = document.getElementById('card-grid-wrap');
   if (!wrap) return;
   if (!cards.length) {
@@ -2081,14 +3835,59 @@ function renderCardList(cards) {
   wrap.innerHTML = `<div class="card-list">${header}${rows}</div>`;
 }
 
-function cardImgFallback(el, num, name, type) {
-  el.parentElement.innerHTML = `
-    <div class="card-placeholder">
-      <div class="ph-num">${num ? '#' + num : ''}</div>
-      <div class="ph-name">${name}</div>
-      <div class="ph-type">${type || ''}</div>
-    </div>
-    <div class="no-scan-badge">NO SCAN</div>`;
+// Preview frames: one retry, then become an empty non-clickable frame
+function previewImgRetry(el) {
+  if (el.dataset.retried) {
+    el.parentElement?.removeAttribute('data-preview-url');
+    el.remove();
+    return;
+  }
+  el.dataset.retried = '1';
+  const url = el.src;
+  setTimeout(() => {
+    if (!el.isConnected) return;
+    el.removeAttribute('src');
+    el.src = url;
+  }, 1500 + Math.random() * 800);
+}
+
+// On image failure: show the info placeholder INSTANTLY (no broken-image icon,
+// no delay), then retry quietly in the background — Drive rate limits are
+// usually transient. If a retry succeeds the scan swaps back in.
+function cardImgRetry(el, num, name, type) {
+  const tile = el.parentElement;
+  if (!tile) return;
+
+  // Instant fallback: hide img + hover overlay, show placeholder text
+  el.style.display = 'none';
+  const overlay = tile.querySelector('.card-tile-overlay');
+  if (overlay) overlay.style.display = 'none';
+  if (!tile.querySelector('.card-placeholder')) {
+    tile.insertAdjacentHTML('beforeend', `
+      <div class="card-placeholder">
+        <div class="ph-num">${num ? '#' + num : ''}</div>
+        <div class="ph-name">${name}</div>
+        <div class="ph-type">${type || ''}</div>
+      </div>
+      <div class="no-scan-badge">NO SCAN</div>`);
+  }
+
+  // Background retries (max 2, backoff + jitter)
+  const tries = +(el.dataset.retries || 0);
+  if (tries >= 2) return;
+  el.dataset.retries = tries + 1;
+  const url = el.src;
+  setTimeout(() => {
+    if (!el.isConnected) return;
+    el.onload = () => {
+      tile.querySelector('.card-placeholder')?.remove();
+      tile.querySelector('.no-scan-badge')?.remove();
+      el.style.display = '';
+      if (overlay) overlay.style.display = '';
+    };
+    el.removeAttribute('src');
+    el.src = url;
+  }, 1200 * (tries + 1) + Math.random() * 800);
 }
 
 function modalImgFallback(el) {
@@ -2102,7 +3901,7 @@ function buildCardTile(c) {
   const safeType = (c.card_type       || '').replace(/'/g, '');
   const inner = c.image_url
     ? `<img data-src="${c.image_url}" alt="${c.name}"
-           onerror="cardImgFallback(this,'${safeNum}','${safeName}','${safeType}')">
+           onerror="cardImgRetry(this,'${safeNum}','${safeName}','${safeType}')">
        <div class="card-tile-overlay">
          <div class="ov-name">${c.name}</div>
          <div class="ov-type">${c.card_type || ''}</div>
@@ -2120,13 +3919,24 @@ function buildCardTile(c) {
 }
 
 // ── CARD MODAL ────────────────────────────────────────────
+// Navigation list for prev/next stepping — set by renderCardGrid/List
+let modalNavList = [];
+function setModalNavList(cards) { modalNavList = cards; }
+
 function showCard(cardId) {
   const db = state.db;
   const c = q(db, 'SELECT * FROM cards WHERE id = ?', [cardId])[0];
   if (!c) return;
+  const navIdx = modalNavList.findIndex(x => x.id === cardId);
 
+  const fullSizeUrl = c.image_url
+    ? c.image_url.replace(/sz=w\d+/, 'sz=w3000')
+    : null;
+  const downloadBtn = fullSizeUrl
+    ? `<a class="modal-download" href="${fullSizeUrl}" download="${c.name || 'card'}.jpg" target="_blank">↓ Download full-size image</a>`
+    : '';
   document.getElementById('modal-img').innerHTML = c.image_url
-    ? `<img class="modal-card-img" src="${c.image_url}" alt="${c.name}" onerror="modalImgFallback(this)">`
+    ? `<img class="modal-card-img" src="${c.image_url}" alt="${c.name}" onerror="modalImgFallback(this)">${downloadBtn}`
     : `<div class="modal-no-img">No scan available</div>`;
 
   // Extra data chips
@@ -2159,13 +3969,41 @@ function showCard(cardId) {
     ${c.artist ? `<div class="modal-field"><label>Artist</label><p>${c.artist}</p></div>` : ''}
     ${c.source_notes ? `<div class="modal-field"><label>Source Notes</label><p>${c.source_notes}</p></div>` : ''}
   `;
+
+  // Prev/next navigation buttons
+  const modal = document.getElementById('modal');
+  modal.querySelectorAll('.modal-nav').forEach(b => b.remove());
+  if (navIdx !== -1 && modalNavList.length > 1) {
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'modal-nav modal-nav-prev';
+    prevBtn.innerHTML = '‹';
+    prevBtn.disabled = navIdx <= 0;
+    prevBtn.addEventListener('click', e => { e.stopPropagation(); if (navIdx > 0) showCard(modalNavList[navIdx - 1].id); });
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'modal-nav modal-nav-next';
+    nextBtn.innerHTML = '›';
+    nextBtn.disabled = navIdx >= modalNavList.length - 1;
+    nextBtn.addEventListener('click', e => { e.stopPropagation(); if (navIdx < modalNavList.length - 1) showCard(modalNavList[navIdx + 1].id); });
+    modal.appendChild(prevBtn);
+    modal.appendChild(nextBtn);
+  }
+
   document.getElementById('modal-bg').classList.add('open');
 }
 
 document.getElementById('modal-close').addEventListener('click', closeModal);
 document.getElementById('modal-bg').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeAbout(); } });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closeAbout(); closeLightbox(); return; }
+  // Arrow navigation when card modal is open
+  if (document.getElementById('modal-bg').classList.contains('open')) {
+    if (e.key === 'ArrowLeft')  document.querySelector('.modal-nav-prev:not(:disabled)')?.click();
+    if (e.key === 'ArrowRight') document.querySelector('.modal-nav-next:not(:disabled)')?.click();
+  }
+});
 function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+function closeLightbox() { document.getElementById('card-lightbox').classList.remove('open'); }
+document.getElementById('card-lightbox').addEventListener('click', closeLightbox);
 
 // ── About modal ───────────────────────────────────────────
 document.getElementById('footer-about-btn').addEventListener('click', () => {
