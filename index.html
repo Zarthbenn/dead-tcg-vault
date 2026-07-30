@@ -9,6 +9,24 @@
 <meta property="og:description" content="An archive of out-of-print trading card games with link hubs and card databases.">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZTNR88P15C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  // send_page_view off: this is a single-page app, so each view reports itself
+  gtag('config', 'G-ZTNR88P15C', { send_page_view: false });
+
+  // SPA page-view helper — called from each view render
+  window.tcgTrack = function(pageName) {
+    if (typeof gtag === 'undefined') return;
+    gtag('event', 'page_view', {
+      page_title: pageName,
+      page_location: window.location.href,
+    });
+  };
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -2373,18 +2391,32 @@ async function boot() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     state.games = await res.json();
 
-    // Deep link: #game=id&sets=...&q=... restores a shared database view
-    const hashState = parseDbHash();
-    if (hashState) {
-      const game = state.games.find(g => g.id === hashState.game);
-      if (game && game.db) {
+    // Deep links:  #/gameId  ·  #/gameId/db?filters  ·  #/gameId/museum  ·  #/gameId/set/N
+    // (legacy #game=id&… links map to the db route)
+    const route = parseRoute();
+    if (route) {
+      const game = state.games.find(g => g.id === route.game);
+      if (game) {
         try {
           document.getElementById('app').innerHTML =
             `<div class="page"><div class="state-msg"><span class="loading-ring"></span>Loading ${game.name}…</div></div>`;
-          const db = await loadGameDb(game);
+          const db = game.db ? await loadGameDb(game) : null;
           state.currentGame = game;
           state.db = db;
-          renderGameDb(game, db, null, hashState);
+
+          if (route.kind === 'db' && db) {
+            renderGameDb(game, db, null, route.filters);
+            return;
+          }
+          if (route.kind === 'museum') {
+            renderMuseum(game);
+            if (document.getElementById('museum-page')) return; // may decline (no images)
+          }
+          if (route.kind === 'set' && db) {
+            openSet(route.setId);
+            if (state.currentSet) return; // openSet no-ops on unknown set ids
+          }
+          renderGame(game, db); // 'game' kind, and fallback for the above
           return;
         } catch(e) { /* fall through to home */ }
       }
@@ -2433,7 +2465,8 @@ function setBreadcrumb(crumbs) {
 
 // ── HOME ──────────────────────────────────────────────────
 function renderHome() {
-  clearDbHash();
+  setRoute('');
+  tcgTrack('Home — Archive');
   state.currentGame = null;
   state.currentSet = null;
   state.db = null;
@@ -2560,7 +2593,8 @@ function dailyPicks(gameId, key, computeFn) {
 }
 
 function renderGame(game, db) {
-  clearDbHash();
+  setRoute(encodeURIComponent(game.id));
+  tcgTrack(`Game — ${game.name}`);
   const sets = db ? q(db, `
     SELECT s.*, (SELECT COUNT(*) FROM cards WHERE set_id = s.id) as card_count
     FROM sets s ORDER BY s.id ASC`) : [];
@@ -2908,7 +2942,6 @@ function museumFrameTier(rarity) {
 }
 
 function renderMuseum(game) {
-  clearDbHash();
   const db = (game.db && state.loadedDbs[game.db]) || state.db;
   let cards;
   if (db) {
@@ -2923,6 +2956,8 @@ function renderMuseum(game) {
       .map(p => ({ id: null, name: p.name || '', artist: p.artist || '', rarity: p.rarity || '', image_url: p.url, set_name: '' })));
   }
   if (!cards.length) return;
+  setRoute(`${encodeURIComponent(game.id)}/museum`);
+  tcgTrack(`Museum — ${game.name}`);
 
   // Clean up a previous session's key handler (e.g. museum exited via breadcrumb)
   if (museumState?.keyHandler) document.removeEventListener('keydown', museumState.keyHandler, true);
@@ -3299,32 +3334,44 @@ function getNumericAttrKeys(cards) {
   return Object.entries(keys).filter(([k, isNum]) => isNum).map(([k]) => k);
 }
 
-// ── URL hash sync (shareable links) ───────────────────────
+// ── URL hash routing (shareable links) ────────────────────
+// Scheme:   #/gameId               → game page
+//           #/gameId/db?sets=…     → card database (filters in the query part)
+//           #/gameId/museum        → museum
+//           #/gameId/set/N         → single set page
+// Legacy:   #game=id&sets=…        → still recognized, mapped to the db route
 let _hashTimer = null;
+
+// Immediately set the route ('' clears the hash). Cancels pending throttled writes.
+function setRoute(path) {
+  clearTimeout(_hashTimer);
+  history.replaceState(null, '', path ? '#/' + path : location.pathname + location.search);
+}
+
+// Throttled: browsers rate-limit history.replaceState (Safari: 100 per 30s)
 function writeDbHash(gameId, setIds, q, types, rarities, sortKey, view) {
-  // Throttled: browsers rate-limit history.replaceState (Safari: 100 per 30s)
   clearTimeout(_hashTimer);
   _hashTimer = setTimeout(() => {
-    const parts = [`game=${encodeURIComponent(gameId)}`];
+    const parts = [];
     if (setIds && setIds.size) parts.push(`sets=${[...setIds].join(',')}`);
     if (q) parts.push(`q=${encodeURIComponent(q)}`);
     if (types && types.size) parts.push(`types=${[...types].map(encodeURIComponent).join('|')}`);
     if (rarities && rarities.size) parts.push(`rarities=${[...rarities].map(encodeURIComponent).join('|')}`);
     if (sortKey && sortKey !== 'default') parts.push(`sort=${encodeURIComponent(sortKey)}`);
     if (view && view !== 'grid') parts.push(`view=${view}`);
-    history.replaceState(null, '', '#' + parts.join('&'));
+    const qs = parts.length ? '?' + parts.join('&') : '';
+    history.replaceState(null, '', `#/${encodeURIComponent(gameId)}/db${qs}`);
   }, 400);
 }
-function parseDbHash() {
-  if (!location.hash || location.hash.length < 2) return null;
+
+// Parse db filter params (the part after '?') into the restore shape
+function parseDbQuery(queryPart) {
   const params = {};
-  location.hash.slice(1).split('&').forEach(p => {
+  (queryPart || '').split('&').forEach(p => {
     const [k, v] = p.split('=');
     if (k && v !== undefined) params[k] = decodeURIComponent(v);
   });
-  if (!params.game) return null;
   return {
-    game: params.game,
     sets: params.sets ? params.sets.split(',').map(Number).filter(n => !isNaN(n)) : [],
     q: params.q || '',
     types: params.types ? params.types.split('|') : [],
@@ -3333,10 +3380,30 @@ function parseDbHash() {
     view: params.view || 'grid',
   };
 }
-function clearDbHash() {
-  // Cancel any pending throttled write so it can't restore a stale hash after navigation
-  clearTimeout(_hashTimer);
-  history.replaceState(null, '', location.pathname + location.search);
+
+// Parse the current hash into a route: { game, kind, filters?, setId? } or null
+function parseRoute() {
+  const h = location.hash.slice(1);
+  if (!h) return null;
+
+  // Legacy format: game=id&sets=…  → db route
+  if (h.startsWith('game=')) {
+    const filters = parseDbQuery(h);
+    const gameParam = h.split('&').map(p => p.split('=')).find(([k]) => k === 'game');
+    if (!gameParam || !gameParam[1]) return null;
+    return { game: decodeURIComponent(gameParam[1]), kind: 'db', filters };
+  }
+
+  if (!h.startsWith('/')) return null;
+  const [pathPart, queryPart] = h.slice(1).split('?');
+  const segs = pathPart.split('/').filter(Boolean).map(decodeURIComponent);
+  if (!segs.length) return null;
+
+  const route = { game: segs[0], kind: 'game' };
+  if (segs[1] === 'db') { route.kind = 'db'; route.filters = parseDbQuery(queryPart); }
+  else if (segs[1] === 'museum') { route.kind = 'museum'; }
+  else if (segs[1] === 'set' && segs[2]) { route.kind = 'set'; route.setId = parseInt(segs[2]); }
+  return route;
 }
 
 // ── Pill filter toggle helper ─────────────────────────────
@@ -3551,6 +3618,8 @@ function renderSet(set, db) {
     { label: 'Card Database', onClick: 'renderGameDb(state.currentGame, state.db)' },
     { label: set.name }
   ]);
+  setRoute(`${encodeURIComponent(state.currentGame.id)}/set/${set.id}`);
+  tcgTrack(`Set — ${state.currentGame.name}: ${set.name}`);
 
   const attrHtml = buildAttrFilterHtml(allCards);
   const numericKeys = getNumericAttrKeys(allCards);
@@ -3620,6 +3689,8 @@ function renderGameDb(game, db, preSetId = null, restore = null) {
     { label: game.name, onClick: 'renderGame(state.currentGame, state.db)' },
     { label: 'Card Database' }
   ]);
+  setRoute(`${encodeURIComponent(game.id)}/db`);
+  tcgTrack(`Database — ${game.name}`);
 
   const preSetIdParsed = preSetId ? parseInt(preSetId) : null;
   let activeSetIds = restore?.sets?.length
