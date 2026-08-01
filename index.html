@@ -28,20 +28,43 @@
   };
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Preload marble textures — they're the page background everywhere -->
+<link rel="preload" as="image" href="/imgs/v-bg1.jpg">
+<link rel="preload" as="image" href="/imgs/v-bg2.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:        #0a0908;
-  --surface:   #141210;
-  --surface2:  #252118;
-  --border:    #332e26;
-  --border2:   #4a4236;
-  --gold:      #c8963c;
-  --gold-dim:  #9a7232;
-  --text:      #ede8dc;
-  --text-dim:  #6e6456;
-  --text-mid:  #c4b89a;
+  /* Pewter palette — achromatic, gold is the only colour */
+  --bg:        #0b0b0b;
+  --surface:   #191919;
+  --surface2:  #282828;
+  --border:    #363636;
+  --border2:   #4a4a4a;
+  --gold:      #b8922e;
+  --gold-dim:  #8a6a20;
+  --text:      #e2e2e2;
+  --text-dim:  #888888;
+  --text-mid:  #c0c0c0;
+
+  /* Marble texture backgrounds — dark v-bg1 at base, lighter v-bg2 for raised surfaces.
+     Each level uses a different offset so the same tile doesn't obviously repeat. */
+  --tx:  url('/imgs/v-bg1.jpg') top left / 500px 500px;
+  --bg-v:      var(--tx)  repeat;
+  --surface-v: url('/imgs/v-bg2.jpg') 125px 200px / 500px 500px repeat;
+  --surf2-v:   url('/imgs/v-bg2.jpg') 310px  80px / 500px 500px repeat;
+  --surf3-v:   url('/imgs/v-bg2.jpg')  60px 370px / 500px 500px repeat;
   --card-ratio: 5 / 7;
+
+  /* Layered shadows — lift elements off the textured background */
+  --sh-sm:  0 1px 3px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.40);
+  --sh-md:  0 2px 6px rgba(0,0,0,0.60), 0 6px 20px rgba(0,0,0,0.45);
+  --sh-lg:  0 4px 12px rgba(0,0,0,0.65), 0 12px 36px rgba(0,0,0,0.50);
+
+  /* Text shadow — lifts thin/dim text off noisy bg */
+  --ts: 0 1px 3px rgba(0,0,0,0.80);
+  /* Stronger for small/muted text */
+  --ts-strong: 0 1px 4px rgba(0,0,0,0.95), 0 2px 8px rgba(0,0,0,0.70);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,8 +72,12 @@
 html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body {
-  background: var(--bg);
+  background: var(--bg-v);
   color: var(--text);
+  text-shadow: var(--ts);
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
   font-family: 'Onest', sans-serif;
   font-size: 14px;
   line-height: 1.6;
@@ -60,7 +87,7 @@ body {
   flex-direction: column;
 }
 
-#app { flex: 1; }
+#app { flex: 1; display: flex; flex-direction: column; align-items: stretch; }
 
 /* ── Grain overlay ─────────────────────────────── */
 body::before {
@@ -78,8 +105,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(12,11,9,0.92);
-  backdrop-filter: blur(12px);
+  background: var(--surface-v);
   border-bottom: 1px solid var(--border);
   padding: 0 40px;
   height: 56px;
@@ -101,6 +127,7 @@ header {
   color: var(--gold);
 }
 .logo:hover { color: var(--gold); }
+.logo-short { display: none; }
 
 .breadcrumb {
   display: flex;
@@ -108,6 +135,7 @@ header {
   margin-left: 32px;
   font-size: 11px;
   color: var(--text-dim);
+  text-shadow: var(--ts-strong);
   letter-spacing: 0.06em;
 }
 .breadcrumb .crumb {
@@ -124,9 +152,13 @@ header {
 .page {
   padding: 48px 40px;
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
   animation: fadeIn 0.3s ease;
 }
+/* Pages with a fixed back button animate opacity only:
+   an animated parent transform would re-anchor position:fixed children. */
+.page.has-back-btn { animation: museumFadeIn 0.3s ease; }
 .game-page { position: relative; }
 
 @keyframes fadeIn {
@@ -142,6 +174,7 @@ header {
   letter-spacing: 0.08em;
   color: var(--text);
   margin-bottom: 24px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.85), 0 4px 16px rgba(0,0,0,0.60);
   display: flex;
   align-items: center;
   gap: 20px;
@@ -156,13 +189,15 @@ header {
 /* ── Footer ────────────────────────────────────── */
 footer {
   border-top: 1px solid var(--border);
-  background: var(--surface);
+  background: var(--surface-v);
   padding: 20px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
   gap: 12px;
+  position: relative;
+  z-index: 20; /* above fixed museum vignettes (z-index 3) */
 }
 .footer-about-btn {
   background: none;
@@ -220,8 +255,9 @@ footer {
 }
 .about-modal-bg.open { display: flex; }
 .about-modal {
-  background: var(--surface);
+  background: var(--surface-v);
   border: 1px solid var(--border2);
+  box-shadow: var(--sh-lg);
   max-width: 620px;
   width: 100%;
   padding: 40px;
@@ -246,6 +282,7 @@ footer {
   margin-bottom: 16px;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.60);
 }
 .about-logo-title em { font-style: normal; color: var(--gold); }
 .about-body {
@@ -262,8 +299,9 @@ footer {
 }
 .game-tile {
   position: relative;
-  background: var(--surface);
+  background: var(--surface-v);
   border: 1px solid var(--border);
+  box-shadow: var(--sh-md);
   cursor: pointer;
   transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
   overflow: hidden;
@@ -318,7 +356,7 @@ footer {
 .game-tile-hero-fallback {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, var(--game-color, #1a1a1a) 0%, color-mix(in srgb, var(--game-color, #1a1a1a) 60%, #0c0b09) 100%);
+  background: linear-gradient(135deg, var(--game-color, #1a1a1a) 0%, color-mix(in srgb, var(--game-color, #1a1a1a) 60%, #0b0b0b) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -498,12 +536,13 @@ footer {
   letter-spacing: 0.02em;
   line-height: 1;
   margin-bottom: 0;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.90), 0 6px 24px rgba(0,0,0,0.70);
 }
 
 /* ── Scan documentation section ────────────────── */
 .scan-section {
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: var(--surface-v);
   min-width: 0;
   overflow: hidden;
 }
@@ -521,7 +560,7 @@ footer {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: var(--surface2);
+  background: var(--surf2-v);
   flex-shrink: 0;
 }
 .scan-card-back img {
@@ -571,7 +610,7 @@ footer {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--text-mid);
+  color: var(--text);
   text-decoration: none;
   font-size: 15px;
   transition: color 0.15s;
@@ -580,13 +619,14 @@ footer {
 .scan-download-icon {
   width: 28px; height: 28px;
   border: 1px solid var(--border);
-  background: var(--surface2);
+  background: var(--surf2-v);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   font-size: 12px;
-  color: var(--gold-dim);
+  color: var(--gold);
+  border-color: var(--gold-dim);
   transition: border-color 0.15s, color 0.15s;
 }
 .scan-download-link:hover .scan-download-icon {
@@ -621,22 +661,22 @@ footer {
   gap: 6px;
 }
 .scan-name-tag {
-  background: var(--surface2);
+  background: var(--surf2-v);
   border: 1px solid var(--border);
   padding: 4px 12px;
   font-size: 12px;
-  color: var(--text-mid);
+  color: var(--text);
   letter-spacing: 0.02em;
 }
 .scan-year-val {
   font-size: 13px;
-  color: var(--text-mid);
+  color: var(--text);
 }
 .scan-notes {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
   font-size: 15px;
-  color: var(--text-dim);
+  color: var(--text-mid);
   line-height: 1.65;
   padding-top: 16px;
   border-top: 1px solid var(--border);
@@ -670,7 +710,7 @@ footer {
   border: 1px solid var(--border);
   margin-bottom: -1px;
   overflow: hidden;
-  background: var(--surface);
+  background: var(--surface-v);
 }
 .game-fact {
   padding: 16px 28px;
@@ -722,7 +762,7 @@ footer {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: var(--surface-v);
   min-height: 120px;
 }
 .overview-card-slide {
@@ -745,7 +785,7 @@ footer {
   margin-bottom: 36px;
 }
 .game-info-panel {
-  background: var(--surface);
+  background: var(--surface-v);
   border: 1px solid var(--border);
   padding: 28px;
   min-width: 0;
@@ -761,7 +801,7 @@ footer {
 }
 .span-2 { grid-column: span 2; min-width: 0; overflow: hidden; }
 .scan-community-panel {
-  background: var(--surface);
+  background: var(--surface-v);
   border: 1px solid var(--border);
   padding: 28px 24px;
   min-width: 0;
@@ -773,7 +813,7 @@ footer {
   gap: 10px;
 }
 .info-link-list a {
-  color: var(--text-mid);
+  color: var(--text);
   text-decoration: none;
   font-size: 15px;
   display: flex;
@@ -791,9 +831,9 @@ footer {
   flex-shrink: 0;
   font-size: 12px;
   line-height: 1;
-  color: var(--gold-dim);
-  border: 1px solid var(--border);
-  background: var(--surface2);
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  background: var(--surf2-v);
   transform: rotate(-90deg);
   transition: border-color 0.15s, color 0.15s;
 }
@@ -815,13 +855,14 @@ footer {
 }
 .set-tile {
   position: relative;
-  background: var(--surface);
+  background: var(--surface-v);
   border: 1px solid var(--border);
+  box-shadow: var(--sh-sm);
   cursor: pointer;
-  transition: border-color 0.22s, background 0.22s;
+  transition: border-color 0.22s, box-shadow 0.22s;
   overflow: hidden;
 }
-.set-tile:hover { border-color: var(--border2); background: var(--surface2); }
+.set-tile:hover { border-color: var(--border2); box-shadow: var(--sh-md); }
 .set-tile:hover .set-tile-arrow { opacity: 1; transform: translateX(0) translateY(-50%); }
 
 /* Card artwork showcase — right side, angled */
@@ -895,6 +936,7 @@ footer {
   gap: 20px;
   font-size: 14px;
   color: var(--text-dim);
+  text-shadow: var(--ts-strong);
   letter-spacing: 0.05em;
 }
 .set-tile-count { color: var(--gold-dim); letter-spacing: 0.06em; }
@@ -922,8 +964,9 @@ footer {
 .search-input {
   flex: 1;
   min-width: 180px;
-  background: var(--surface);
+  background: var(--surface-v);
   border: 1px solid var(--border);
+  box-shadow: var(--sh-sm);
   color: var(--text);
   font-family: 'Onest', sans-serif;
   font-size: 12px;
@@ -936,9 +979,15 @@ footer {
 .search-input:focus { border-color: var(--gold-dim); }
 
 .filter-select {
-  background: var(--surface);
+  /* Gold arrow SVG on top, then the marble texture beneath */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23b8922e'/%3E%3C/svg%3E"),
+    url('/imgs/v-bg2.jpg');
+  background-repeat: no-repeat, repeat;
+  background-position: right 10px center, 310px 80px;
+  background-size: auto, 500px 500px;
   border: 1px solid var(--border);
-  color: var(--text-mid);
+  color: var(--text);
   font-family: 'Onest', sans-serif;
   font-size: 11px;
   padding: 9px 32px 9px 10px;
@@ -948,11 +997,10 @@ footer {
   max-width: 160px;
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237a7060'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
+  box-shadow: var(--sh-sm);
 }
 .filter-select:focus { border-color: var(--gold-dim); }
+.filter-select, .filter-select option { color-scheme: dark; background-color: #141414; color: var(--text); }
 .attr-filter-row {
   display: flex;
   flex-wrap: wrap;
@@ -977,10 +1025,11 @@ footer {
 /* ── Shared game launch buttons (DB + Museum) ─── */
 .launch-btn {
   width: 100%;
+  box-shadow: var(--sh-sm);
   padding: 20px 28px;
   background:
     linear-gradient(160deg, rgba(200,150,60,0.07), rgba(200,150,60,0.02) 55%),
-    var(--surface);
+    var(--surface-v);
   border: 1px solid var(--gold-dim);
   outline: 1px solid rgba(200,150,60,0.15);
   outline-offset: 3px;
@@ -995,15 +1044,21 @@ footer {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  transition: background 0.15s, outline-color 0.2s;
+  transition: outline-color 0.2s;
 }
-.launch-btn:hover { background: var(--surface2); outline-color: rgba(200,150,60,0.4); }
+.launch-btn:hover {
+  background:
+    linear-gradient(160deg, rgba(200,150,60,0.11), rgba(200,150,60,0.04) 55%),
+    var(--surface-v);
+  outline-color: rgba(200,150,60,0.4);
+}
 .launch-btn-left { display: flex; flex-direction: column; gap: 4px; }
 .launch-btn-title { font-size: 28px; font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 .launch-game-name { color: var(--gold); }
 .launch-btn-stats {
   font-size: 11px;
   color: var(--text-dim);
+  text-shadow: var(--ts-strong);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-family: 'Onest', sans-serif;
@@ -1046,7 +1101,7 @@ footer {
   letter-spacing: 0.02em;
   padding: 7px 10px;
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: var(--surface-v);
   color: var(--text-mid);
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s, color 0.15s;
@@ -1059,7 +1114,7 @@ footer {
 .set-filter-btn:hover { border-color: var(--border2); color: var(--text); }
 .set-filter-btn.active {
   border-color: var(--gold-dim);
-  background: var(--surface2);
+  background: var(--surf2-v);
   color: var(--text);
 }
 .set-filter-check {
@@ -1140,7 +1195,8 @@ footer {
   letter-spacing: 0.04em;
   padding: 4px 11px;
   border: 1px solid var(--border);
-  background: var(--surface);
+  box-shadow: var(--sh-sm);
+  background: var(--surface-v);
   color: var(--text-dim);
   cursor: pointer;
   transition: border-color 0.12s, background 0.12s, color 0.12s;
@@ -1151,7 +1207,7 @@ footer {
 .filter-pill:hover { border-color: var(--border2); color: var(--text-mid); }
 .filter-pill.active {
   border-color: var(--gold-dim);
-  background: var(--surface2);
+  background: var(--surf2-v);
   color: var(--text);
 }
 .rarity-pip {
@@ -1210,6 +1266,7 @@ footer {
 .db-count {
   font-size: 11px;
   color: var(--text-dim);
+  text-shadow: var(--ts-strong);
   letter-spacing: 0.06em;
 }
 .db-right-controls { display: flex; align-items: center; gap: 12px; }
@@ -1224,7 +1281,7 @@ footer {
   color: var(--text-dim);
   text-decoration: none;
   border: 1px solid var(--border);
-  background: var(--surface2);
+  background: var(--surf2-v);
   padding: 5px 12px;
   transition: border-color 0.15s, color 0.15s;
   width: 100%;
@@ -1291,8 +1348,8 @@ footer {
   line-height: 1;
 }
 .view-toggle-btn:first-child { border-right: 1px solid var(--border); }
-.view-toggle-btn.active { background: var(--surface2); color: var(--gold); }
-.view-toggle-btn:hover:not(.active) { background: var(--surface2); color: var(--text-mid); }
+.view-toggle-btn.active { background: var(--surf2-v); color: var(--gold); }
+.view-toggle-btn:hover:not(.active) { background: var(--surf2-v); color: var(--text-mid); }
 
 /* ── Card list view ────────────────────────────── */
 .card-list {
@@ -1304,20 +1361,21 @@ footer {
   display: grid;
   grid-template-columns: 52px 1fr 140px 100px 140px;
   align-items: center;
-  background: var(--surface);
+  background: var(--surface-v);
   border: 1px solid var(--border);
+  box-shadow: var(--sh-sm);
   cursor: pointer;
   transition: background 0.12s, border-color 0.12s;
   min-height: 40px;
 }
-.card-list-row:hover { background: var(--surface2); border-color: var(--border2); }
+.card-list-row:hover { background: var(--surf2-v); border-color: var(--border2); }
 .card-list-row.list-header {
-  background: var(--bg);
+  background: var(--bg-v);
   border-color: var(--border);
   cursor: default;
   min-height: 32px;
 }
-.card-list-row.list-header:hover { background: var(--bg); }
+.card-list-row.list-header:hover { background: var(--bg-v); }
 .card-list-cell {
   padding: 8px 14px;
   font-size: 12px;
@@ -1366,7 +1424,7 @@ footer {
   border-radius: 6px;
   overflow: hidden;
   aspect-ratio: var(--card-ratio);
-  background: var(--surface);
+  background: var(--surface-v);
   border: 1px solid var(--border);
   transition: transform 0.18s ease, box-shadow 0.18s ease;
   animation: cardIn 0.25s ease both;
@@ -1407,7 +1465,7 @@ footer {
   justify-content: center;
   padding: 12px 10px;
   text-align: center;
-  background: linear-gradient(160deg, var(--surface2) 0%, var(--surface) 100%);
+  background: var(--surf2-v);
   border: 1px solid var(--border);
 }
 .card-placeholder .ph-num {
@@ -1426,6 +1484,8 @@ footer {
 .card-placeholder .ph-type {
   font-size: 10px;
   color: var(--text-dim);
+  text-shadow: var(--ts-strong);
+  text-shadow: var(--ts-strong);
   letter-spacing: 0.06em;
 }
 .no-scan-badge {
@@ -1460,6 +1520,7 @@ footer {
 .card-tile-overlay .ov-type {
   font-size: 9px;
   color: var(--text-dim);
+  text-shadow: var(--ts-strong);
   letter-spacing: 0.06em;
   margin-top: 2px;
 }
@@ -1486,7 +1547,7 @@ footer {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.82);
+  background: rgba(0,0,0,0.88);
   backdrop-filter: blur(6px);
   z-index: 500;
   align-items: center;
@@ -1499,8 +1560,9 @@ footer {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 36px;
-  background: var(--surface);
+  background: var(--surface-v);
   border: 1px solid var(--border2);
+  overflow: visible;
   max-width: 1000px;
   width: 100%;
   max-height: 90vh;
@@ -1538,7 +1600,7 @@ footer {
 .modal-no-img {
   width: 280px;
   aspect-ratio: var(--card-ratio);
-  background: var(--surface2);
+  background: var(--surf2-v);
   border: 1px solid var(--border);
   border-radius: 6px;
   display: flex;
@@ -1546,13 +1608,14 @@ footer {
   justify-content: center;
   font-size: 11px;
   color: var(--text-dim);
+  text-shadow: var(--ts-strong);
   letter-spacing: 0.06em;
   text-align: center;
   padding: 12px;
 }
 
 /* Info panel */
-.modal-info { min-width: 0; }
+.modal-info { min-width: 0; overflow-y: auto; max-height: calc(90vh - 80px); padding-right: 4px; }
 .modal-num {
   font-size: 12px;
   color: var(--gold-dim);
@@ -1573,6 +1636,7 @@ footer {
 .modal-typeline {
   font-size: 13px;
   color: var(--text-dim);
+  text-shadow: var(--ts-strong);
   letter-spacing: 0.04em;
   margin-bottom: 20px;
   padding-bottom: 16px;
@@ -1606,7 +1670,7 @@ footer {
   margin-top: 4px;
 }
 .extra-chip {
-  background: var(--surface2);
+  background: var(--surf2-v);
   border: 1px solid var(--border);
   padding: 4px 10px;
   font-size: 13px;
@@ -1693,74 +1757,85 @@ footer {
 /* ── DB / Set page back button ─────────────────── */
 .db-back-bar {
   position: fixed;
-  top: 56px; /* just below the site header */
-  left: 0;
+  top: 68px; /* 56px header + 12px breathing room */
+  left: 16px;
   z-index: 50;
-  padding: 10px 16px;
-  background: linear-gradient(to right, rgba(10,9,8,0.85), transparent);
-  pointer-events: none; /* only the button itself is interactive */
+  pointer-events: none;
 }
+/* DB/set pages: push content below the fixed back button */
+.has-back-btn { padding-top: 120px; }
 .db-back-btn {
   pointer-events: auto;
-  background: none;
-  border: none;
-  color: var(--text-dim);
+  background: var(--surface-v);
+  border: 1px solid var(--border2);
+  box-shadow: var(--sh-md);
+  color: var(--text);
   font-family: 'Onest', sans-serif;
   font-size: 11px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 4px;
-  transition: color 0.15s;
+  gap: 8px;
+  padding: 8px 14px;
+  transition: border-color 0.15s, color 0.15s;
 }
-.db-back-btn:hover { color: var(--gold); }
+.db-back-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
 
 /* ── Card Museum launch button ─────────────────── */
 .museum-launch { margin: -8px 0 36px; }
 
 /* ── Card Museum page ──────────────────────────── */
 .museum-page {
+  position: relative;
   min-height: calc(100vh - 56px);
   min-height: calc(100dvh - 56px);
   background:
-    radial-gradient(ellipse 70% 50% at 50% 12%, rgba(200,150,60,0.05), transparent 65%),
-    linear-gradient(#0d0c0a, #0a0908 70%);
+    radial-gradient(ellipse 70% 50% at 50% 12%, rgba(180,140,44,0.06), transparent 65%),
+    var(--tx) repeat;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 72px 24px 48px;
-  position: relative;
-  animation: fadeIn 0.35s ease;
+  padding: 108px 24px 48px;
+  /* Opacity-only: an animated transform would re-anchor the fixed top bar */
+  animation: museumFadeIn 0.35s ease;
+  flex: 1;
+}
+@keyframes museumFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 .museum-top {
-  position: absolute;
-  top: 0; left: 0; right: 0;
+  position: fixed;
+  top: 68px;
+  left: 16px;
+  right: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
-  z-index: 5;
+  z-index: 101;
+  pointer-events: none;
 }
+.museum-top > * { pointer-events: auto; }
 .museum-back {
-  background: none;
-  border: none;
-  color: var(--text-dim);
+  background: var(--surface-v);
+  border: 1px solid var(--border2);
+  box-shadow: var(--sh-md);
+  color: var(--text);
   font-family: 'Onest', sans-serif;
   font-size: 11px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: color 0.15s;
-  padding: 6px 4px;
+  gap: 8px;
+  padding: 8px 14px;
+  transition: border-color 0.15s, color 0.15s;
 }
-.museum-back:hover { color: var(--gold); }
+.museum-back:hover { border-color: var(--gold-dim); color: var(--gold); }
 .museum-top-right { display: flex; align-items: center; gap: 18px; }
 .museum-pos {
   font-size: 10px;
@@ -1788,28 +1863,29 @@ footer {
   gap: 40px;
   position: relative;
 }
-/* Dip to black on left/right so the eye isn't drawn to the edges */
-.museum-stage::before,
-.museum-stage::after {
+/* Edge vignettes, absolutely positioned so they stay within the page bounds */
+.museum-page::before,
+.museum-page::after {
   content: '';
-  position: fixed;
+  position: absolute;
   top: 0; bottom: 0;
   width: min(18vw, 160px);
   pointer-events: none;
   z-index: 4;
 }
-.museum-stage::before {
+.museum-page::before {
   left: 0;
-  background: linear-gradient(to right, #0a0908 0%, transparent 100%);
+  background: linear-gradient(to right, var(--bg) 0%, transparent 100%);
 }
-.museum-stage::after {
+.museum-page::after {
   right: 0;
-  background: linear-gradient(to left, #0a0908 0%, transparent 100%);
+  background: linear-gradient(to left, var(--bg) 0%, transparent 100%);
 }
 .museum-nav {
   background: none;
   border: none;
-  color: var(--border2);
+  color: var(--text-mid);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.90), 0 0 20px rgba(0,0,0,0.70);
   font-size: 34px;
   cursor: pointer;
   width: 52px;
@@ -1823,7 +1899,16 @@ footer {
   font-family: 'Cormorant Garamond', serif;
 }
 .museum-nav:hover { color: var(--gold); }
-.museum-exhibit { position: relative; }
+/* Plaque-row arrows: hidden on desktop, shown on tiny mobile */
+.museum-nav-plaque { display: none; }
+.museum-plaque-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+.museum-center { display: flex; flex-direction: column; align-items: center; }
 /* Spotlight cone above the frame */
 .museum-exhibit::before {
   content: '';
@@ -1844,7 +1929,8 @@ footer {
     0 0 0 1px #14120a,
     inset 0 0 0 1px #4a4030,
     inset 0 0 12px rgba(0,0,0,0.6),
-    0 14px 32px -22px rgba(0,0,0,0.75);
+    0 8px 24px rgba(0,0,0,0.70),
+    0 24px 60px rgba(0,0,0,0.55);
   position: relative;
 }
 .museum-frame::before {
@@ -1988,13 +2074,24 @@ footer {
 }
 /* Placard beneath the frame — fixed height, never shifts the frame */
 .museum-placard {
-  margin-top: 30px;
+  margin: 22px auto 0;
   text-align: center;
-  height: 72px;          /* fixed — enough for name + set + artist */
+  height: 78px;
   overflow: hidden;
   position: relative;
   z-index: 2;
   transition: opacity 0.2s ease;
+  background: var(--surface-v);
+  border: 1px solid var(--border2);
+  box-shadow: var(--sh-md);
+  padding: 10px 20px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Placard is narrower than the card, in gallery-label proportion */
+  width: 55%;
+  min-width: 0;      /* allow shrinking so text-overflow: ellipsis works */
+  max-width: 320px;
 }
 /* Frame fades through black between cards */
 .museum-frame-wrap {
@@ -2008,26 +2105,38 @@ footer {
 .museum-exhibit.dipping { opacity: 0; }
 .museum-card-name {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 21px;
+  font-size: 19px;
   font-weight: 400;
-  color: var(--text-mid);
+  color: var(--text);
   letter-spacing: 0.03em;
-  line-height: 1.25;
+  line-height: 1.2;
+  text-shadow: var(--ts);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .museum-card-set {
-  font-size: 9px;
+  font-size: 8px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--text-dim);
-  margin-top: 5px;
+  color: var(--text-mid);
+  margin-top: 3px;
+  text-shadow: var(--ts);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .museum-artist {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 14px;
+  font-size: 13px;
   font-style: italic;
-  color: #6e6047;
+  color: var(--gold);
   letter-spacing: 0.04em;
-  margin-top: 6px;
+  margin-top: 3px;
+  text-shadow: var(--ts);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .museum-hint {
   position: absolute;
@@ -2052,7 +2161,7 @@ footer {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: var(--surface2);
+  background: var(--surf2-v);
   border: 1px solid var(--border);
   overflow: hidden;
 }
@@ -2069,7 +2178,7 @@ footer {
 
 /* ── Stats panel ───────────────────────────────── */
 .db-stats-toggle {
-  background: var(--surface);
+  background: var(--surface-v);
   border: 1px solid var(--gold-dim);
   color: var(--gold);
   font-family: 'Onest', sans-serif;
@@ -2081,15 +2190,15 @@ footer {
   transition: background 0.15s, color 0.15s;
   flex-shrink: 0;
 }
-.db-stats-toggle:hover { background: var(--surface2); }
-.db-stats-toggle.open { background: var(--surface2); color: var(--text); }
+.db-stats-toggle:hover { background: var(--surf2-v); }
+.db-stats-toggle.open { background: var(--surf2-v); color: var(--text); }
 .db-stats-panel {
   display: none;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   padding: 16px;
   border: 1px solid var(--border);
-  background: var(--surface);
+  background: var(--surface-v);
   margin-bottom: 16px;
 }
 .db-stats-panel.open { display: grid; }
@@ -2110,7 +2219,7 @@ footer {
   color: var(--text-mid);
   padding: 3px 0;
 }
-.db-stat-bar-wrap { flex: 1; height: 4px; background: var(--surface2); min-width: 40px; }
+.db-stat-bar-wrap { flex: 1; height: 4px; background: var(--surf2-v); min-width: 40px; }
 .db-stat-bar { height: 100%; background: var(--gold-dim); }
 .db-stat-count { color: var(--text-dim); font-size: 11px; flex-shrink: 0; min-width: 44px; text-align: right; }
 .db-stat-name { min-width: 90px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -2139,11 +2248,8 @@ footer {
 .modal-nav-prev { left: -56px; }
 .modal-nav-next { right: -56px; }
 /* Arrows sit outside the modal, so modal must not clip; info panel scrolls instead */
-.modal { overflow: visible; }
-.modal-info { overflow-y: auto; max-height: calc(90vh - 80px); padding-right: 4px; }
-
 /* ── Scrollbar ─────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; background: var(--bg); }
+::-webkit-scrollbar { width: 6px; background: var(--bg-v); }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
 
@@ -2154,7 +2260,9 @@ footer {
 
   /* Header */
   header { padding: 0 16px; height: 50px; }
-  .logo { font-size: 15px; letter-spacing: 0.06em; }
+  .logo { font-size: 14px; letter-spacing: 0.05em; }
+  .logo-full { display: none; }
+  .logo-short { display: inline; }
   .breadcrumb { margin-left: 12px; font-size: 10px; }
   .breadcrumb .crumb { padding: 2px 4px; }
 
@@ -2211,7 +2319,6 @@ footer {
   .set-tile-arrow { display: none; }
 
   /* Set controls — wrap */
-  .set-controls { gap: 6px; }
   .search-input { min-width: 100%; }
   .filter-select { max-width: none; flex: 1; font-size: 11px; }
   .size-control { margin-left: 0; width: 100%; justify-content: space-between; }
@@ -2248,18 +2355,19 @@ footer {
     min-height: calc(100dvh - 50px);
     padding: 64px 12px 40px;
   }
-  .museum-stage { gap: 4px; }
-  .museum-stage::before,
-  .museum-stage::after { width: 9vw; } /* keep nav arrows out of the edge fade */
+  .museum-stage { gap: 8px; }
+  .museum-page::before,
+  .museum-page::after { width: 9vw; }
   .museum-nav { width: 40px; height: 40px; font-size: 28px; }
-  .museum-card { width: min(86vw, calc((100vh - 300px) * 5 / 7), var(--nat-w, 9999px)); }
+  .museum-card { width: min(86vw, calc((100dvh - 300px) * 5 / 7), var(--nat-w, 9999px)); }
   .museum-frame { padding: 12px; }
   .museum-hint { display: none; }
   .launch-btn { padding: 14px 16px; }
   .launch-btn-title { font-size: 20px; }
 
   /* Fixed back button sits below the shorter mobile header */
-  .db-back-bar { top: 50px; padding: 8px 12px; }
+  .db-back-bar { top: 60px; }
+  .has-back-btn { padding-top: 110px; }
 
   /* Modal nav on mobile — inside edges */
   .modal-nav-prev { left: 4px; }
@@ -2285,6 +2393,27 @@ footer {
 }
 
 /* ══════════════════════════════════════════════════
+   TINY MOBILE (≤480px) — arrows beside plaque, no vignettes
+══════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  /* Side vignettes would overlap the nav arrows at this width */
+  .museum-page::before,
+  .museum-page::after { display: none; }
+  /* Hide the side nav arrows */
+  .museum-nav-side { display: none; }
+  /* Show the plaque-flanking arrows */
+  .museum-nav-plaque {
+    display: flex;
+    width: 36px;
+    height: 36px;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .museum-placard { width: auto; flex: 1; min-width: 0; }
+  .museum-stage { gap: 0; }
+}
+
+/* ══════════════════════════════════════════════════
    SMALL MOBILE — trim card preview edges
 ══════════════════════════════════════════════════ */
 /* Too narrow for 7 frames: drop the outermost pair (5 remain) */
@@ -2302,12 +2431,12 @@ footer {
 <body>
 
 <header>
-  <div class="logo" id="logo">Zarthbenn's <em>TCG Vault</em></div>
+  <div class="logo" id="logo"><span class="logo-full">Zarthbenn's</span><span class="logo-short">Z's</span> <em>TCG Vault</em></div>
   <nav class="breadcrumb" id="breadcrumb"></nav>
 </header>
 
 <noscript>
-  <div style="font-family:sans-serif;max-width:700px;margin:60px auto;padding:0 24px;color:#ede8dc;background:#0a0908">
+  <div style="font-family:sans-serif;max-width:700px;margin:60px auto;padding:0 24px;color:#e2e2e2;background:#0b0b0b">
     <h1 style="font-size:32px;font-weight:300;letter-spacing:0.1em;margin-bottom:8px">Zarthbenn's TCG Vault</h1>
     <p style="color:#9a7232;margin-bottom:24px">An archive of out-of-print trading card games with link hubs and card databases.</p>
     <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:16px">
@@ -2320,7 +2449,7 @@ footer {
       <li><strong>Star Wars CCG</strong> (Decipher Inc., 1999–2001) — Control the flow of the force to play iconic characters and vehicles from across the galaxy.</li>
       <li><strong>Lord of the Rings TCG</strong> (Decipher Inc., 2001–2007) — Lead your fellowship on a journey to destroy the one ring.</li>
     </ul>
-    <p style="margin-top:24px;color:#6e6456;font-size:13px">JavaScript is required to use the full card database and archive features.</p>
+    <p style="margin-top:24px;color:#555555;font-size:13px">JavaScript is required to use the full card database and archive features.</p>
   </div>
 </noscript>
 <div id="app"></div>
@@ -2517,9 +2646,9 @@ function renderHome() {
     tile.addEventListener('click', () => openGame(game, tile));
     grid.appendChild(tile);
 
-    // Per-tile set/card counts. Priority:
-    //   1. Manual sets_count / cards_count from games.json (no download — best for many games)
-    //   2. Query the DB (downloads the full .db just for counts — fine for a few games)
+    // Per-tile set/card counts, in priority order:
+    //   1. sets_count / cards_count from games.json (no DB download needed)
+    //   2. Query the DB (downloads the full .db just for the counts)
     const renderCount = (el, sets, cards) => {
       if (!el) return;
       const parts = [];
@@ -2881,7 +3010,7 @@ function renderGame(game, db) {
       <div class="set-list">${setsHtml || '<p style="color:var(--text-dim)">No sets found.</p>'}</div>` : ''}
     </div>`;
 
-  // Start cycling the overview card panel (clear any cycler from a previous game page)
+  // Cycle the overview card panel; clear any cycler left from another game page
   clearInterval(window._overviewCycler);
   const panelSlides = document.querySelectorAll('.overview-card-slide');
   if (panelSlides.length > 1) {
@@ -2959,7 +3088,7 @@ function renderMuseum(game) {
   setRoute(`${encodeURIComponent(game.id)}/museum`);
   tcgTrack(`Museum — ${game.name}`);
 
-  // Clean up a previous session's key handler (e.g. museum exited via breadcrumb)
+  // Remove any key handler left from an earlier museum session
   if (museumState?.keyHandler) document.removeEventListener('keydown', museumState.keyHandler, true);
   museumState = { game, cards, idx: 0, loadToken: 0 };
   state.currentSet = null;
@@ -2983,9 +3112,9 @@ function renderMuseum(game) {
 
       <div class="museum-stage">
         <span class="museum-wait" id="museum-wait"><span class="loading-ring"></span></span>
-        <button class="museum-nav" onclick="museumStep(-1)" aria-label="Previous card">‹</button>
+        <button class="museum-nav museum-nav-side" onclick="museumStep(-1)" aria-label="Previous card">‹</button>
 
-        <div>
+        <div class="museum-center">
           <div class="museum-exhibit">
             <div class="museum-frame-wrap" id="museum-frame-wrap">
               <div class="museum-frame tier-common" id="museum-frame">
@@ -3001,14 +3130,18 @@ function renderMuseum(game) {
               </div>
             </div>
           </div>
-          <div class="museum-placard">
-            <div class="museum-card-name" id="museum-name"></div>
-            <div class="museum-card-set" id="museum-set"></div>
-            <div class="museum-artist" id="museum-artist"></div>
+          <div class="museum-plaque-row">
+            <button class="museum-nav museum-nav-plaque" onclick="museumStep(-1)" aria-label="Previous card">‹</button>
+            <div class="museum-placard">
+              <div class="museum-card-name" id="museum-name"></div>
+              <div class="museum-card-set" id="museum-set"></div>
+              <div class="museum-artist" id="museum-artist"></div>
+            </div>
+            <button class="museum-nav museum-nav-plaque" onclick="museumStep(1)" aria-label="Next card">›</button>
           </div>
         </div>
 
-        <button class="museum-nav" onclick="museumStep(1)" aria-label="Next card">›</button>
+        <button class="museum-nav museum-nav-side" onclick="museumStep(1)" aria-label="Next card">›</button>
       </div>
 
       <div class="museum-hint">← → browse &nbsp;·&nbsp; esc exit &nbsp;·&nbsp; click card to enlarge</div>
@@ -3069,16 +3202,16 @@ function museumShow(idx) {
   const exhibit = document.querySelector('.museum-exhibit');
   const placard = document.querySelector('.museum-placard');
 
-  // Kick off the dip — exhibit (including spotlight) fades to black
+  // Begin the dip: exhibit (including spotlight) fades to black
   if (exhibit) exhibit.classList.add('dipping');
   if (placard) { placard.style.transition = 'opacity 0.45s ease'; placard.style.opacity = '0'; }
 
   const url   = museumHiRes(card.image_url);
   const token = ++ms.loadToken;
 
-  // We gate the reveal on BOTH conditions being true:
-  // (a) the 450ms dip has fully completed, AND (b) the image has loaded.
-  // This way cached/preloaded images never swap while the frame is still fading.
+  // The reveal is gated on both conditions:
+  // (a) the 450ms dip has completed, and (b) the image has loaded.
+  // Cached/preloaded images therefore never swap in mid-fade.
   let dipDone  = false;
   let imgReady = false;
   let loadedImg = null;
@@ -3089,7 +3222,7 @@ function museumShow(idx) {
     if (token !== ms.loadToken) return;  // navigation moved on, abort
     document.getElementById('museum-wait')?.classList.remove('on');
 
-    // Swap content now — the frame is fully black so no visible pop
+    // Swap content while the frame is fully black
     const frameEl = document.getElementById('museum-frame');
     if (frameEl) frameEl.className = 'museum-frame tier-' + museumFrameTier(card.rarity);
     holder.querySelectorAll('.museum-card-missing').forEach(el => el.remove());
@@ -3624,7 +3757,7 @@ function renderSet(set, db) {
   const attrHtml = buildAttrFilterHtml(allCards);
   const numericKeys = getNumericAttrKeys(allCards);
   document.getElementById('app').innerHTML = `
-    <div class="page">
+    <div class="page has-back-btn">
       <div class="db-back-bar">
         <button class="db-back-btn" onclick="renderGameDb(state.currentGame, state.db)">← Card Database</button>
       </div>
@@ -3719,7 +3852,7 @@ function renderGameDb(game, db, preSetId = null, restore = null) {
   const attrHtml = buildAttrFilterHtml(allCards);
   const numericKeys = getNumericAttrKeys(allCards);
   document.getElementById('app').innerHTML = `
-    <div class="page">
+    <div class="page has-back-btn">
       <div class="db-back-bar">
         <button class="db-back-btn" onclick="renderGame(state.currentGame, state.db)">← ${game.name}</button>
       </div>
