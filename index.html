@@ -30,8 +30,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Preload marble textures — they're the page background everywhere -->
-<link rel="preload" as="image" href="/imgs/v-bg1.jpg">
-<link rel="preload" as="image" href="/imgs/v-bg2.jpg">
+<link rel="preload" as="image" href="./imgs/v-bg1.jpg">
+<link rel="preload" as="image" href="./imgs/v-bg2.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Onest:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -49,11 +49,11 @@
 
   /* Marble texture backgrounds — dark v-bg1 at base, lighter v-bg2 for raised surfaces.
      Each level uses a different offset so the same tile doesn't obviously repeat. */
-  --tx:  url('/imgs/v-bg1.jpg') top left / 500px 500px;
-  --bg-v:      var(--tx)  repeat;
-  --surface-v: url('/imgs/v-bg2.jpg') 125px 200px / 500px 500px repeat;
-  --surf2-v:   url('/imgs/v-bg2.jpg') 310px  80px / 500px 500px repeat;
-  --surf3-v:   url('/imgs/v-bg2.jpg')  60px 370px / 500px 500px repeat;
+  --tx:  url('./imgs/v-bg1.jpg') top left / 500px 500px;
+  --bg-v:      url('./imgs/v-bg1.jpg') top left / 500px 500px repeat;
+  --surface-v: url('./imgs/v-bg2.jpg') 125px 200px / 500px 500px repeat;
+  --surf2-v:   url('./imgs/v-bg2.jpg') 310px  80px / 500px 500px repeat;
+  --surf3-v:   url('./imgs/v-bg2.jpg')  60px 370px / 500px 500px repeat;
   --card-ratio: 5 / 7;
 
   /* Layered shadows — lift elements off the textured background */
@@ -982,7 +982,7 @@ footer {
   /* Gold arrow SVG on top, then the marble texture beneath */
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23b8922e'/%3E%3C/svg%3E"),
-    url('/imgs/v-bg2.jpg');
+    url('./imgs/v-bg2.jpg');
   background-repeat: no-repeat, repeat;
   background-position: right 10px center, 310px 80px;
   background-size: auto, 500px 500px;
