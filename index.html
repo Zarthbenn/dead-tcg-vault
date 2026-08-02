@@ -694,33 +694,29 @@ footer {
   margin-bottom: 10px;
 }
 
-/* Quick facts strip */
-.game-fact-designers {
-  padding: 16px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-  min-width: 0;
-  border-left: 1px solid var(--border);
-}
+/* Quick facts strip — 1px flex gaps over a border-coloured background
+   produce uniform hairline separators; cells grow to fill every row */
 .game-facts {
   display: flex;
   flex-wrap: wrap;
+  gap: 1px;
+  background: var(--border);
   border: 1px solid var(--border);
-  margin-bottom: -1px;
-  overflow: hidden;
-  background: var(--surface-v);
+  border-bottom: none;
 }
-.game-fact {
-  padding: 16px 28px;
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+.game-fact,
+.game-fact-designers {
+  padding: 16px 24px;
+  background: var(--surface-v);
   display: flex;
   flex-direction: column;
   gap: 4px;
-  flex-shrink: 0;
+  min-width: 0;
+  flex: 1 1 auto;
 }
+/* Designer credits sit inline with the facts, wrapping to a second row
+   only when the list is too long to fit */
+.game-fact-designers { flex: 1 1 auto; }
 .game-fact-label {
   font-size: 10px;
   letter-spacing: 0.2em;
@@ -729,8 +725,9 @@ footer {
 }
 .game-fact-val {
   font-size: 16px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   color: var(--text);
+  overflow-wrap: break-word;
 }
 
 /* Separator line below facts */
@@ -1556,20 +1553,25 @@ footer {
 }
 .modal-bg.open { display: flex; }
 
+/* Shell: positioning context for the nav arrows — never scrolls itself */
+.modal-shell {
+  position: relative;
+  max-width: 1000px;
+  width: 100%;
+  animation: modalIn 0.22s ease;
+}
 .modal {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 36px;
   background: var(--surface-v);
   border: 1px solid var(--border2);
-  overflow: visible;
-  max-width: 1000px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 40px;
   position: relative;
-  animation: modalIn 0.22s ease;
 }
 @keyframes modalIn {
   from { opacity: 0; transform: scale(0.97) translateY(12px); }
@@ -2247,7 +2249,7 @@ footer {
 .modal-nav:disabled { opacity: 0.2; cursor: default; }
 .modal-nav-prev { left: -56px; }
 .modal-nav-next { right: -56px; }
-/* Arrows sit outside the modal, so modal must not clip; info panel scrolls instead */
+/* Arrows are children of the non-scrolling shell, outside the modal box */
 /* ── Scrollbar ─────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; background: var(--bg-v); }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
@@ -2282,9 +2284,11 @@ footer {
   .game-title { font-size: 38px; }
   .game-hero { margin-bottom: 20px; }
 
-  /* Facts strip — wrap naturally */
-  .game-fact { padding: 12px 16px; }
-  .game-fact-val { font-size: 14px; }
+  /* Facts strip — two per row, designers full row */
+  .game-fact { flex: 1 1 calc(50% - 1px); }
+  .game-fact-designers { flex: 1 1 100%; }
+  .game-fact, .game-fact-designers { padding: 12px 14px; }
+  .game-fact-val { font-size: 13px; letter-spacing: 0.06em; }
 
   /* Overview — full width on mobile, hide card panel */
   .game-overview-block { grid-template-columns: 1fr; }
@@ -2332,6 +2336,7 @@ footer {
   .card-list-row .card-list-cell:nth-child(5) { display: none; }
 
   /* Card modal — stack vertically */
+  .modal-name { font-size: 22px; }
   .modal {
     grid-template-columns: 1fr;
     padding: 20px 16px 24px;
@@ -2339,8 +2344,17 @@ footer {
     max-height: 95vh;
   }
   .modal-bg { padding: 12px; }
-  .modal-img-wrap { width: 100%; display: flex; justify-content: center; }
-  .modal-card-img, .modal-no-img { width: 160px; }
+  .modal-img-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .modal-card-img, .modal-no-img { width: 180px; }
+  .modal-download { width: 180px; }
+  /* Single scroll area on mobile — the modal itself scrolls */
+  .modal-info { max-height: none; overflow: visible; padding-right: 0; }
 
   /* Section title */
   .section-title { font-size: 26px; }
@@ -2396,6 +2410,19 @@ footer {
    TINY MOBILE (≤480px) — arrows beside plaque, no vignettes
 ══════════════════════════════════════════════════ */
 @media (max-width: 480px) {
+  /* Card modal nav: full-width button row beneath the panel */
+  .modal { max-height: calc(92vh - 60px); }
+  .modal-nav {
+    position: static;
+    transform: none;
+    display: inline-flex;
+    width: calc(50% - 3px);
+    height: 44px;
+    margin-top: 8px;
+  }
+  .modal-nav-prev { margin-right: 3px; }
+  .modal-nav-next { margin-left: 3px; }
+
   /* Side vignettes would overlap the nav arrows at this width */
   .museum-page::before,
   .museum-page::after { display: none; }
@@ -2456,10 +2483,12 @@ footer {
 
 <!-- Card modal -->
 <div class="modal-bg" id="modal-bg">
-  <div class="modal" id="modal">
-    <button class="modal-close" id="modal-close">✕</button>
-    <div class="modal-img-wrap" id="modal-img"></div>
-    <div class="modal-info" id="modal-info"></div>
+  <div class="modal-shell" id="modal-shell">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div class="modal-img-wrap" id="modal-img"></div>
+      <div class="modal-info" id="modal-info"></div>
+    </div>
   </div>
 </div>
 
@@ -4174,9 +4203,9 @@ function showCard(cardId) {
     ${c.source_notes ? `<div class="modal-field"><label>Source Notes</label><p>${c.source_notes}</p></div>` : ''}
   `;
 
-  // Prev/next navigation buttons
-  const modal = document.getElementById('modal');
-  modal.querySelectorAll('.modal-nav').forEach(b => b.remove());
+  // Prev/next navigation buttons — appended to the non-scrolling shell
+  const shell = document.getElementById('modal-shell');
+  shell.querySelectorAll('.modal-nav').forEach(b => b.remove());
   if (navIdx !== -1 && modalNavList.length > 1) {
     const prevBtn = document.createElement('button');
     prevBtn.className = 'modal-nav modal-nav-prev';
@@ -4188,8 +4217,8 @@ function showCard(cardId) {
     nextBtn.innerHTML = '›';
     nextBtn.disabled = navIdx >= modalNavList.length - 1;
     nextBtn.addEventListener('click', e => { e.stopPropagation(); if (navIdx < modalNavList.length - 1) showCard(modalNavList[navIdx + 1].id); });
-    modal.appendChild(prevBtn);
-    modal.appendChild(nextBtn);
+    shell.appendChild(prevBtn);
+    shell.appendChild(nextBtn);
   }
 
   document.getElementById('modal-bg').classList.add('open');
